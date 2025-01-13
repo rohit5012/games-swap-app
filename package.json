@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/axios": "^0.9.36",
     "@types/node": "^22.10.5",
     "axios": "^1.7.9",
     "dotenv": "^16.4.7",
