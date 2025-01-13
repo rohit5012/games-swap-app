@@ -12,9 +12,6 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        <Header />
-      </div>
       {upcomingGames.map((game) => (
         <p key={game.id}>{game.name}</p>
       ))}
