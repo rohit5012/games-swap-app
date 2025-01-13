@@ -8,7 +8,6 @@ export default function Home() {
       setUpcomingGames(gameData);
     });
   }, []);
-  console.log(upcomingGames);
 
   return (
     <>
