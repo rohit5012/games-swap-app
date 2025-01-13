@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUpcomingGames } from "../api";
+import Header from "../components/Header";
 
 export default function Home() {
   const [upcomingGames, setUpcomingGames] = useState([]);
@@ -11,7 +12,12 @@ export default function Home() {
 
   return (
     <>
-      {upcomingGames.map((game) => <p key={game.id}>{game.name}</p>)}
+      <div>
+        <Header />
+      </div>
+      {upcomingGames.map((game) => (
+        <p key={game.id}>{game.name}</p>
+      ))}
     </>
   );
 }
