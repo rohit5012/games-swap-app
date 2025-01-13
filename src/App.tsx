@@ -4,10 +4,12 @@ import Header from "./components/Header";
 
 function App() {
   return (
-    <Routes>
+    <>
       <Header />
-      <Route path="/" element={<Home />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </>
   );
 }
 
