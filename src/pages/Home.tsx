@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { getUpcomingGames } from "../api";
-import Header from "../components/Header";
+import { getUpcomingGames, Game } from "../api";
 
 export default function Home() {
-  const [upcomingGames, setUpcomingGames] = useState([]);
+  const [upcomingGames, setUpcomingGames] = useState<Game[]>([]);
   useEffect(() => {
     getUpcomingGames().then((gameData) => {
       setUpcomingGames(gameData);

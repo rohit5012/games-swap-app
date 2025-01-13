@@ -1,14 +1,12 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const rawgAPIKey = import.meta.env.VITE_RAWG_API_KEY;
-
-// figure out API key
 
 const rawgAPI = axios.create({
   baseURL: "https://api.rawg.io/api",
 });
 
-type GameData = {
+export interface Game {
   name: string;
   background_image: string;
   platforms: [{ platform: { id: number; name: string } }];
@@ -17,14 +15,26 @@ type GameData = {
   playtime: number;
   id: number;
   genres: [{ id: number; name: string; slug: string }];
+}
+
+interface ApiResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Game[];
+}
+
+const fetchGames = async (url: string): Promise<Game[]> => {
+  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(url);
+  return response.data.results;
 };
 
-// figure out typescript
+export const getUpcomingGames = async (): Promise<Game[]> => {
+  return fetchGames(
+    `/games?key=${rawgAPIKey}&dates=2025-01-13,2025-04-13&ordering=-added`
+  );
+};
 
-export const getUpcomingGames = (): Promise<GameData[]> => {
-  return rawgAPI
-    .get(`/games?key=${rawgAPIKey}&dates=2025-01-13,2025-04-13&ordering=-added`)
-    .then((response) => {
-      return response.data.results;
-    });
+export const getAllGames = async (): Promise<Game[]> => {
+  return fetchGames(`/games?key=${rawgAPIKey}`);
 };
