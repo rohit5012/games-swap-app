@@ -6,7 +6,7 @@ const rawgAPI = axios.create({
   baseURL: "https://api.rawg.io/api",
 });
 
-export interface Game {
+export type Game = {
   name: string;
   background_image: string;
   platforms: [{ platform: { id: number; name: string } }];
@@ -17,7 +17,7 @@ export interface Game {
   genres: [{ id: number; name: string; slug: string }];
 }
 
-interface ApiResponse {
+type ApiResponse = {
   count: number;
   next: string | null;
   previous: string | null;
