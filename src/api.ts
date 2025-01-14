@@ -1,9 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 
 const rawgAPIKey = import.meta.env.VITE_RAWG_API_KEY;
+const opencageAPIKEY = import.meta.env.OPENCAGE_API_KEY;
 
 const rawgAPI = axios.create({
   baseURL: "https://api.rawg.io/api",
+});
+
+const openCageAPI = axios.create({
+  baseURL: "https://api.opencagedata.com/geocode/v1/",
 });
 
 export type Game = {
@@ -15,14 +20,14 @@ export type Game = {
   playtime: number;
   id: number;
   genres: [{ id: number; name: string; slug: string }];
-}
+};
 
 type ApiResponse = {
   count: number;
   next: string | null;
   previous: string | null;
   results: Game[];
-}
+};
 
 const fetchGames = async (url: string): Promise<Game[]> => {
   const response: AxiosResponse<ApiResponse> = await rawgAPI.get(url);
