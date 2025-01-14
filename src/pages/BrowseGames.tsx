@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
 import { Game, getAllGames } from "@/rawgApi";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function BrowseGames() {
   const [displayedGames, setDisplayedGames] = useState<Game[]>([]);
@@ -38,9 +46,26 @@ export default function BrowseGames() {
     <section>
       <h2 className="text-center text-2xl mb-6">All Games</h2>
       <div>
-        {displayedGames.map((game) => (
-          <img src={game.background_image} alt={game.name}></img>
-        ))}
+        {displayedGames.map((game) => {
+          return (
+            <>
+              <Card>
+                <CardHeader>
+                  <img src={game.background_image} alt={game.name}></img>
+                  <CardTitle>Card Title</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+              
+            </>
+          );
+        })}
       </div>
     </section>
     // <section className="my-6">
