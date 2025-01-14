@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Use this to capture dynamic URL parameters
-import { fetchGameDetails } from "../rawgApi";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router"; // Use this to capture dynamic URL parameters
+import { fetchGameDetails, Game } from "../rawgApi";
 import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
 
-interface Game {
-  name: string;
-  background_image: string;
-  platforms: [{ platform: { id: number; name: string } }];
-  stores: [{ store: { id: number; name: string } }];
-  released: string;
-  playtime: number;
-  id: number;
-  genres: [{ id: number; name: string; slug: string }];
-  description_raw: string;
-  rating?: number;
-  developers?: [{ id: number; name: string }];
-}
 
-const GamePage: React.FC = () => {
+
+const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>(); // Get the dynamic game_slug from the URL
   const [game, setGame] = useState<Game | null>(null);
   const [loading, setLoading] = useState(true);
@@ -89,7 +77,7 @@ const GamePage: React.FC = () => {
       </div>
 
       {/* Game Details Grid */}
-      <div className="mt-[-10vh] w-[70%] max-w-4xl mx-auto px-6 py-8 bg-black bg-opacity-70 rounded-lg shadow-lg mt-4">
+      <div className="mt-[-10vh] w-[70%] max-w-4xl mx-auto px-6 py-8 bg-black bg-opacity-70 rounded-lg shadow-lg">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {/* Genres */}
           <div className="flex flex-col items-center mb-4">
@@ -147,7 +135,7 @@ const GamePage: React.FC = () => {
           {/* Developers */}
           <div className="flex flex-col items-center mb-4">
             <h2 className="text-xl font-semibold text-center">Developers</h2>
-            {game.developers?.length > 0 ? (
+            {game.developers.length > 0 ? (
               <div className="space-y-2">
                 {game.developers.map((dev) => (
                   <p key={dev.id} className="text-gray-300 text-center">

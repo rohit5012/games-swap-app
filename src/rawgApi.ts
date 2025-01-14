@@ -16,6 +16,9 @@ export type Game = {
   playtime: number;
   id: number;
   genres: [{ id: number; name: string; slug: string }];
+  description_raw?: string;
+  rating?: number;
+  developers?: [{ id: number; name: string }];
 };
 
 type ApiResponse = {
@@ -48,14 +51,16 @@ export const getAllGames = async (): Promise<Game[]> => {
   return fetchGames(`/games?key=${rawgAPIKey}`);
 };
 
-export const fetchGameDetails = async (gameSlug: string): Promise<Game> => {
+export const fetchGameDetails = async (
+  gameSlug: string | undefined
+): Promise<Game> => {
   try {
-    const response: AxiosResponse<Game> = await rawgAPI.get(`/games/${gameSlug}?key=${rawgAPIKey}`);
+    const response: AxiosResponse<Game> = await rawgAPI.get(
+      `/games/${gameSlug}?key=${rawgAPIKey}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error fetching game details:", error);
     throw new Error(`Unable to fetch details for game: ${gameSlug}`);
   }
 };
-
-
