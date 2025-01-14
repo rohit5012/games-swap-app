@@ -39,16 +39,13 @@ export const getAllGames = async (): Promise<Game[]> => {
   return fetchGames(`/games?key=${rawgAPIKey}`);
 };
 
-export const fetchGameDetails = async (gameSlug: string) => {
+export const fetchGameDetails = async (gameSlug: string): Promise<Game> => {
   try {
-    const response = await axios.get(`${BASE_URL}games/${gameSlug}`, {
-      params: {
-        key: API_KEY,
-      },
-    });
+    const response: AxiosResponse<Game> = await rawgAPI.get(`/games/${gameSlug}?key=${rawgAPIKey}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching game details:", error);
-    throw error;
+    throw new Error(`Unable to fetch details for game: ${gameSlug}`);
   }
 };
+

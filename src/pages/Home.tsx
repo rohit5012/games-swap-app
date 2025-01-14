@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-
 import { getUpcomingGames, Game } from "../api";
 import LargeCarousel from "../components/LargeCarousel";
 import PopularGames from "../components/PopularGames";
@@ -21,11 +20,10 @@ export default function Home() {
       <div>
         <PopularGames />
       </div>
-
-   
       {upcomingGames.map((game) => (
         <p key={game.id}>{game.name}</p>
       ))}
+
     </>
   );
 }

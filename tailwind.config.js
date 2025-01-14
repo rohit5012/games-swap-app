@@ -3,7 +3,14 @@ export default {
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-  	extend: {
+  	extend: 
+	{
+		maskImage: {
+			'fade-bottom': 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)',
+		  },
+		  webkitMaskImage: {
+			'fade-bottom': 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)',
+		  },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -64,8 +71,15 @@ export default {
         ".no-scrollbar::-webkit-scrollbar": {
           display: "none", // Chrome, Safari
         },
+		'.mask-gradient': {
+          maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%)',
+        },
       });
+
     },
+
   ],
 
 };
