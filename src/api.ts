@@ -15,40 +15,29 @@ export type Game = {
   playtime: number;
   id: number;
   genres: [{ id: number; name: string; slug: string }];
-}
+};
 
 type ApiResponse = {
   count: number;
   next: string | null;
   previous: string | null;
   results: Game[];
-}
+};
 
-const fetchGames = async (url: string): Promise<Game[]> => {
-  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(url);
+const fetchGames = async (url: string, platforms?: string | null): Promise<Game[]> => {
+  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(url, {
+    params: { platforms },
+  });
   return response.data.results;
 };
 
-export const getUpcomingGames = async (): Promise<Game[]> => {
+export const getUpcomingGames = async (platforms?: string | null): Promise<Game[]> => {
   return fetchGames(
-    `/games?key=${rawgAPIKey}&dates=2025-01-13,2025-04-13&ordering=-added`
+    `/games?key=${rawgAPIKey}&dates=2025-01-13,2025-04-13&ordering=-added`,
+    platforms
   );
 };
 
 export const getAllGames = async (): Promise<Game[]> => {
   return fetchGames(`/games?key=${rawgAPIKey}`);
-};
-
-export const fetchGameDetails = async (gameSlug: string) => {
-  try {
-    const response = await axios.get(`${BASE_URL}games/${gameSlug}`, {
-      params: {
-        key: API_KEY,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching game details:", error);
-    throw error;
-  }
 };
