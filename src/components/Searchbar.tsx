@@ -48,7 +48,7 @@ export default function Searchbar() {
         type="text"
         value={searchQuery}
         onChange={handleSearch}
-        placeholder="Search for a game..."
+        placeholder="DO NOT USE THIS PLEASE"
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}

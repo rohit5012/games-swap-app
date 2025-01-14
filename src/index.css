@@ -60,6 +60,9 @@
 @layer base {
   * {
     @apply border-border;
+    /* uncomment to view your borders */
+    /* border: 1px solid rgba(255, 0, 0, 0.5); */
+
   }
   body {
     @apply bg-background text-foreground;
