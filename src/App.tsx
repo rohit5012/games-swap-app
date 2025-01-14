@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import Home from "./pages/Home";
-import PopularGamesFullList from "../src/pages/PopularGamesFullList";
+import BrowseGames from "./pages/BrowseGames";
 
 import Header from "./components/Header";
 
@@ -10,7 +10,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/popular-games" element={<PopularGamesFullList />} />
+        <Route path="/upcoming-games" element={<BrowseGames />} />
       </Routes>
     </>
 

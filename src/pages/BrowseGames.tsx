@@ -1,34 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { Game } from "@/rawgApi";
 
-interface Game {
-  id: number;
-  name: string;
-  background_image: string;
-}
-
-const PopularGamesFullList: React.FC = () => {
+export default function BrowseGames() {
   const [games, setGames] = useState<Game[]>([]);
   const [visibleGames, setVisibleGames] = useState(2);
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await axios.get("https://api.rawg.io/api/games", {
-          params: {
-            key: import.meta.env.VITE_RAWG_API_KEY,
-            ordering: "-rating",
-            page_size: 7 * visibleGames,
-          },
-        });
-        setGames(response.data.results || []);
-      } catch (error) {
-        console.error("Ошибка при загрузке игр:", error);
-      }
-    };
-
-    fetchGames();
-  }, [visibleGames]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,5 +66,3 @@ const PopularGamesFullList: React.FC = () => {
     </section>
   );
 };
-
-export default PopularGamesFullList;

@@ -1,40 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { Game } from "@/rawgApi";
 
-interface Game {
-  id: number;
-  name: string;
-  background_image: string;
-  slug: string;
-}
-
-const PopularGames: React.FC = () => {
-  const [games, setGames] = useState<Game[]>([]);
-  const [platform, setPlatform] = useState<string | null>(null);
+export default function SmallCarousel(props: {
+  games: Game[];
+  platforms: string | null;
+  setPlatforms: React.Dispatch<React.SetStateAction<string | null>>;
+}) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await axios.get("https://api.rawg.io/api/games", {
-          params: {
-            key: import.meta.env.VITE_RAWG_API_KEY,
-            ordering: "-rating",
-            page_size: 10,
-            platforms: platform,
-          },
-        });
-        setGames(response.data.results);
-      } catch (error) {
-        console.error("Error fetching popular games:", error);
-      }
-    };
-
-    fetchGames();
-  }, [platform]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +24,6 @@ const PopularGames: React.FC = () => {
         setVisibleGames(5 + Math.floor((width - 1024) / 250));
       }
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -78,41 +52,41 @@ const PopularGames: React.FC = () => {
 
   return (
     <section className="my-6">
-      <h2 className="text-center text-xl mb-4">Popular Games</h2>
+      <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
 
       {/* Filter by Platform */}
       <div className="flex justify-center space-x-4 mb-4">
         <button
-          onClick={() => setPlatform("18")}
+          onClick={() => props.setPlatforms(null)}
           className={`bg-gray-200 px-4 py-2 rounded ${
-            platform === "18" ? "bg-gray-400" : ""
+            props.platforms === null ? "bg-gray-400" : ""
           }`}
         >
-          Playstation 4
+          All Games
         </button>
 
         <button
-          onClick={() => setPlatform("187")}
+          onClick={() => props.setPlatforms("187")}
           className={`bg-gray-200 px-4 py-2 rounded ${
-            platform === "187" ? "bg-gray-400" : ""
+            props.platforms === "187" ? "bg-gray-400" : ""
           }`}
         >
           Playstation 5
         </button>
 
         <button
-          onClick={() => setPlatform("186")}
+          onClick={() => props.setPlatforms("186")}
           className={`bg-gray-200 px-4 py-2 rounded ${
-            platform === "186" ? "bg-gray-400" : ""
+            props.platforms === "186" ? "bg-gray-400" : ""
           }`}
         >
           Xbox Series S | X
         </button>
 
         <button
-          onClick={() => setPlatform("7")}
+          onClick={() => props.setPlatforms("7")}
           className={`bg-gray-200 px-4 py-2 rounded ${
-            platform === "7" ? "bg-gray-400" : ""
+            props.platforms === "7" ? "bg-gray-400" : ""
           }`}
         >
           Switch
@@ -132,7 +106,7 @@ const PopularGames: React.FC = () => {
           ref={carouselRef}
           className="flex overflow-x-scroll no-scrollbar gap-4"
         >
-          {games.map((game) => (
+          {props.games.map((game) => (
             <div
               key={game.id}
               className="flex-shrink-0"
@@ -162,17 +136,15 @@ const PopularGames: React.FC = () => {
         </button>
       </div>
 
-      {/* Popular Games - FullList */}
+      {/* Upcoming Games - FullList */}
       <div className="flex justify-end mt-4 px-4">
         <button
-          onClick={() => navigate("/popular-games")}
+          onClick={() => navigate("/upcoming-games")}
           className="bg-gray-200 text-black px-4 py-2 rounded"
         >
-          Popular Games: Full List
+          Upcoming Games: Full List
         </button>
       </div>
     </section>
   );
-};
-
-export default PopularGames;
+}
