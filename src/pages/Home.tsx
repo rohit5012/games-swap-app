@@ -14,7 +14,8 @@ export default function Home() {
 
   return (
     <>
-      <LargeCarousel games={upcomingGames} />
+      <LargeCarousel games={upcomingGames} /> 
+      {/* needs to be based on featured games from Firebase */}
       <div>
         <SmallCarousel
           games={upcomingGames}
@@ -22,9 +23,6 @@ export default function Home() {
           setPlatforms={setPlatforms}
         />
       </div>
-      {upcomingGames.map((game) => (
-        <p key={game.id}>{game.name}</p>
-      ))}
     </>
   );
 }

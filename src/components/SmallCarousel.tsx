@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
+import PlatformButton from "./ui/PlatformButton";
 
 export default function SmallCarousel(props: {
   games: Game[];
@@ -56,7 +57,27 @@ export default function SmallCarousel(props: {
 
       {/* Filter by Platform */}
       <div className="flex justify-center space-x-4 mb-4">
-        <button
+        <PlatformButton
+          name="All Games"
+          platforms={props.platforms}
+          setPlatforms={props.setPlatforms}
+        />
+        <PlatformButton
+          name="PlayStation 5"
+          platforms={props.platforms}
+          setPlatforms={props.setPlatforms}
+        />
+        <PlatformButton
+          name="Xbox Series S | X"
+          platforms={props.platforms}
+          setPlatforms={props.setPlatforms}
+        />
+        <PlatformButton
+          name="Switch"
+          platforms={props.platforms}
+          setPlatforms={props.setPlatforms}
+        />
+        {/* <button
           onClick={() => props.setPlatforms(null)}
           className={`bg-gray-200 px-4 py-2 rounded ${
             props.platforms === null ? "bg-gray-400" : ""
@@ -90,7 +111,7 @@ export default function SmallCarousel(props: {
           }`}
         >
           Switch
-        </button>
+        </button> */}
       </div>
 
       {/* All games in carousel */}
@@ -139,7 +160,7 @@ export default function SmallCarousel(props: {
       {/* Upcoming Games - FullList */}
       <div className="flex justify-end mt-4 px-4">
         <button
-          onClick={() => navigate("/upcoming-games")}
+          onClick={() => navigate("/browse-games")}
           className="bg-gray-200 text-black px-4 py-2 rounded"
         >
           Upcoming Games: Full List
