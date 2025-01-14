@@ -3,6 +3,8 @@ import Home from "./pages/Home";
 import BrowseGames from "./pages/BrowseGames";
 import Header from "./components/Header";
 import GamePage from "./pages/GamePage";
+import MapPage from "./pages/MapPage";
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         {/* Dynamic Route for GamePage */}
         <Route path="/game/:game_slug" element={<GamePage />} />
+        <Route path="/map" element={<MapPage />} />
         <Route path="/browse-games" element={<BrowseGames />} />
       </Routes>
     </>
