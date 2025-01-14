@@ -1,4 +1,4 @@
-import { Game } from "@/api";
+import { Game } from "@/rawgApi";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUpcomingGames, Game } from "../api";
+import { getUpcomingGames, Game } from "../rawgApi";
 import LargeCarousel from "../components/LargeCarousel";
 import SmallCarousel from "@/components/SmallCarousel";
 

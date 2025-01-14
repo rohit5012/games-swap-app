@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Game } from "@/api";
+import { Game } from "@/rawgApi";
 
 export default function SmallCarousel(props: {
   games: Game[];

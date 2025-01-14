@@ -1,7 +1,7 @@
 // import TextField from "@mui/material/TextField";
 // import Stack from "@mui/material/Stack";
 // import Autocomplete from "@mui/material/Autocomplete";
-import { getAllGames, Game } from "../api";
+import { getAllGames, Game } from "../rawgApi";
 import { useEffect, useState } from "react";
 
 export default function Searchbar() {
