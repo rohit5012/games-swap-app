@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
-
+import { Link } from "react-router";
 export default function BrowseGames() {
   const [displayedGames, setDisplayedGames] = useState<Game[]>([]);
   useEffect(() => {
@@ -41,28 +41,40 @@ export default function BrowseGames() {
   //   window.addEventListener("resize", handleResize);
   //   return () => window.removeEventListener("resize", handleResize);
   // }, []);
-
   return (
     <section>
       <h2 className="text-center text-2xl mb-6">All Games</h2>
       <div>
         {displayedGames.map((game) => {
           return (
-            <>
-              <Card>
-                <CardHeader>
-                  <img src={game.background_image} alt={game.name}></img>
-                  <CardTitle>Card Title</CardTitle>
-                  <CardDescription>Card Description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Card Content</p>
-                </CardContent>
-                <CardFooter>
+            <Link
+              to={`/game/${game.slug}`}
+              key={game.id}
+              className="w-96 inline-flex pb-5"
+            >
+              <div>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{game.name}</CardTitle>
+                    <img
+                      src={game.background_image}
+                      alt={game.name}
+                      className="w-80 h-52 object-cover"
+                    ></img>
+                  </CardHeader>
+                  <CardContent>
+                    {game.platforms.map((availablePlats) => (
+                      <p key={availablePlats.platform.id}>
+                        {availablePlats.platform.name}
+                      </p>
+                    ))}
+                  </CardContent>
+                  {/* <CardFooter>
                   <p>Card Footer</p>
-                </CardFooter>
-              </Card>
-            </>
+                </CardFooter> */}
+                </Card>
+              </div>
+            </Link>
           );
         })}
       </div>

@@ -25,14 +25,19 @@ type ApiResponse = {
   results: Game[];
 };
 
-const fetchGames = async (url: string, platforms?: string | null): Promise<Game[]> => {
+const fetchGames = async (
+  url: string,
+  platforms?: string | null
+): Promise<Game[]> => {
   const response: AxiosResponse<ApiResponse> = await rawgAPI.get(url, {
     params: { platforms },
   });
   return response.data.results;
 };
 
-export const getUpcomingGames = async (platforms?: string | null): Promise<Game[]> => {
+export const getUpcomingGames = async (
+  platforms?: string | null
+): Promise<Game[]> => {
   return fetchGames(
     `/games?key=${rawgAPIKey}&dates=2025-01-13,2025-04-13&ordering=-added`,
     platforms
