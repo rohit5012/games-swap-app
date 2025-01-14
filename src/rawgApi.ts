@@ -8,6 +8,7 @@ const rawgAPI = axios.create({
 
 export type Game = {
   name: string;
+  slug: string;
   background_image: string;
   platforms: [{ platform: { id: number; name: string } }];
   stores: [{ store: { id: number; name: string } }];

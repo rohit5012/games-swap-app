@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/Card";
 
 export default function BrowseGames() {
   const [displayedGames, setDisplayedGames] = useState<Game[]>([]);
@@ -62,7 +62,6 @@ export default function BrowseGames() {
                   <p>Card Footer</p>
                 </CardFooter>
               </Card>
-              
             </>
           );
         })}

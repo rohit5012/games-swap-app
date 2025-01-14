@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Use this to capture dynamic URL parameters
 import { fetchGameDetails } from "../rawgApi";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
 
 interface Game {
@@ -96,7 +96,10 @@ const GamePage: React.FC = () => {
             <h2 className="text-xl font-semibold text-center">Genres</h2>
             <div className="space-y-2">
               {game.genres?.map((genre) => (
-                <p key={genre.name} className="platform bg-gray-800 px-2 py-1 rounded text-sm">
+                <p
+                  key={genre.name}
+                  className="platform bg-gray-800 px-2 py-1 rounded text-sm"
+                >
                   {genre.name}
                 </p>
               ))}
@@ -106,12 +109,16 @@ const GamePage: React.FC = () => {
           {/* Release Date */}
           <div className="flex flex-col items-center mb-4">
             <h2 className="text-xl font-semibold text-center">Release Date</h2>
-            <p className="text-gray-300">{new Date(game.released).toLocaleDateString()}</p>
+            <p className="text-gray-300">
+              {new Date(game.released).toLocaleDateString()}
+            </p>
           </div>
 
           {/* Available Stores */}
           <div className="flex flex-col items-center mb-4">
-            <h2 className="text-xl font-semibold text-center">Available Stores</h2>
+            <h2 className="text-xl font-semibold text-center">
+              Available Stores
+            </h2>
             <div className="space-y-2">
               {game.stores?.map((store) => (
                 <p key={store.store.id} className="text-gray-300 text-center">
@@ -123,14 +130,18 @@ const GamePage: React.FC = () => {
 
           {/* Average Playtime */}
           <div className="flex flex-col items-center mb-4">
-            <h2 className="text-xl font-semibold text-center">Average Playtime</h2>
+            <h2 className="text-xl font-semibold text-center">
+              Average Playtime
+            </h2>
             <p className="text-gray-300">{game.playtime} hours</p>
           </div>
 
           {/* Rating */}
           <div className="flex flex-col items-center mb-4">
             <h2 className="text-xl font-semibold text-center">Rating</h2>
-            <p className="text-gray-300">{game.rating ? `${game.rating} / 5` : "No rating available"}</p>
+            <p className="text-gray-300">
+              {game.rating ? `${game.rating} / 5` : "No rating available"}
+            </p>
           </div>
 
           {/* Developers */}
@@ -145,7 +156,9 @@ const GamePage: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-gray-300 text-center">No developers available</p>
+              <p className="text-gray-300 text-center">
+                No developers available
+              </p>
             )}
           </div>
         </div>

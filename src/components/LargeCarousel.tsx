@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/Card";
 import { Game } from "@/rawgApi";
 import {
   Carousel,
@@ -6,11 +6,10 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import { Link } from "react-router-dom" // Import Link from react-router-dom
+} from "@/components/ui/Carousel";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 
 export default function LargeCarousel(props: { games: Game[] }) {
-
   return (
     <div className="flex justify-center items-center">
       <Carousel className="w-[75%] max-w-[1200px] h-[600px] max-h-[90vh] mx-auto mt-[20px]">
@@ -32,9 +31,13 @@ export default function LargeCarousel(props: { games: Game[] }) {
 
                     {/* Overlay for Text */}
                     <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4">
-                      <h3 className="text-lg font-bold text-white">{game.name}</h3>
+                      <h3 className="text-lg font-bold text-white">
+                        {game.name}
+                      </h3>
                       {game.released && (
-                        <p className="text-sm text-gray-300">Released: {game.released}</p>
+                        <p className="text-sm text-gray-300">
+                          Released: {game.released}
+                        </p>
                       )}
                     </div>
                   </CardContent>
@@ -49,4 +52,3 @@ export default function LargeCarousel(props: { games: Game[] }) {
     </div>
   );
 }
-
