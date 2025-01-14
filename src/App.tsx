@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import PopularGamesFullList from "../src/pages/PopularGamesFullList";
 import Header from "./components/Header";
-import MapComponent from "./components/Map";
+import MapPage from "./pages/MapPage";
 
 function App() {
   return (
@@ -11,8 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/popular-games" element={<PopularGamesFullList />} />
+        <Route path="/map" element={<MapPage />} />
       </Routes>
-      <MapComponent postcode="w13 8pl" />
     </>
   );
 }

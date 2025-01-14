@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import axios from "axios";
-
-interface MapComponentProps {
-  postcode: string;
-}
+import { MapComponentProps } from "../mapAPI";
 
 const MapComponent: React.FC<MapComponentProps> = ({ postcode }) => {
   const [position, setPosition] = useState<[number, number] | null>(null);
-  const apiKey = "f85213b9e2414c148dd5d75245982771";
+
+  const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
 
   useEffect(() => {
     const fetchGeocode = async () => {
@@ -28,13 +26,13 @@ const MapComponent: React.FC<MapComponentProps> = ({ postcode }) => {
       }
     };
     fetchGeocode();
-  }, [postcode]);
+  }, [postcode, apiKey]);
 
   return position ? (
     <MapContainer
       center={position}
       zoom={13}
-      style={{ height: "400px", width: "100%" }}
+      style={{ height: "90vh", width: "100%" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -43,7 +41,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ postcode }) => {
       <Marker position={position}>
         <Popup>{postcode}</Popup>
       </Marker>
-      <Circle center={position} radius={1000} color="blue"></Circle>
+      <Circle center={position} radius={5000} color="blue"></Circle>
     </MapContainer>
   ) : (
     <div>Loading...</div>

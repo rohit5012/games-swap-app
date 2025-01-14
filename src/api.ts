@@ -1,14 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 
 const rawgAPIKey = import.meta.env.VITE_RAWG_API_KEY;
-const opencageAPIKEY = import.meta.env.OPENCAGE_API_KEY;
 
 const rawgAPI = axios.create({
   baseURL: "https://api.rawg.io/api",
-});
-
-const openCageAPI = axios.create({
-  baseURL: "https://api.opencagedata.com/geocode/v1/",
 });
 
 export type Game = {
