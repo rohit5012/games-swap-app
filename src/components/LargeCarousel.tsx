@@ -1,5 +1,5 @@
-import * as React from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import { Game } from "@/rawgApi";
 import {
   Carousel,
   CarouselContent,
@@ -9,12 +9,13 @@ import {
 } from "@/components/ui/carousel"
 import { Link } from "react-router-dom" // Import Link from react-router-dom
 
-export default function LargeCarousel({ games }) {
+export default function LargeCarousel(props: { games: Game[] }) {
+
   return (
     <div className="flex justify-center items-center">
       <Carousel className="w-[75%] max-w-[1200px] h-[600px] max-h-[90vh] mx-auto mt-[20px]">
         <CarouselContent className="flex gap-4">
-          {games.map((game) => (
+          {props.games.map((game) => (
             <CarouselItem key={game.id} className="flex-shrink-0 w-full h-full">
               <Link to={`/game/${game.slug}`} className="w-full h-full">
                 <Card className="w-full h-full rounded-lg overflow-hidden shadow-lg">
@@ -42,11 +43,10 @@ export default function LargeCarousel({ games }) {
             </CarouselItem>
           ))}
         </CarouselContent>
-
         <CarouselPrevious className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white" />
         <CarouselNext className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white" />
       </Carousel>
     </div>
-  )
+  );
 }
 

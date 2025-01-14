@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom"; // Ensure you are using react-router-dom v6
 import Home from "./pages/Home";
-import PopularGamesFullList from "../src/pages/PopularGamesFullList";
+import BrowseGames from "./pages/BrowseGames";
 import Header from "./components/Header";
 import GamePage from "./pages/GamePage";
 
@@ -10,9 +10,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/popular-games" element={<PopularGamesFullList />} />
+        <Route path="/home" element={<Home />} />
         {/* Dynamic Route for GamePage */}
         <Route path="/game/:game_slug" element={<GamePage />} />
+        <Route path="/browse-games" element={<BrowseGames />} />
       </Routes>
     </>
   );

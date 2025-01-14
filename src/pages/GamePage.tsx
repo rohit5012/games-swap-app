@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"; // Use this to capture dynamic URL parameters
-import { fetchGameDetails } from "../api";
+import { fetchGameDetails } from "../rawgApi";
 import { Button } from "@/components/ui/button";
-import PopularGames from "../components/PopularGames";
+import SmallCarousel from "@/components/SmallCarousel";
 
 interface Game {
   name: string;
@@ -70,7 +70,7 @@ const GamePage: React.FC = () => {
           alt={game.name}
           className="w-full h-full object-cover shadow-lg mask-gradient"
         />
-        <div className="absolute top-[5vh] left-5 bg-black/70 text-white p-8 w-[25%] h-[40vh] rounded-xl shadow-xl z-10">
+        <div className="absolute top-[5vh] left-5 bg-black/70 text-white p-8 w-[25%] h-[40vh] rounded-xl shadow-xl z-9">
           <h1 className="text-2xl font-bold">{game.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             {game.platforms?.map((platform, index) => (
@@ -160,7 +160,7 @@ const GamePage: React.FC = () => {
       {/* Recommended Games */}
       <div className="max-w-3xl mx-auto px-6 py-8 mt-8 bg-gray-800 bg-opacity-80 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4">We think you would like</h2>
-        <PopularGames />
+        {/* TODO :include carousel at some point */}
       </div>
     </div>
   );

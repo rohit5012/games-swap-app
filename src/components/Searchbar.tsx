@@ -1,38 +1,67 @@
 // import TextField from "@mui/material/TextField";
 // import Stack from "@mui/material/Stack";
 // import Autocomplete from "@mui/material/Autocomplete";
-import { getAllGames, Game } from "../api";
+import { getAllGames, Game } from "../rawgApi";
 import { useEffect, useState } from "react";
+// import { Link } from "react-router";
+// TODO Is it possible to add a debounce with lodash?
 
 export default function Searchbar() {
   const [allGames, setAllGames] = useState<Game[]>([]);
+  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | false>(false);
+
   useEffect(() => {
-    getAllGames().then((gameData) => {
-      setAllGames(gameData);
-    });
+    getAllGames()
+      .then((gameData) => {
+        setAllGames(gameData);
+        setFilteredGames(gameData);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setError("Couldn't fetch games.");
+        setIsLoading(false);
+      });
   }, []);
 
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredGames(
+        allGames.filter((game) =>
+          game.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredGames([]);
+    }
+  }, [searchQuery, allGames]);
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
   return (
-    <p>Searchbar</p>
-    // <Stack spacing={2} sx={{ width: 300 }}>
-    //   <Autocomplete
-    //     freeSolo
-    //     id="free-solo-2-demo"
-    //     disableClearable
-    //     options={allGames.map((game) => game.name)}
-    //     renderInput={(params) => (
-    //       <TextField
-    //         {...params}
-    //         label="Search input"
-    //         slotProps={{
-    //           input: {
-    //             ...params.InputProps,
-    //             type: "search",
-    //           },
-    //         }}
-    //       />
-    //     )}
-    //   />
-    // </Stack>
+    <div>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearch}
+        placeholder="DO NOT USE THIS PLEASE"
+      />
+      {isLoading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      {!isLoading && !error && (
+        <ul>
+          {filteredGames.map((game) => (
+            <li key={game.id}>
+              <p>{game.name}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
+// We will have to change line 56 to something like <Link to={`PATH/ENDPOINT`}> {game.name} </Link> once Nadim completes the SingleGame page
