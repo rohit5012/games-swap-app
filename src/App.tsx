@@ -4,11 +4,13 @@ import BrowseGames from "./pages/BrowseGames";
 import Header from "./components/Header";
 import GamePage from "./pages/GamePage";
 import MapPage from "./pages/MapPage";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 
 function App() {
   return (
-    <>
+    <main>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -17,8 +19,10 @@ function App() {
         <Route path="/game/:game_slug" element={<GamePage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/browse-games" element={<BrowseGames />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
-    </>
+    </main>
   );
 }
 

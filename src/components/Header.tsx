@@ -1,19 +1,44 @@
 // TODO This component has buttons (Borrow Games / Login) with no functionality as they'll need to be linked to other pages
-import { Button } from "@/components/ui/Button";
+import { buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import Searchbar from "./Searchbar";
+import AuthStatus from "./ui/AuthStatus";
+import Logout from "@/pages/Logout";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Header() {
+  const { user } = useAuth();
+
   return (
     <header className="flex flex-row justify-between p-3 px-2 border-b border-black sticky top-0 bg-sky-100 z-10">
-      <p className="text-2xl md:text-4xl">Logo</p>
-      <Button variant="outline" as={Link} to="/map">
+      <Link to="/home">
+        <img
+          width="75"
+          height="75"
+          src="https://static-00.iconduck.com/assets.00/placeholder-icon-2048x2048-48kucnce.png"
+          alt="logo-placeholder"
+        />
+      </Link>
+      <Link className={buttonVariants({ variant: "outline" })} to="/map">
         Borrow Games near me
-      </Button>
+      </Link>
       <Searchbar />
-      <Button variant="outline" as={Link} to="/login">
-        Login
-      </Button>
+      <AuthStatus />
+      {user ? (
+        <Logout />
+      ) : (
+        <div className="flex flex-col">
+          <Link className={buttonVariants({ variant: "outline" })} to="/login">
+            Login
+          </Link>
+          <Link
+            className={buttonVariants({ variant: "outline" })}
+            to="/register"
+          >
+            Sign Up
+          </Link>
+        </div>
+      )}
     </header>
   );
 }
