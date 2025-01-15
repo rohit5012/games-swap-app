@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUpcomingGames, Game } from "../rawgApi";
 import LargeCarousel from "../components/LargeCarousel";
 import SmallCarousel from "@/components/SmallCarousel";
+import UserDetails from "@/components/ui/UserDetails";
 
 export default function Home() {
   const [upcomingGames, setUpcomingGames] = useState<Game[]>([]);
@@ -23,6 +24,7 @@ export default function Home() {
           setPlatforms={setPlatforms}
         />
       </div>
+      <UserDetails />
     </>
   );
 }
