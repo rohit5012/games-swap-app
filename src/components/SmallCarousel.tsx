@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
 import PlatformButton from "./ui/PlatformButton";
+import { Link } from "react-router-dom";
 
 export default function SmallCarousel(props: {
   games: Game[];
@@ -136,11 +137,13 @@ export default function SmallCarousel(props: {
                 flex: "0 0 auto",
               }}
             >
-              <img
+            <Link to={`/game/${game.slug}`} className="w-full h-full">
+            <img
                 src={game.background_image}
                 alt={game.name}
                 className="rounded mb-2 w-full h-56 object-cover"
-              />
+              /></Link>
+              
               <p className="text-center text-sm">{game.name}</p>
               <button className="bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full">
                 Wishlist

@@ -7,7 +7,7 @@ const UserDetails: React.FC = () => {
   const [details, setDetails] = useState<UserDetailsType[]>([]);
   const [newUserTitle, setNewUserTitle] = useState("");
   const { user } = useAuth();
-
+  console.log(user)
   useEffect(() => {
     if (user) {
       loadDetails();
