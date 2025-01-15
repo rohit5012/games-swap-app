@@ -64,3 +64,23 @@ export const fetchGameDetails = async (
     throw new Error(`Unable to fetch details for game: ${gameSlug}`);
   }
 };
+
+
+
+export const getGamesByGenre = async (
+  genres: any[] | null | undefined // Accepts an array of genres
+): Promise<Game[]> => {
+  // Initialize the genre query string
+  let genreQuery = '';
+
+  if (genres && genres.length > 0) {
+    // Join the genres into a comma-separated list for the query
+    genreQuery = `&genres=${genres.join(',').toLocaleLowerCase()}`;
+  }
+
+  // Log the genre query for debugging
+  console.log("Generated Genre Query: ", genreQuery);
+
+  // Make the fetch call with the genre query added to the URL
+  return fetchGames(`/games?key=${rawgAPIKey}${genreQuery}`);
+};

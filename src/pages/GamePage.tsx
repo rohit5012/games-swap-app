@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router"; // Use this to capture dynamic URL parameters
-import { fetchGameDetails, Game } from "../rawgApi";
+import { fetchGameDetails, Game, getGamesByGenre } from "../rawgApi";
 import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
 
@@ -9,13 +9,17 @@ import SmallCarousel from "@/components/SmallCarousel";
 const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>(); // Get the dynamic game_slug from the URL
   const [game, setGame] = useState<Game | null>(null);
+  const [recommendedGames, setRecommendedGames] = useState([]);
+  const [platforms, setPlatforms] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetchGameDetails(game_slug); // Use the game_slug to fetch game data
+        const response = await fetchGameDetails(game_slug);
+        const smallCarouselGames = await getGamesByGenre(response.genres.map((genre) => genre.slug))
+        setRecommendedGames(smallCarouselGames)
         setGame(response);
         setLoading(false);
       } catch (err) {
@@ -161,9 +165,18 @@ const GamePage = () => {
       {/* Recommended Games */}
       <div className="max-w-3xl mx-auto px-6 py-8 mt-8 bg-gray-800 bg-opacity-80 rounded-lg shadow-lg">
         <h2 className="text-xl font-semibold mb-4">We think you would like</h2>
-        {/* TODO :include carousel at some point */}
+       
       </div>
+      <div className="w-[100%]">
+      <SmallCarousel
+                  games={recommendedGames}
+                  platforms={platforms}
+                  setPlatforms={setPlatforms}
+                />
+      </div>
+      
     </div>
+    
   );
 };
 
