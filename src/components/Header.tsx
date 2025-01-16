@@ -12,14 +12,16 @@ export default function Header() {
     <header className="flex flex-row justify-between p-3 px-2 border-b border-black sticky top-0 bg-sky-100 z-10">
       <Link to="/home">
         <img
-          width="75"
-          height="75"
+          className="w-16 sm:w-20 md:w-24 lg:w-28"
           src="https://static-00.iconduck.com/assets.00/placeholder-icon-2048x2048-48kucnce.png"
           alt="logo-placeholder"
         />
       </Link>
-      <Link className={buttonVariants({ variant: "outline" })} to="/map">
-        Borrow Games near me
+      <Link
+        className={buttonVariants({ variant: "outline", size: "responsive" })}
+        to="/map"
+      >
+        Borrow Games
       </Link>
       <Searchbar />
       <AuthStatus />
@@ -27,11 +29,20 @@ export default function Header() {
         <Logout />
       ) : (
         <div className="flex flex-col">
-          <Link className={buttonVariants({ variant: "outline" })} to="/login">
+          <Link
+            className={buttonVariants({
+              variant: "outline",
+              size: "responsive",
+            })}
+            to="/login"
+          >
             Login
           </Link>
           <Link
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({
+              variant: "outline",
+              size: "responsive",
+            })}
             to="/register"
           >
             Sign Up
