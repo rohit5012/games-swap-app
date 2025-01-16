@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { useAuth } from "@/hooks/useAuth"; 
-import { addUserDetails } from "@/services/userDetailsService"; 
-import { Button } from "@/components/ui/Button"; 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/Card"; 
-import { Label } from "@/components/ui/Label"; 
-import { Input } from "@/components/ui/Input"; 
+import { useAuth } from "@/hooks/useAuth";
+import { addUserDetails } from "@/services/userDetailsService";
+import { Button } from "@/components/ui/Button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/Card";
+import { Label } from "@/components/ui/Label";
+import { Input } from "@/components/ui/Input";
 import { useNavigate } from "react-router-dom";
 
 const UserProfileSetup: React.FC = () => {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const [avatarUrl, setAvatarUrl] = useState<string>(""); 
-  const [platforms, setPlatforms] = useState<string[]>([]); 
-  const [nickname, setNickname] = useState<string>(""); 
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const [platforms, setPlatforms] = useState<string[]>([]);
+  const [nickname, setNickname] = useState<string>("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,8 +32,8 @@ const UserProfileSetup: React.FC = () => {
         firstName,
         lastName,
         location,
-        avatarUrl, 
-        platforms, 
+        avatarUrl,
+        platforms,
         nickname,
         gamesOwned: 0,
         gamesLent: 0,
@@ -37,12 +43,12 @@ const UserProfileSetup: React.FC = () => {
 
       try {
         console.log("Saving profile data:", newUserDetails);
-        await addUserDetails(newUserDetails); 
+        await addUserDetails(newUserDetails);
         console.log("Profile saved successfully!");
-        
+
         setTimeout(() => {
-          navigate("/"); 
-        }, 3000); 
+          navigate("/");
+        }, 3000);
       } catch (error) {
         console.error("Error creating profile:", error);
       }
@@ -60,7 +66,9 @@ const UserProfileSetup: React.FC = () => {
   return (
     <Card className="mx-auto max-w-lg mt-32">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Complete Your Profile</CardTitle>
+        <CardTitle className="text-2xl font-bold">
+          Complete Your Profile
+        </CardTitle>
         <CardDescription>
           Enter your details below to complete your profile.
         </CardDescription>
@@ -139,21 +147,27 @@ const UserProfileSetup: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handlePlatformChange("PlayStation 5")}
-                  className={`bg-gray-200 px-4 py-2 mr-4 rounded ${platforms.includes("PlayStation 5") ? "bg-gray-400" : ""}`}
+                  className={`bg-gray-200 px-4 py-2 mr-4 rounded ${
+                    platforms.includes("PlayStation 5") ? "bg-gray-400" : ""
+                  }`}
                 >
                   PlayStation 5
                 </button>
                 <button
                   type="button"
                   onClick={() => handlePlatformChange("Xbox Series X/S")}
-                  className={`bg-gray-200 px-4 py-2 mr-4 rounded ${platforms.includes("Xbox Series X/S") ? "bg-gray-400" : ""}`}
+                  className={`bg-gray-200 px-4 py-2 mr-4 rounded ${
+                    platforms.includes("Xbox Series X/S") ? "bg-gray-400" : ""
+                  }`}
                 >
                   Xbox Series X/S
                 </button>
                 <button
                   type="button"
                   onClick={() => handlePlatformChange("Switch")}
-                  className={`bg-gray-200 px-4 py-2 rounded ${platforms.includes("Switch") ? "bg-gray-400" : ""}`}
+                  className={`bg-gray-200 px-4 py-2 rounded ${
+                    platforms.includes("Switch") ? "bg-gray-400" : ""
+                  }`}
                 >
                   Switch
                 </button>
@@ -162,7 +176,10 @@ const UserProfileSetup: React.FC = () => {
           </div>
 
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <Button type="submit" className="w-full rounded-md text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600">
+            <Button
+              type="submit"
+              className="w-full rounded-md text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+            >
               Save Profile
             </Button>
           </div>
