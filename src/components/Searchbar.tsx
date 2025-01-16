@@ -1,10 +1,6 @@
-// import TextField from "@mui/material/TextField";
-// import Stack from "@mui/material/Stack";
-// import Autocomplete from "@mui/material/Autocomplete";
 import { getAllGames, Game } from "../rawgApi";
 import { useEffect, useState } from "react";
-// import { Link } from "react-router";
-// TODO Is it possible to add a debounce with lodash?
+import { Link } from "react-router";
 
 export default function Searchbar() {
   const [allGames, setAllGames] = useState<Game[]>([]);
@@ -48,7 +44,7 @@ export default function Searchbar() {
         type="text"
         value={searchQuery}
         onChange={handleSearch}
-        placeholder="DO NOT USE THIS PLEASE"
+        placeholder="Search game here..."
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -56,7 +52,9 @@ export default function Searchbar() {
         <ul>
           {filteredGames.map((game) => (
             <li key={game.id}>
-              <p>{game.name}</p>
+              <Link to={`/game/${game.slug}`}>
+                <p>{game.name}</p>
+              </Link>
             </li>
           ))}
         </ul>
@@ -64,4 +62,3 @@ export default function Searchbar() {
     </div>
   );
 }
-// We will have to change line 56 to something like <Link to={`PATH/ENDPOINT`}> {game.name} </Link> once Nadim completes the SingleGame page
