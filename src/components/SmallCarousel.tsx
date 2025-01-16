@@ -1,8 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
 import PlatformButton from "./ui/PlatformButton";
 import { Link } from "react-router-dom";
+import { GameListItem } from "@/types/GameListItem";
+import { updateWishlist } from "@/services/wishlistServices";
+import { UserContext } from "@/context/Usercontext";
+
 
 export default function SmallCarousel(props: {
   games: Game[];
@@ -12,6 +16,9 @@ export default function SmallCarousel(props: {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
+
+  const {user} = useContext(UserContext)
+  console.log(user)
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,7 +58,17 @@ export default function SmallCarousel(props: {
       });
     }
   };
-
+  async function handleAddToWishlist(game: GameListItem){
+    if(user){
+      const newWishlistItem = {
+        gameName: game.name,
+        slug: game.slug,
+        backgroundImg: game.background_image,
+        releaseDate: game.released   
+      }
+      await updateWishlist(user, newWishlistItem)
+    }
+  }
   return (
     <section className="my-6">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
@@ -145,7 +162,7 @@ export default function SmallCarousel(props: {
               /></Link>
               
               <p className="text-center text-sm">{game.name}</p>
-              <button className="bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full">
+              <button className="bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full" onClick={()=> handleAddToWishlist(game)}>
                 Wishlist
               </button>
             </div>

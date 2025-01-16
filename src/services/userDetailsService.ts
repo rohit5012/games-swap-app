@@ -17,7 +17,7 @@ export const addUserDetails = async (
 ): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "user details"), userDetails);
-    return docRef.id; // TODO: create user wishlist on account creation
+    return docRef.id; 
   } catch (error) {
     console.error("Error adding task:", error);
     throw error;
