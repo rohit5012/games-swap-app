@@ -47,6 +47,7 @@ export default function Searchbar() {
         value={searchValue}
         onChange={handleSearch}
         placeholder="Search game here..."
+        className="w-full p-2 border-2 border-gray-300 rounded-lg w-full sm:w-80 md:w-96 lg:w-[500px] xl:w-[600px]"
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -60,7 +61,7 @@ export default function Searchbar() {
                 <img
                   src={game.background_image}
                   alt={game.name}
-                  className="mt-1 max-w-12 max-h-12"
+                  className="mt-1 max-w-13 max-h-13"
                 />{" "}
               </Link>
             </li>
