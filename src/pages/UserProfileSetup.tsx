@@ -41,7 +41,13 @@ const UserProfileSetup: React.FC = () => {
       };
 
       try {
+
+        console.log("Saving profile data:", newUserDetails);
         await addUserDetails(newUserDetails);
+        console.log("Profile saved successfully!");
+
+        
+
 
         setTimeout(() => {
           navigate("/");
