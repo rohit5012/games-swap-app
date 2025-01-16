@@ -1,6 +1,6 @@
 import { db } from "@/firebase/firebase"
 import { GameListItem } from "@/types/GameListItem"
-import { addDoc, collection, doc, updateDoc, query, where, getDocs, arrayUnion } from "firebase/firestore"
+import { addDoc, collection, doc, updateDoc, query, where, getDocs } from "firebase/firestore"
 
 
 export const createWishlist = async (userID: string) => {
