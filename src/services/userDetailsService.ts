@@ -13,13 +13,25 @@ import { UserDetailsType } from "@/types/UserDetails";
 import { db } from "@/firebase/firebase";
 
 export const addUserDetails = async (
-  userDetails: Omit<UserDetailsType, 'id'>
+  userDetails: Omit<UserDetailsType, "id">
 ): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, "user details"), userDetails);
-    return docRef.id;
+    return docRef.id; // TODO: create user wishlist on account creation
   } catch (error) {
     console.error("Error adding task:", error);
+    throw error;
+  }
+};
+
+export const updateUserDetails = async (
+  detailsId: string,
+  updates: Partial<UserDetailsType>
+): Promise<void> => {
+  try {
+    await updateDoc(doc(db, "user details", detailsId), updates);
+  } catch (error) {
+    console.error("Error updating task: ", error);
     throw error;
   }
 };
