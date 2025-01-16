@@ -6,6 +6,7 @@ import GamePage from "./pages/GamePage";
 import MapPage from "./pages/MapPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import UserProfileSetup from "./pages/UserProfileSetup"; 
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/browse-games" element={<BrowseGames />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/user-profile" element={<UserProfileSetup />} />
       </Routes>
     </main>
   );
