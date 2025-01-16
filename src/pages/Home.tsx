@@ -23,8 +23,8 @@ export default function Home() {
           platforms={platforms}
           setPlatforms={setPlatforms}
         />
+        <UserDetails />
       </div>
-      <UserDetails />
     </>
   );
 }

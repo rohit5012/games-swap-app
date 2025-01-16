@@ -25,7 +25,6 @@ const UserProfileSetup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submit button clicked");
 
     if (user) {
       const newUserDetails = {
@@ -42,9 +41,13 @@ const UserProfileSetup: React.FC = () => {
       };
 
       try {
+
         console.log("Saving profile data:", newUserDetails);
         await addUserDetails(newUserDetails);
         console.log("Profile saved successfully!");
+
+        
+
 
         setTimeout(() => {
           navigate("/");
