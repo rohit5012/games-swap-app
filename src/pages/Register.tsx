@@ -12,11 +12,13 @@ import { Link } from "react-router";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
+import { useNavigate } from "react-router-dom"; 
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [displayName, setDisplayName] = useState("");
+  const navigate = useNavigate(); 
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +30,9 @@ export default function Register() {
       );
       await updateProfile(userCredential.user, { displayName });
       console.log("User registered successfully");
+
+      navigate("/user-profile"); 
+      
     } catch (error) {
       console.error("Error registering user:", error);
     }
