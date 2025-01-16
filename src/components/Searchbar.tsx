@@ -1,23 +1,21 @@
-// import TextField from "@mui/material/TextField";
-// import Stack from "@mui/material/Stack";
-// import Autocomplete from "@mui/material/Autocomplete";
 import { getAllGames, Game } from "../rawgApi";
 import { useEffect, useState } from "react";
-// import { Link } from "react-router";
-// TODO Is it possible to add a debounce with lodash?
+import { Link } from "react-router";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Searchbar() {
   const [allGames, setAllGames] = useState<Game[]>([]);
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchValue, setSearchValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | false>(false);
+
+  const debouncedSearch = useDebounce(searchValue, 1000);
 
   useEffect(() => {
     getAllGames()
       .then((gameData) => {
         setAllGames(gameData);
-        setFilteredGames(gameData);
         setIsLoading(false);
       })
       .catch(() => {
@@ -27,28 +25,28 @@ export default function Searchbar() {
   }, []);
 
   useEffect(() => {
-    if (searchQuery) {
+    if (debouncedSearch) {
       setFilteredGames(
         allGames.filter((game) =>
-          game.name.toLowerCase().includes(searchQuery.toLowerCase())
+          game.name.toLowerCase().includes(debouncedSearch.toLowerCase())
         )
       );
     } else {
       setFilteredGames([]);
     }
-  }, [searchQuery, allGames]);
+  }, [debouncedSearch, allGames]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+    setSearchValue(event.target.value);
   };
 
   return (
     <div>
       <input
         type="text"
-        value={searchQuery}
+        value={searchValue}
         onChange={handleSearch}
-        placeholder="DO NOT USE THIS PLEASE"
+        placeholder="Search game here..."
       />
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
@@ -56,7 +54,15 @@ export default function Searchbar() {
         <ul>
           {filteredGames.map((game) => (
             <li key={game.id}>
-              <p>{game.name}</p>
+              <Link to={`/game/${game.slug}`} className="flex items-center">
+                {" "}
+                <p className="mr-2">{game.name}</p>{" "}
+                <img
+                  src={game.background_image}
+                  alt={game.name}
+                  className="mt-1 max-w-12 max-h-12"
+                />{" "}
+              </Link>
             </li>
           ))}
         </ul>
@@ -64,4 +70,3 @@ export default function Searchbar() {
     </div>
   );
 }
-// We will have to change line 56 to something like <Link to={`PATH/ENDPOINT`}> {game.name} </Link> once Nadim completes the SingleGame page

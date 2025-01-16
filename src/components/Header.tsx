@@ -1,4 +1,3 @@
-// TODO This component has buttons (Borrow Games / Login) with no functionality as they'll need to be linked to other pages
 import { buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import Searchbar from "./Searchbar";
@@ -42,4 +41,3 @@ export default function Header() {
     </header>
   );
 }
-// Unsure whether the Link would be functional as it is
