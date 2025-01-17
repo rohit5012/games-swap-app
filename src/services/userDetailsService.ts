@@ -53,3 +53,13 @@ export const getUserDetails = async (
     throw error;
   }
 };
+
+export const getUserById = async (userId: string) => {
+  const userDoc = doc(db, "user details", "IbwRYweaPzIpmTh9mIAK");
+  const docSnap = await getDoc(userDoc);
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    throw new Error("No such document!");
+  }
+};
