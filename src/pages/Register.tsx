@@ -31,7 +31,7 @@ export default function Register() {
       await updateProfile(userCredential.user, { displayName });
       console.log("User registered successfully");
 
-      navigate("/user-profile"); 
+      navigate("/user-profile-setup"); 
       
     } catch (error) {
       console.error("Error registering user:", error);
