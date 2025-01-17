@@ -15,6 +15,7 @@ export const createWishlist = async (userID: string) => {
 }
 
 export const updateWishlist = async (userId: string, newGame: GameListItem) => {
+
     try {
         console.log("Fetching wishlist for user ID:", userId);
 
@@ -57,7 +58,7 @@ export const fetchWishlist = async (userId: string) => {
         return wishlists;
     } catch (error) {
         console.error("Error fetching wishlist:", error);
-        throw error; // Optional: Re-throw the error if you want to handle it upstream
+        throw error; 
     }
 };
 

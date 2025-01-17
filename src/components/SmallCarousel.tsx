@@ -159,6 +159,7 @@ export default function SmallCarousel(props: {
                 src={game.background_image}
                 alt={game.name}
                 className="rounded mb-2 w-full h-56 object-cover"
+                // {"transform hover:scale-y-150 transition delay-150 duration-300 ease-in-out"}?
               /></Link>
               
               <p className="text-center text-sm">{game.name}</p>
