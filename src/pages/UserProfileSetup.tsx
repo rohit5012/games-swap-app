@@ -47,10 +47,6 @@ const UserProfileSetup: React.FC = () => {
         await addUserDetails(newUserDetails);
         await createWishlist(user.uid)
         console.log("Profile saved successfully!");
-
-        
-
-
         setTimeout(() => {
           navigate("/");
         }, 3000);
