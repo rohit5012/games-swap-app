@@ -34,11 +34,9 @@ function App() {
           <Route path="/users" element={<UserList />} />
         </Routes>
       </main>
+      <Footer />
     </div>
-
   );
 }
 
 export default App;
-
-
