@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 
-import UserProfile from "./pages/UserProfile";
+import UserProfileRegUser from "./pages/UserProfileRegUser";
 
 import UserProfileTemp from "./pages/UserProfileTemp";
 
@@ -28,7 +28,7 @@ function App() {
         <Route path="/register" element={<Register />} />
 
         <Route path="/user-profile-setup" element={<UserProfileSetup />} />
-        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-profile" element={<UserProfileRegUser />} />
 
         
         <Route path=":user_id/profile" element={<UserProfileTemp />} />
