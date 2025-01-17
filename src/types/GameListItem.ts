@@ -1,4 +1,5 @@
 export type GameListItem = {
+  userId: string;
   gameId: number;
   gameName: string;
   backgroundImg: string;
