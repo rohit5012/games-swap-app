@@ -8,7 +8,7 @@ import {
 import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/Input";
 import { Button, buttonVariants } from "@/components/ui/Button";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
@@ -16,14 +16,19 @@ import { auth } from "@/firebase/firebase";
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in successfully");
+      navigate("/home");
     } catch (error) {
-      console.error("Error logging in:", error);
+      setError(
+        "User credentials invalid. Please try again or make an account."
+      );
     }
   };
 
@@ -72,6 +77,7 @@ export default function Login() {
               </Button> */}
           </div>
           <div className="mt-4 text-center text-sm">
+            {error ? <p className="text-red-500">{error}</p> : null}
             <p className="mb-2">Don&apos;t have an account?</p>
             <Link
               className={buttonVariants({ variant: "outline" })}

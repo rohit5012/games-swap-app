@@ -1,19 +1,20 @@
-import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router";
-import { getGamesBySearch, Game } from "../rawgApi"; // Ensure this function is implemented
+import { Loader, Search } from "lucide-react";
+import { Input } from "./ui/Input";
 import { useDebounce } from "@/hooks/useDebounce";
+import { useEffect, useRef, useState } from "react";
+import { getGamesBySearch, Game } from "../rawgApi";
+import { Link } from "react-router";
 
-export default function Searchbar() {
+const Searchbar: React.FC = () => {
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [searchValue, setSearchValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | false>(false);
+  const [error, setError] = useState<string>("");
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const debouncedSearch = useDebounce(searchValue, 1000);
+  const debouncedSearch = useDebounce(searchValue, 750);
 
-  // Fetch games from the API when debouncedSearch changes
   useEffect(() => {
     const fetchGames = async () => {
       if (!debouncedSearch) {
@@ -22,7 +23,7 @@ export default function Searchbar() {
       }
 
       setIsLoading(true);
-      setError(false);
+      setError("");
 
       try {
         const games = await getGamesBySearch(debouncedSearch);
@@ -38,7 +39,6 @@ export default function Searchbar() {
     fetchGames();
   }, [debouncedSearch]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -65,16 +65,30 @@ export default function Searchbar() {
   };
 
   return (
-    <div className="relative w-full sm:w-80 md:w-96 lg:w-[500px] xl:w-[600px] mx-auto">
-      <input
-        type="text"
+    <form className="relative">
+      {isLoading ? (
+        <Loader
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+          size={18}
+        />
+      ) : (
+        <Search
+          className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
+          size={18}
+        />
+      )}
+      <Input
+        className="w-full pl-10 pr-4"
+        type="search"
+        placeholder="Search games..."
         value={searchValue}
         onChange={handleSearch}
-        placeholder="Search game here..."
-        className="w-full p-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      {isLoading && <p className="mt-2 text-gray-500">Loading...</p>}
-      {error && <p className="mt-2 text-red-500">{error}</p>}
+      {error && (
+        <p className="text-red-500 absolute right-10 top-1/2 transform -translate-y-1/2 text-muted-foreground">
+          {error}
+        </p>
+      )}
       {isDropdownVisible && !isLoading && !error && (
         <div
           ref={dropdownRef}
@@ -88,13 +102,13 @@ export default function Searchbar() {
                   onClick={handleGameClick}
                   className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 >
-                  <Link to={`/game/${game.slug}`} className="flex items-center">
-                    <p className="mr-2">{game.name}</p>
+                  <Link to={`/game/${game.slug}`} className="flex">
                     <img
                       src={game.background_image}
                       alt={game.name}
                       className="w-12 h-12 object-cover rounded"
                     />
+                    <p className="ml-2">{game.name}</p>
                   </Link>
                 </li>
               ))}
@@ -104,6 +118,8 @@ export default function Searchbar() {
           )}
         </div>
       )}
-    </div>
+    </form>
   );
-}
+};
+
+export default Searchbar;

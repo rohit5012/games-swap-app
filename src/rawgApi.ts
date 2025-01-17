@@ -65,17 +65,15 @@ export const fetchGameDetails = async (
   }
 };
 
-
-
 export const getGamesByGenre = async (
   genres: any[] | null | undefined // Accepts an array of genres
 ): Promise<Game[]> => {
   // Initialize the genre query string
-  let genreQuery = '';
+  let genreQuery = "";
 
   if (genres && genres.length > 0) {
     // Join the genres into a comma-separated list for the query
-    genreQuery = `&genres=${genres.join(',').toLocaleLowerCase()}`;
+    genreQuery = `&genres=${genres.join(",").toLocaleLowerCase()}`;
   }
 
   // Log the genre query for debugging
@@ -85,14 +83,8 @@ export const getGamesByGenre = async (
   return fetchGames(`/games?key=${rawgAPIKey}${genreQuery}`);
 };
 
-
-
 export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {
-
-  const url = `https://api.rawg.io/api/games?key=${rawgAPIKey}&search=${encodeURIComponent(searchTerm)}`;
-
-  const response = await axios.get(url);
-  console.log("these are the results")
-  console.log(response.data)
-  return response.data.results
+  return fetchGames(
+    `/games?key=${rawgAPIKey}&search=${searchTerm}`
+  );
 };
