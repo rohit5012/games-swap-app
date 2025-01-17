@@ -8,9 +8,9 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfileRegUser from "./pages/UserProfileRegUser";
-
 import UserList from "./components/UserList";
 import UserProfile from "./components/UserProfile";
+import Footer from "./components/Footer";
 
 import UserProfileTemp from "./pages/UserProfileTemp";
 
@@ -31,9 +31,8 @@ function App() {
         <Route path="/user-profile" element={<UserProfileRegUser />} />
         <Route path=":user_id/profile" element={<UserProfileTemp />} />
         <Route path="/users" element={<UserList />} />
-        
-
       </Routes>
+      <Footer />
     </main>
   );
 }
