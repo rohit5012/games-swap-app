@@ -9,7 +9,6 @@ export type UserDetailsType = {
   gamesLent: number;
   gamesBorrowed: number;
   userId: string;
-  avatarURL: string;
+  avatarURL?: string;
   email: string;
 };
-
