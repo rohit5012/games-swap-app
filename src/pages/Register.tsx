@@ -29,6 +29,7 @@ export default function Register() {
         password
       );
       await updateProfile(userCredential.user, { displayName });
+
       navigate("/user-profile-setup"); 
       
     } catch (error) {
