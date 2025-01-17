@@ -25,9 +25,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user-profile-setup" element={<UserProfileSetup />} />
+        <Route path="/user-profile" element={<UserProfile />} />
         <Route path=":user_id/profile" element={<UserProfileTemp />} />
         <Route path="/users" element={<UserList />} />
-        <Route path="/users/:userId" element={<UserProfile />} />
+        
+
       </Routes>
     </main>
   );
