@@ -8,6 +8,7 @@ import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons'; //T
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { updateWishlist } from "@/services/wishlistServices";
 import { UserContext } from "@/context/Usercontext";
+import { useAuth } from "@/hooks/useAuth";
 
 const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>(); 
@@ -16,7 +17,7 @@ const GamePage = () => {
   const [platforms, setPlatforms] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const {user} = useContext(UserContext)
+  const {user} = useAuth()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +59,7 @@ const GamePage = () => {
   if (!game) {
     return null; // Return nothing if no game is available
   }
-
+  console.log("this is the user id" + user)
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
       {/* Background Image */}
@@ -95,7 +96,7 @@ const GamePage = () => {
             backgroundImg: game.background_image,
             releaseDate: game.released   
           }
-          updateWishlist(user, newWishlistItem).then(() => console.log("success!"))
+          updateWishlist(user.uid, newWishlistItem).then(() => console.log("success!"))
         }}
       />
       <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
