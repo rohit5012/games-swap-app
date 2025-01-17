@@ -7,6 +7,8 @@ import { FaPencil } from "react-icons/fa6";
 import { FaXbox } from "react-icons/fa"; 
 import { BsNintendoSwitch } from "react-icons/bs";  
 import { FaPlaystation } from "react-icons/fa";
+import Wishlist from "@/components/Wishlist";
+import { fetchWishlist } from "@/services/wishlistServices";
 // push again
 export type UserProfileRegUser = {
   firstName: string;
@@ -49,12 +51,11 @@ const UserProfileRegUser: React.FC = () => {
           console.log("No user found with that ID");
         }
       };
-  
       fetchUserProfile();
+      
+      
     }
   }, [user]);
-  
-
   const renderPlatformIcon = (platform: string) => {
     switch (platform) {
       case "Xbox Series X/S":
@@ -126,6 +127,7 @@ const UserProfileRegUser: React.FC = () => {
   }
 
   return (
+    <>
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-colors duration-200 mt-12">
       <div className="relative h-48">
         <img
@@ -257,7 +259,10 @@ const UserProfileRegUser: React.FC = () => {
           </button>
         </div>
       )}
+      <Wishlist userId={user?.uid}></Wishlist>
     </div>
+    
+    </>
   );
 };
 
