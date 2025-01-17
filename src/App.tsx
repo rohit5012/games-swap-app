@@ -12,7 +12,6 @@ import UserProfile from "./pages/UserProfile";
 
 import UserProfileTemp from "./pages/UserProfileTemp";
 
-
 function App() {
   return (
     <main>
@@ -30,9 +29,7 @@ function App() {
         <Route path="/user-profile-setup" element={<UserProfileSetup />} />
         <Route path="/user-profile" element={<UserProfile />} />
 
-        
         <Route path=":user_id/profile" element={<UserProfileTemp />} />
-
       </Routes>
     </main>
   );
