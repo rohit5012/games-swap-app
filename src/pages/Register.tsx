@@ -11,17 +11,18 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase/firebase";
 
 export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [displayName, setDisplayName] = useState("");
-  const navigate = useNavigate(); 
+  const [displayName, setDisplayName] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -30,10 +31,9 @@ export default function Register() {
       );
       await updateProfile(userCredential.user, { displayName });
 
-      navigate("/user-profile-setup"); 
-      
+      navigate("/user-profile-setup");
     } catch (error) {
-      console.error("Error registering user:", error);
+      setError("Error creating account. Please try again.");
     }
   };
 
@@ -85,6 +85,7 @@ export default function Register() {
                 required
               />
             </div>
+            {error ? <p className="text-red-500">{error}</p> : null}
             <Button type="submit" className="w-full">
               Sign Up
             </Button>

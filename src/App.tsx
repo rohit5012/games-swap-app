@@ -16,27 +16,29 @@ import UserProfileTemp from "./pages/UserProfileTemp";
 
 function App() {
   return (
-    <main>
+    <div>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        {/* Dynamic Route for GamePage */}
-        <Route path="/game/:game_slug" element={<GamePage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/browse-games" element={<BrowseGames />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/user-profile-setup" element={<UserProfileSetup />} />
-        <Route path="/user-profile" element={<UserProfileRegUser />} />
-        <Route path=":user_id/profile" element={<UserProfileTemp />} />
-        <Route path="/users" element={<UserList />} />
-      </Routes>
-      <Footer />
-    </main>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          {/* Dynamic Route for GamePage */}
+          <Route path="/game/:game_slug" element={<GamePage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/browse-games" element={<BrowseGames />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/user-profile-setup" element={<UserProfileSetup />} />
+          <Route path="/user-profile" element={<UserProfileRegUser />} />
+          <Route path=":user_id/profile" element={<UserProfileTemp />} />
+          <Route path="/users" element={<UserList />} />
+        </Routes>
+      </main>
+    </div>
+
   );
 }
 
 export default App;
 
-// fix
+
