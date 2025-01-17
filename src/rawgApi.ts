@@ -84,3 +84,15 @@ export const getGamesByGenre = async (
   // Make the fetch call with the genre query added to the URL
   return fetchGames(`/games?key=${rawgAPIKey}${genreQuery}`);
 };
+
+
+
+export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {
+
+  const url = `https://api.rawg.io/api/games?key=${rawgAPIKey}&search=${encodeURIComponent(searchTerm)}`;
+
+  const response = await axios.get(url);
+  console.log("these are the results")
+  console.log(response.data)
+  return response.data.results
+};
