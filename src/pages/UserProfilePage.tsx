@@ -30,7 +30,6 @@ const UserProfileRegUser: React.FC = () => {
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
-  console.log(listItems);
 
   useEffect(() => {
     if (user) {
@@ -273,6 +272,9 @@ const UserProfileRegUser: React.FC = () => {
             </button>
           </div>
         )}
+        <h2 className="flex items-center justify-center pt-4 text-2xl">
+          Games
+        </h2>
         <div className="flex items-center justify-center">
           <Button
             className="m-5 "
@@ -288,7 +290,7 @@ const UserProfileRegUser: React.FC = () => {
               handleListsToggle("Owned");
             }}
           >
-            Owned Games
+            Owned
           </Button>
         </div>
         {listItems === "Owned" ? (

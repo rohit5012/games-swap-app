@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/Button";
-import { fetchOwnedList } from "@/services/ownedListService";
+import { fetchOwnedList, updateOwnedGame } from "@/services/ownedListService";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const OwnedList = ({ userId }) => {
   const [ownedGames, setOwnedGames] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(userId);
 
   useEffect(() => {
     async function fetchOwnedGamesData() {
@@ -61,7 +69,34 @@ const OwnedList = ({ userId }) => {
                       {new Date(game.releaseDate).toLocaleDateString()}
                     </p>
                   </div>
-                  <Button> Borrow near me</Button>
+
+                  <Dialog>
+                    <a
+                      href="#"
+                      onClick={(event) => {
+                        // updateOwnedGame(userId, game.slug);
+                        event.preventDefault();
+                      }}
+                      className="inline-block z-10 bg-black text-white justify-center flex items-center"
+                    >
+                      <DialogTrigger>
+                        <strong>Lend your game</strong>
+                      </DialogTrigger>
+                    </a>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>
+                          Would you like to lend your game?
+                        </DialogTitle>
+                        <DialogDescription>
+                          Terms and conditions?#placeholder
+                        </DialogDescription>
+                      </DialogHeader>
+                      <DialogFooter>
+                        <Button type="submit">Confirm</Button>
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </Link>
             ))}
