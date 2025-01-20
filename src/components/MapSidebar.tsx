@@ -1,21 +1,44 @@
 import React from "react";
+import { Gamer, Location } from "../types/Gamer";
 
-const Sidebar: React.FC = () => {
-  return (
-    <div className="w-1/4 bg-black-200 p-4">
-      <ul>
-        <li className="mb-2">
-          <a href="#" className="text-black-300">Game</a>
-        </li>
-        <li className="mb-2">
-          <a href="#" className="text-black-300">Location</a>
-        </li>
-        <li className="mb-2">
-          <a href="#" className="text-black-300">User Rating</a>
-        </li>
-      </ul>
-    </div>
-  );
+export const haversineDistance = (coords1: Location, coords2: Location) => {
+  const toRad = (x: number) => (x * Math.PI) / 180;
+
+  const lat1 = coords1.lat;
+  const lon1 = coords1.lng;
+  const lat2 = coords2.lat;
+  const lon2 = coords2.lng;
+
+  const R = 6371;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c;
+
+  return d;
 };
 
-export default Sidebar;
+export const handleTabClick = (
+  userLocation: Location | undefined,
+  sampleGamerData: Gamer[],
+  setNearbyGamers: React.Dispatch<React.SetStateAction<Gamer[]>>
+) => {
+  let updatedGamers: Gamer[] = [];
+
+  updatedGamers = sampleGamerData;
+
+  if (userLocation) {
+    updatedGamers = updatedGamers.map((gamer) => ({
+      ...gamer,
+      distance: haversineDistance(userLocation, gamer.location),
+    }));
+  }
+
+  setNearbyGamers(updatedGamers);
+};
