@@ -44,6 +44,7 @@ export const updateOwnedGamesList = async (
         backgroundImg: newGame.backgroundImg,
         releaseDate: newGame.releaseDate,
         slug: newGame.slug,
+        lendable: false,
       },
     });
 
@@ -63,10 +64,31 @@ export const fetchOwnedList = async (userId: string) => {
       id: doc.id,
       ...doc.data(),
     }));
-    console.log(ownedList);
+    // console.log(ownedList);
     return ownedList;
   } catch (error) {
     console.error("Error fetching owned games list:", error);
+    throw error;
+  }
+};
+
+export const updateOwnedGame = async (userId: string, slug: string) => {
+  try {
+    const ownedListRef = collection(db, "ownedGames");
+    const q = query(
+      ownedListRef,
+      where("userId", "==", userId),
+      where("slug", "==", slug)
+    );
+    const qSnapshot = await getDocs(q);
+    const lendGame = qSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log(lendGame);
+    return lendGame;
+  } catch (error) {
+    console.error("Error updating owned game", error);
     throw error;
   }
 };
