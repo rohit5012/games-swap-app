@@ -1,14 +1,27 @@
+import React, { useEffect, useState } from "react";
 import MapSidebar from "../components/MapSidebar";
-import Map from "../components/Map";
+import MapComponent from "../components/Map"; 
+import { fetchUsersWithLocation } from "@/services/fetchUsersWithLocation";  
 
-const App: React.FC = () => {
-  const locations = ["04770", "sw12 9ru"];
+const MapPage: React.FC = () => {
+  const [userLocations, setUserLocations] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadUserLocations = async () => {
+      const usersWithLocation = await fetchUsersWithLocation();
+      const locations = usersWithLocation.map((user) => user.location);  
+      setUserLocations(locations);
+    };
+
+    loadUserLocations();
+  }, []);
+
   return (
     <div className="flex">
       <MapSidebar />
-      <Map postcode={locations} />
+      <MapComponent postcode={userLocations} />
     </div>
   );
 };
 
-export default App;
+export default MapPage;
