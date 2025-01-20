@@ -1,7 +1,6 @@
-// import MapSidebar from "../components/MapSidebar";
 import NewMap from "../components/NewMap";
 
-const App = () => {
+const MapPage = () => {
   return (
     <div>
       <NewMap />
@@ -9,4 +8,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default MapPage;

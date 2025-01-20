@@ -8,7 +8,6 @@ import { FaXbox } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";  
 import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
-import { fetchWishlist } from "@/services/wishlistServices";
 // push again
 export type UserProfileRegUser = {
   firstName: string;
