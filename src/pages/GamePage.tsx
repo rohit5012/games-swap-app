@@ -1,23 +1,24 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router"; 
+import { useParams } from "react-router";
 import { fetchGameDetails, Game, getGamesByGenre } from "../rawgApi";
 import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
-import { faHeart as faRegularHeart } from '@fortawesome/free-regular-svg-icons';
-import { faHeart as faSolidHeart } from '@fortawesome/free-solid-svg-icons'; //TODO: implement wishlist from 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons"; //TODO: implement wishlist from
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { updateWishlist } from "@/services/wishlistServices";
 import { UserContext } from "@/context/Usercontext";
 import { useAuth } from "@/hooks/useAuth";
+import { updateOwnedGamesList } from "@/services/ownedListService";
 
 const GamePage = () => {
-  const { game_slug } = useParams<{ game_slug: string }>(); 
+  const { game_slug } = useParams<{ game_slug: string }>();
   const [game, setGame] = useState<Game | null>(null);
   const [recommendedGames, setRecommendedGames] = useState([]);
   const [platforms, setPlatforms] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const {user} = useAuth()
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +60,7 @@ const GamePage = () => {
   if (!game) {
     return null; // Return nothing if no game is available
   }
-  console.log("this is the user id" + user)
+  console.log("this is the user id" + user);
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
       {/* Background Image */}
@@ -70,41 +71,64 @@ const GamePage = () => {
           className="w-full h-full object-cover shadow-lg mask-gradient"
         />
         <div className="absolute top-[70vh] left-8 sm:left-16 p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-9">
-  <h1 className="text-3xl font-bold mb-4">{game.name}</h1>
-  <div className="mt-2 flex flex-wrap gap-2">
-    {game.platforms?.map((platform, index) => (
-      <span
-        key={index}
-        className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
-      >
-        {platform.platform.name}
-      </span>
-    ))}
-  </div>
-  <div className="flex items-center justify-between mt-6 z-9">
-    <Button variant="outline" className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-2/3">
-      Borrow Game
-    </Button>
-    <div className="relative flex flex-col items-center group cursor-pointer">
-      <FontAwesomeIcon
-        icon={faRegularHeart}
-        className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
-        onClick={() => {
-          const newWishlistItem = {
-            gameName: game.name,
-            slug: game.slug,
-            backgroundImg: game.background_image,
-            releaseDate: game.released   
-          }
-          updateWishlist(user.uid, newWishlistItem).then(() => console.log("success!"))
-        }}
-      />
-      <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
-        Wishlist
-      </span>
-    </div>
-  </div>
-</div>
+          <h1 className="text-3xl font-bold mb-4">{game.name}</h1>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {game.platforms?.map((platform, index) => (
+              <span
+                key={index}
+                className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
+              >
+                {platform.platform.name}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center justify-between mt-6 z-9">
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-2/3"
+            >
+              Borrow Game
+            </Button>
+            <div className="relative flex flex-col items-center group cursor-pointer">
+              <FontAwesomeIcon
+                icon={faRegularHeart}
+                className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
+                onClick={() => {
+                  const newWishlistItem = {
+                    gameName: game.name,
+                    slug: game.slug,
+                    backgroundImg: game.background_image,
+                    releaseDate: game.released,
+                  };
+                  updateWishlist(user.uid, newWishlistItem).then(() =>
+                    console.log("success!")
+                  );
+                }}
+              />
+              <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
+                Wishlist
+              </span>
+            </div>
+            {/* TODO Potentially needs extra info (state of game/whether is lent...)*/}
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-2/3"
+              onClick={() => {
+                const newOwnedItem = {
+                  gameName: game.name,
+                  slug: game.slug,
+                  backgroundImg: game.background_image,
+                  releaseDate: game.released,
+                };
+                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
+                  console.log("success!")
+                );
+              }}
+            >
+              I own this game
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Game Details */}
