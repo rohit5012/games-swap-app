@@ -95,24 +95,25 @@ const Searchbar: React.FC = () => {
           className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-y-auto"
         >
           {filteredGames.length > 0 ? (
-            <ul>
+            <div>
               {filteredGames.map((game) => (
-                <li
+                <Link
                   key={game.id}
+                  to={`/game/${game.slug}`}
                   onClick={handleGameClick}
                   className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
                 >
-                  <Link to={`/game/${game.slug}`} className="flex">
+                  <div className="flex">
                     <img
                       src={game.background_image}
                       alt={game.name}
                       className="w-12 h-12 object-cover rounded"
                     />
                     <p className="ml-2">{game.name}</p>
-                  </Link>
-                </li>
+                  </div>
+                </Link>
               ))}
-            </ul>
+            </div>
           ) : (
             <p className="p-4 text-gray-500">No games found.</p>
           )}

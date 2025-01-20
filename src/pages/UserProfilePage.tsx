@@ -9,6 +9,8 @@ import { BsNintendoSwitch } from "react-icons/bs";
 import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
+import { Button } from "@/components/ui/Button";
+import { useNavigate } from "react-router";
 
 export type UserProfileRegUser = {
   firstName: string;
@@ -26,6 +28,7 @@ export type UserProfileRegUser = {
 
 const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -159,9 +162,17 @@ const UserProfileRegUser: React.FC = () => {
                 className="mt-2 p-2 border border-gray-300 rounded-md"
               />
             ) : (
-              <p className="text-purple-600 dark:text-purple-400">
-                {profile.location}
-              </p>
+              <>
+                <p className="text-purple-600 dark:text-purple-400">
+                  {profile.location}
+                </p>
+                <Button
+                  variant={"default"}
+                  onClick={() => navigate(`/messages`)}
+                >
+                  Message
+                </Button>
+              </>
             )}
           </div>
 

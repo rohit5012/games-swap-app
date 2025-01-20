@@ -13,6 +13,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
 import UserProfileTemp from "./pages/UserProfileTemp";
+import Messages from "./components/Messages";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             <Route path="/user-profile" element={<UserProfilePage />} />
             <Route path=":user_id/profile" element={<UserProfileTemp />} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/messages/:username" element={<Messages />} />
           </Routes>
         </ThemeProvider>
       </main>
