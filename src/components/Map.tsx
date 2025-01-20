@@ -1,59 +1,68 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
-import axios from "axios";
-// import { MapComponentProps } from "../mapAPI";
+import { fetchUsersWithLocation } from "@/services/fetchUsersWithLocation";
+import { fetchGeocode } from "@/services/geocodeCoordinates";
+import { UserDetailsType } from "@/types/UserDetails";
 
-export type locationItems = {
-  postcode: [];
-};
-const MapComponent: React.FC<locationItems> = ({ postcode }) => {
-  const [position, setPosition] = useState<[number, number] | null>(null);
-
-  const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
-  console.log(postcode);
+const MapComponent: React.FC = () => {
+  const [users, setUsers] = useState<UserDetailsType[]>([]);
+  const [position, setPosition] = useState<[number, number] | null>(null); 
+  const [selectedUser, setSelectedUser] = useState<UserDetailsType | null>(null); 
 
   useEffect(() => {
-    postcode.map((location) => {
-      const fetchGeocode = async () => {
-        try {
-          const response = await axios.get(
-            `https://api.opencagedata.com/geocode/v1/json?q=${location}&key=${apiKey}`
-          );
-          const data = response.data;
-          console.log(data.results[0]);
-          if (data.results.length > 0) {
-            const { lat, lng } = data.results[0].geometry;
-            setPosition([lat, lng]);
-          } else {
-            console.error("No results found for the given postcode");
+    fetchUsersWithLocation().then(async (usersData) => {
+      for (let user of usersData) {
+        if (!user.latitude || !user.longitude) {
+          const coords = await fetchGeocode(user.location);
+          if (coords) {
+            user.latitude = coords.lat;
+            user.longitude = coords.lng;
           }
-        } catch (error) {
-          console.error("Error fetching geocode data:", error);
         }
-      };
-      return fetchGeocode();
-    });
-  }, [postcode, apiKey]);
+      }
 
-  return position ? (
-    <MapContainer
-      center={position}
-      zoom={13}
-      style={{ height: "90vh", width: "100%" }}
-    >
+      setUsers(usersData); 
+      if (usersData.length > 0) {
+        setPosition([usersData[0].latitude, usersData[0].longitude]);
+        setSelectedUser(usersData[0]);
+      }
+    }).catch((error) => {
+      console.error("Error fetching users:", error);
+    });
+  }, []);
+
+  if (!position) {
+    return <div>Loading...</div>; 
+  }
+
+  return (
+    <MapContainer center={position || [51.505, -0.09]} zoom={13} style={{ height: "90vh", width: "100%" }}>
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
+      
+      {users.map((user) =>
+        user.latitude && user.longitude ? (
+          <Marker
+            key={user.id}
+            position={[user.latitude, user.longitude]} 
+          >
+            <Popup>{user.nickname}</Popup>
+          </Marker>
+        ) : (
+          <div key={user.id}>Invalid coordinates for {user.nickname}</div>  
+        )
+      )}
 
-      <Marker position={position}>
-        <Popup>{postcode}</Popup>;
-      </Marker>
-
-      <Circle center={position} radius={5000} color="blue"></Circle>
+      {selectedUser && selectedUser.latitude && selectedUser.longitude && (
+        <Circle
+          center={[selectedUser.latitude, selectedUser.longitude]}
+          radius={5000} 
+          color="blue"
+        />
+      )}
     </MapContainer>
-  ) : (
-    <div>Loading...</div>
   );
 };
 
