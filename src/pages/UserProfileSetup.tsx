@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/Input";
 import { useNavigate } from "react-router-dom";
 import { createWishlist } from "@/services/wishlistServices";
+import { createOwnedGamesList } from "@/services/ownedListService";
 
 const UserProfileSetup: React.FC = () => {
   const { user } = useAuth();
@@ -26,7 +27,7 @@ const UserProfileSetup: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (user) {
       const newUserDetails = {
         firstName,
@@ -42,14 +43,11 @@ const UserProfileSetup: React.FC = () => {
       };
 
       try {
-    
         console.log("Saving profile data:", newUserDetails);
         await addUserDetails(newUserDetails);
-        await createWishlist(user.uid)
+        await createWishlist(user.uid);
+        await createOwnedGamesList(user.uid);
         console.log("Profile saved successfully!");
-
-        
-
 
         setTimeout(() => {
           navigate("/");
