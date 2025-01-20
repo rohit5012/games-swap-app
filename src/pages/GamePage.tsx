@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchGameDetails, Game, getGamesByGenre } from "../rawgApi";
+import { fetchGameDetails, Game, getGamesByGenre, getGameScreenshots} from "../rawgApi";
 import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
@@ -9,7 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { updateWishlist } from "@/services/wishlistServices";
 import { UserContext } from "@/context/Usercontext";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner"
 import { updateOwnedGamesList } from "@/services/ownedListService";
+import { fetchYouTubeTrailers } from "@/YoutubeApi";
 
 const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>();
@@ -18,16 +20,26 @@ const GamePage = () => {
   const [platforms, setPlatforms] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [screenshots, setScreenshots] = useState<[]>([]);
+  const [videos, setVideos] = useState({})
+  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
   const { user } = useAuth();
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchGameDetails(game_slug);
+        const fetchedScreenShots = await getGameScreenshots(response.id)
+        const youtubeTrailers = await fetchYouTubeTrailers(response.name)
         const smallCarouselGames = await getGamesByGenre(
           response.genres.map((genre) => genre.slug)
         );
         setRecommendedGames(smallCarouselGames);
+        setScreenshots(fetchedScreenShots)
+        if (fetchedScreenShots.length > 0) {
+          setSelectedScreenshot(fetchedScreenShots[0].image);
+        }
+        setVideos(youtubeTrailers)
         setGame(response);
         setLoading(false);
       } catch (err) {
@@ -60,7 +72,7 @@ const GamePage = () => {
   if (!game) {
     return null; // Return nothing if no game is available
   }
-  console.log("this is the user id" + user);
+
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
       {/* Background Image */}
@@ -70,7 +82,10 @@ const GamePage = () => {
           alt={game.name}
           className="w-full h-full object-cover shadow-lg mask-gradient"
         />
-        <div className="absolute top-[70vh] left-8 sm:left-16 p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-9">
+        
+        {/* Game Info Container (conditionally rendered) */}
+        {/* Desktop view */}
+        <div className="absolute left-8 top-[70vh] sm:left-16 lg:block hidden p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-10">
           <h1 className="text-3xl font-bold mb-4">{game.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             {game.platforms?.map((platform, index) => (
@@ -82,14 +97,171 @@ const GamePage = () => {
               </span>
             ))}
           </div>
-          <div className="flex items-center justify-between mt-6 z-9">
+          <div className="flex flex-col sm:flex-row items-center justify-between mt-6">
             <Button
               variant="outline"
-              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-2/3"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full sm:w-2/3"
             >
               Borrow Game
             </Button>
-            <div className="relative flex flex-col items-center group cursor-pointer">
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full sm:w-2/3 mt-5 sm:mt-0 sm:ml-5"
+              onClick={() => {
+                const newOwnedItem = {
+                  gameName: game.name,
+                  slug: game.slug,
+                  backgroundImg: game.background_image,
+                  releaseDate: game.released,
+                };
+                toast.success(
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={game.background_image}
+                      alt={game.name}
+                      className="w-12 h-12 object-cover rounded-md"
+                    />
+                    <div>
+                      <p className="font-semibold">{game.name} added to owned games</p>
+                    </div>
+                  </div>,
+                  {
+                    duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
+                    action: {
+                      label: "Undo",
+                      onClick: () => {
+                        // Implement undo logic if needed
+                        console.log("Undo wishlist action");
+                      },
+                    },
+                  }
+                );
+                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
+                  console.log("success!")
+                );
+              }}
+            >
+              I own this game
+            </Button>
+            <div className="relative flex flex-col items-center group cursor-pointer mt-5 sm:mt-0 ml-5">
+  <FontAwesomeIcon
+    icon={faRegularHeart}
+    className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
+    onClick={() => {
+      const newWishlistItem = {
+        gameName: game.name,
+        slug: game.slug,
+        backgroundImg: game.background_image,
+        releaseDate: game.released,
+      };
+      toast.success(
+        <div className="flex items-center space-x-4">
+          <img
+            src={game.background_image}
+            alt={game.name}
+            className="w-12 h-12 object-cover rounded-md"
+          />
+          <div>
+            <p className="font-semibold">{game.name} added to wishlist</p>
+          </div>
+        </div>,
+        {
+          duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
+          action: {
+            label: "Undo",
+            onClick: () => {
+              // Implement undo logic if needed
+              console.log("Undo wishlist action");
+            },
+          },
+        }
+      );
+      
+      updateWishlist(user.uid, newWishlistItem).then(() => {
+        // Success message via toast
+        
+
+        console.log("success!");
+      }).catch((error) => {
+        // Show an error toast if there's an issue with the update
+        toast.error("Failed to add game to wishlist.", {
+          description: error.message,
+        });
+        console.error("Error updating wishlist:", error);
+      });
+    }}
+  />
+  <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
+    Wishlist
+  </span>
+</div>
+          </div>
+        </div>
+  
+        {/* Mobile view */}
+        <div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
+          <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
+          <div className="mt-2 flex flex-wrap gap-2 justify-center">
+            {game.platforms?.map((platform, index) => (
+              <span
+                key={index}
+                className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
+              >
+                {platform.platform.name}
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-col items-center justify-between mt-6">
+          <Button
+  variant="outline"
+  className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
+  onClick={() => {
+    console.log("Button clicked");
+  }}
+>
+  Borrow Game
+</Button>
+
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full"
+              onClick={() => {
+                const newOwnedItem = {
+                  gameName: game.name,
+                  slug: game.slug,
+                  backgroundImg: game.background_image,
+                  releaseDate: game.released,
+                };
+                toast.success(
+                  <div className="flex items-center space-x-4">
+                    <img
+                      src={game.background_image}
+                      alt={game.name}
+                      className="w-12 h-12 object-cover rounded-md"
+                    />
+                    <div>
+                      <p className="font-semibold">{game.name} added to owned games</p>
+                    </div>
+                  </div>,
+                  {
+                    duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
+                    action: {
+                      label: "Undo",
+                      onClick: () => {
+                        // Implement undo logic if needed
+                        console.log("Undo wishlist action");
+                      },
+                    },
+                  }
+                );
+                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
+                  console.log("success!")
+                );
+              }}
+            >
+              I own this game
+            </Button>
+            <div className="relative flex flex-col items-center group cursor-pointer mt-5">
               <FontAwesomeIcon
                 icon={faRegularHeart}
                 className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
@@ -100,6 +272,28 @@ const GamePage = () => {
                     backgroundImg: game.background_image,
                     releaseDate: game.released,
                   };
+                  toast.success(
+                    <div className="flex items-center space-x-4">
+                      <img
+                        src={game.background_image}
+                        alt={game.name}
+                        className="w-12 h-12 object-cover rounded-md"
+                      />
+                      <div>
+                        <p className="font-semibold">{game.name} added to wishlist</p>
+                      </div>
+                    </div>,
+                    {
+                      duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
+                      action: {
+                        label: "Undo",
+                        onClick: () => {
+                          // Implement undo logic if needed
+                          console.log("Undo wishlist action");
+                        },
+                      },
+                    }
+                  );
                   updateWishlist(user.uid, newWishlistItem).then(() =>
                     console.log("success!")
                   );
@@ -109,30 +303,12 @@ const GamePage = () => {
                 Wishlist
               </span>
             </div>
-            {/* TODO Potentially needs extra info (state of game/whether is lent...)*/}
-            <Button
-              variant="outline"
-              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-2/3"
-              onClick={() => {
-                const newOwnedItem = {
-                  gameName: game.name,
-                  slug: game.slug,
-                  backgroundImg: game.background_image,
-                  releaseDate: game.released,
-                };
-                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
-                  console.log("success!")
-                );
-              }}
-            >
-              I own this game
-            </Button>
           </div>
         </div>
       </div>
-
+  
       {/* Game Details */}
-      <div className="relative z-9 -mt-10 px-6 md:px-16">
+      <div className="relative z-9 mt-10 px-6 md:px-16">
         <div className="bg-black/80 p-8 rounded-lg shadow-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {/* Genres */}
@@ -140,16 +316,13 @@ const GamePage = () => {
               <h2 className="text-xl font-semibold">Genres</h2>
               <div className="mt-2 space-y-1">
                 {game.genres?.map((genre) => (
-                  <p
-                    key={genre.name}
-                    className="bg-gray-800 px-3 py-1 rounded text-sm"
-                  >
+                  <p key={genre.name} className="bg-gray-800 px-3 py-1 rounded text-sm">
                     {genre.name}
                   </p>
                 ))}
               </div>
             </div>
-
+  
             {/* Release Date */}
             <div className="text-center">
               <h2 className="text-xl font-semibold">Release Date</h2>
@@ -157,7 +330,7 @@ const GamePage = () => {
                 {new Date(game.released).toLocaleDateString()}
               </p>
             </div>
-
+  
             {/* Available Stores */}
             <div className="text-center">
               <h2 className="text-xl font-semibold">Available Stores</h2>
@@ -169,13 +342,13 @@ const GamePage = () => {
                 ))}
               </div>
             </div>
-
+  
             {/* Average Playtime */}
             <div className="text-center">
               <h2 className="text-xl font-semibold">Average Playtime</h2>
               <p className="mt-2 text-gray-300">{game.playtime} hours</p>
             </div>
-
+  
             {/* Rating */}
             <div className="text-center">
               <h2 className="text-xl font-semibold">Rating</h2>
@@ -183,7 +356,7 @@ const GamePage = () => {
                 {game.rating ? `${game.rating} / 5` : "No rating available"}
               </p>
             </div>
-
+  
             {/* Developers */}
             <div className="text-center">
               <h2 className="text-xl font-semibold">Developers</h2>
@@ -203,6 +376,49 @@ const GamePage = () => {
         </div>
       </div>
 
+{/* Screenshots Section */}
+<div className="relative z-9 mt-8 px-6 md:px-16 flex justify-center">
+  <div className="bg-black/80 p-8 rounded-lg shadow-lg max-w-5xl w-full">
+    <h2 className="text-2xl font-semibold mb-4 text-center">Screenshots</h2>
+    {screenshots.length > 0 ? (
+      <div className="flex flex-col md:flex-row justify-center items-center">
+        {/* Thumbnails (Vertical Sidebar for Desktop, Top Bar for Mobile) */}
+        <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-96 pr-4 md:p-5">
+          {screenshots.map((screenshot, index) => (
+            <button
+              key={screenshot.id}
+              onClick={() => setSelectedScreenshot(screenshot.image)}
+              className={`w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-md overflow-hidden shadow-md transition-transform ${
+                selectedScreenshot === screenshot.image
+                  ? "ring-2 ring-blue-500 scale-105"
+                  : "hover:scale-105"
+              }`}
+            >
+              <img
+                src={screenshot.image}
+                alt={`Screenshot ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* Main Screenshot Display */}
+        <div className="flex justify-center items-center mt-4 md:mt-0 md:ml-8 w-full max-w-3xl p-4 bg-black/70 rounded-lg shadow-lg">
+          <img
+            src={selectedScreenshot}
+            alt="Selected Screenshot"
+            className="w-full h-auto rounded-lg shadow-md"
+          />
+        </div>
+      </div>
+    ) : (
+      <p className="text-gray-400 text-center">No screenshots available.</p>
+    )}
+  </div>
+</div>
+
+  
       {/* Game Description */}
       <div className="relative z-9 mt-8 px-6 md:px-16">
         <div className="bg-black/80 p-8 rounded-lg shadow-lg">
@@ -210,7 +426,7 @@ const GamePage = () => {
           <p>{game.description_raw}</p>
         </div>
       </div>
-
+  
       {/* Recommended Games */}
       <div className="relative z-9 mt-8 px-6 md:px-16">
         <div className="bg-gray-800 bg-opacity-90 p-8 rounded-lg shadow-lg">
@@ -224,6 +440,6 @@ const GamePage = () => {
       </div>
     </div>
   );
-};
+  };
 
 export default GamePage;
