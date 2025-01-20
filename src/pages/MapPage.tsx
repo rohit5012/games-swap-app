@@ -1,13 +1,11 @@
-import MapSidebar from "../components/MapSidebar";
-import Map from "../components/Map";
+import NewMap from "../components/NewMap";
 
-const App = () => {
+const MapPage = () => {
   return (
-    <div className="flex">
-      <MapSidebar />
-      <Map postcode="04770" />
+    <div>
+      <NewMap />
     </div>
   );
 };
 
-export default App;
+export default MapPage;

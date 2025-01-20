@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { UserContext } from "@/context/Usercontext";
+import { useAuth } from "@/hooks/useAuth";
 
 
 export default function SmallCarousel(props: {
@@ -17,8 +18,9 @@ export default function SmallCarousel(props: {
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
 
-  const {user} = useContext(UserContext)
-  console.log(user)
+  const {user} = useAuth()
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,7 +68,7 @@ export default function SmallCarousel(props: {
         backgroundImg: game.background_image,
         releaseDate: game.released   
       }
-      await updateWishlist(user, newWishlistItem)
+      await updateWishlist(user.uid, newWishlistItem)
     }
   }
   return (
