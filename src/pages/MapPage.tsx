@@ -1,12 +1,10 @@
-import MapSidebar from "../components/MapSidebar";
-import Map from "../components/Map";
+// import MapSidebar from "../components/MapSidebar";
+import NewMap from "../components/NewMap";
 
-const App: React.FC = () => {
-  const locations = ["04770", "sw12 9ru"];
+const App = () => {
   return (
-    <div className="flex">
-      <MapSidebar />
-      <Map postcode={locations} />
+    <div>
+      <NewMap />
     </div>
   );
 };
