@@ -72,23 +72,24 @@ export const fetchOwnedList = async (userId: string) => {
   }
 };
 
-export const updateOwnedGame = async (userId: string, slug: string) => {
-  try {
-    const ownedListRef = collection(db, "ownedGames");
-    const q = query(
-      ownedListRef,
-      where("userId", "==", userId),
-      where("slug", "==", slug)
-    );
-    const qSnapshot = await getDocs(q);
-    const lendGame = qSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    console.log(lendGame);
-    return lendGame;
-  } catch (error) {
-    console.error("Error updating owned game", error);
-    throw error;
-  }
-};
+// TODO sort lend game functionality
+// export const updateOwnedGame = async (userId: string, slug: string) => {
+//   try {
+//     const ownedListRef = collection(db, "ownedGames");
+//     const q = query(
+//       ownedListRef,
+//       where("userId", "==", userId),
+//       where("slug", "==", slug)
+//     );
+//     const qSnapshot = await getDocs(q);
+//     const lendGame = qSnapshot.docs.map((doc) => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     }));
+//     console.log(lendGame);
+//     return lendGame;
+//   } catch (error) {
+//     console.error("Error updating owned game", error);
+//     throw error;
+//   }
+// };
