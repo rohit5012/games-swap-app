@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
+
 export default function SmallCarousel(props: {
   games: Game[];
   platforms: string | null;
@@ -14,7 +15,9 @@ export default function SmallCarousel(props: {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
+
   const { user } = useAuth();
+
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
@@ -66,7 +69,9 @@ export default function SmallCarousel(props: {
     <section className="my-6">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
       {/* Filter by Platform */}
+
       <div className="flex justify-center space-x-4 mb-4 text-black ">
+
         <PlatformButton
           name="All Games"
           platforms={props.platforms}
@@ -121,7 +126,9 @@ export default function SmallCarousel(props: {
         </button> */}
       </div>
       {/* Compact Carousel Component */}
+
       <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 place-self-center">
+
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
@@ -130,6 +137,7 @@ export default function SmallCarousel(props: {
         >
           {"<"}
         </button>
+
         {/* Carousel Container */}
         <div
           ref={carouselRef}
@@ -161,11 +169,13 @@ export default function SmallCarousel(props: {
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-70"></div>
                 </div>
               </Link>
+
               {/* Game Info */}
               <div className="p-2 text-center">
                 <p className="text-sm font-medium text-gray-800 truncate">
                   {game.name}
                 </p>
+
                 {/* Wishlist Button */}
                 <button
                   className="mt-2 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-md transition-all duration-300 transform hover:scale-105 text-[10px]"
@@ -177,6 +187,7 @@ export default function SmallCarousel(props: {
             </div>
           ))}
         </div>
+        
         {/* Right Scroll Button */}
         <button
           onClick={scrollRight}
@@ -186,6 +197,7 @@ export default function SmallCarousel(props: {
           {">"}
         </button>
       </div>
+
       {/* Upcoming Games - FullList */}
       <div className="flex justify-end mt-4 px-4">
         <button

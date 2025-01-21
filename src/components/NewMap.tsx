@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { Gamer } from "../types/Gamer";
 import { MapDistanceCalculator } from "./MapDistanceCalculator";
-
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -174,7 +173,7 @@ const NewMap: React.FC = () => {
                       <p>Distance: {user.distance} km</p>
                       <button
                         className="w-full mt-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-blue-600"
-                        onClick={() => navigate(`/map/user/${user.id}`)}
+                        onClick={() => navigate(`/users/${user.userId}`)}
                       >
                         View Profile
                       </button>

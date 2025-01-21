@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom"; // Ensure you are using react-router-dom v6
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ToggleMode } from "./components/ToggleMode";
+import ThemeSwitch, { ThemeProvider } from "@/components/ThemeToggle";
 import Home from "./pages/Home";
 import BrowseGames from "./pages/BrowseGames";
 import Header from "./components/Header";
@@ -23,10 +22,9 @@ function App() {
   return (
     <div>
       <Header />
-
-      <main id="main-container">
-        <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-          <ToggleMode />
+      <ThemeProvider>
+        <ThemeSwitch />
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
@@ -43,12 +41,11 @@ function App() {
             <Route path="/users" element={<UserList />} />
             <Route path="/messages" element={<Messages />} />
           </Routes>
-        </ThemeProvider>
-        {/* necessary for toaster when adding to wishlist and such */}
-        <Toaster className="fixed top-4 right-4 z-50" /> 
-
-      </main>
-      <Footer />
+          {/* necessary for toaster when adding to wishlist and such */}
+          <Toaster className="fixed top-4 right-4 z-50" />
+        </main>
+        <Footer />
+      </ThemeProvider>
     </div>
   );
 }

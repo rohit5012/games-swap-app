@@ -4,6 +4,7 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import Searchbar from "./Searchbar";
 import { useAuth } from "@/hooks/useAuth";
+import { PiGameControllerLight } from "react-icons/pi";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
@@ -38,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
       }
     }, [user]);
   return (
-    <header className="bg-background shadow-sm">
+    <header className="bg-background shadow-sm border-b-2">
       <div className="container mx-auto px-4">
         <div className="flex gap-5 lg:gap-0 items-center justify-between h-16">
           {/* Logo */}
