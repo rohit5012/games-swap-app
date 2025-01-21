@@ -1,17 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { fetchGameDetails, Game, getGamesByGenre, getGameScreenshots} from "../rawgApi";
 import { Button } from "@/components/ui/Button";
 import SmallCarousel from "@/components/SmallCarousel";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons"; //TODO: implement wishlist from
+import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { updateWishlist } from "@/services/wishlistServices";
-import { UserContext } from "@/context/Usercontext";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner"
 import { updateOwnedGamesList } from "@/services/ownedListService";
 import { fetchYouTubeTrailers } from "@/YoutubeApi";
+import YouTube from 'react-youtube';
+
 
 const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>();
@@ -22,6 +23,7 @@ const GamePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [screenshots, setScreenshots] = useState<[]>([]);
   const [videos, setVideos] = useState({})
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
   const { user } = useAuth();
   
@@ -30,7 +32,7 @@ const GamePage = () => {
       try {
         const response = await fetchGameDetails(game_slug);
         const fetchedScreenShots = await getGameScreenshots(response.id)
-        const youtubeTrailers = await fetchYouTubeTrailers(response.name)
+        // const youtubeTrailers = await fetchYouTubeTrailers(response.name)
         const smallCarouselGames = await getGamesByGenre(
           response.genres.map((genre) => genre.slug)
         );
@@ -39,8 +41,9 @@ const GamePage = () => {
         if (fetchedScreenShots.length > 0) {
           setSelectedScreenshot(fetchedScreenShots[0].image);
         }
-        setVideos(youtubeTrailers)
+        // setVideos(youtubeTrailers)
         setGame(response);
+        // setSelectedVideoId(youtubeTrailers[0].videoId)
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch game details. Please try again later.");
@@ -72,6 +75,12 @@ const GamePage = () => {
   if (!game) {
     return null; // Return nothing if no game is available
   }
+
+console.log(videos)
+  const handleThumbnailClick = (videoId: string) => {
+    setSelectedVideoId(videoId);
+  };
+
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
@@ -417,6 +426,61 @@ const GamePage = () => {
     )}
   </div>
 </div>
+
+
+
+<div className="relative z-9 mt-8 px-6 md:px-16 flex justify-center">
+      <div className="bg-black/80 p-8 rounded-lg shadow-lg w-full max-w-7xl h-full">
+        <h2 className="text-2xl font-semibold mb-4 text-center text-white">YouTube Trailers</h2>
+        {videos.length > 0 ? (
+          <div className="flex flex-col md:flex-row gap-4">
+            {/* Thumbnails */}
+            <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto max-h-96 md:max-w-[150px]">
+              {videos.map((video, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleThumbnailClick(video.videoId)}
+                  className={`min-w-[75px] min-h-[75px] md:min-w-[100px] md:min-h-[100px] aspect-square rounded-md overflow-hidden shadow-md transition-transform transform hover:scale-110 
+                    ${selectedVideoId === video.videoId ? "ring-4 ring-blue-500" : ""}`}
+                >
+                  <img
+                    src={`https://img.youtube.com/vi/${video.videoId}/0.jpg`}
+                    alt={`Thumbnail for ${video.title}`}
+                    className="w-full h-full object-cover rounded-md"
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* Main Video Display */}
+            <div class="bg-black/70 rounded-lg shadow-lg h-96">
+              {selectedVideoId ? (
+                <div className="aspect-w-16 aspect-h-9">
+                  <YouTube videoId={selectedVideoId} opts={{ height: '100%', width: '100%' }} />
+                </div>
+              ) : (
+                <div className="p-4 flex items-center justify-center">
+                  <p className="text-gray-400 text-center">Select a trailer to watch.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-400 text-center">No trailers available. (WIP) permissions are hard...</p>
+        )}
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 
   
       {/* Game Description */}
