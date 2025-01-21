@@ -138,7 +138,7 @@ export default function SmallCarousel(props: {
       <div className="relative overflow-hidden px-4">
         <button
           onClick={scrollLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-500 text-white px-2 py-1 rounded z-10"
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-500 text-white px-2 py-1 rounded z-10 hover:bg-gray-400"
         >
           {"<"}
         </button>
@@ -165,7 +165,7 @@ export default function SmallCarousel(props: {
               /></Link>
               
               <p className="text-center text-sm">{game.name}</p>
-              <button className="bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full" onClick={()=> handleAddToWishlist(game)}>
+              <button className="black-btn bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full" onClick={()=> handleAddToWishlist(game)}>
                 Wishlist
               </button>
             </div>
@@ -174,7 +174,7 @@ export default function SmallCarousel(props: {
 
         <button
           onClick={scrollRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-500 text-white px-2 py-1 rounded z-10"
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-gray-500 text-white px-2 py-1 rounded z-10 hover:bg-gray-400"
         >
           {">"}
         </button>
@@ -184,7 +184,7 @@ export default function SmallCarousel(props: {
       <div className="flex justify-end mt-4 px-4">
         <button
           onClick={() => navigate("/browse-games")}
-          className="bg-gray-200 text-black px-4 py-2 rounded"
+          className="gray-btn"
         >
           Upcoming Games: Full List
         </button>

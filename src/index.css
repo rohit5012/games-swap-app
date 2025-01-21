@@ -73,3 +73,47 @@
 #main-container {
   @apply bg-background text-foreground;
 }
+
+.black-btn {
+  background-color: #1f2937;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;  
+}
+
+.black-btn:hover {
+  background-color:  #505358;
+}
+
+.gray-btn {
+  background-color: #e2e8f0;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;  
+}
+
+.gray-btn:hover {
+  background-color:  #ccd2da;
+}
+
+.subscribe-btn {
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  padding: 0.5rem 1rem;
+  height: 2.5rem;
+  border-radius: 0.375rem;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.subscribe-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
