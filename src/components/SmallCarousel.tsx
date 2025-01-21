@@ -72,7 +72,7 @@ export default function SmallCarousel(props: {
     }
   }
   return (
-    <section className="my-6">
+    <section className="my-6 flex flex-col items-center">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
 
       {/* Filter by Platform */}
@@ -135,7 +135,7 @@ export default function SmallCarousel(props: {
       </div>
 
       {/* Compact Carousel Component */}
-<div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg">
+<div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 ">
   {/* Left Scroll Button */}
   <button
     onClick={scrollLeft}
