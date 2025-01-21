@@ -13,13 +13,19 @@ import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
 import UserProfileTemp from "./pages/UserProfileTemp";
+
+
+import MapUserProfile from "./pages/MapUserProfile";
+
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
+
 
 function App() {
   return (
     <div>
       <Header />
+
       <main id="main-container">
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <ToggleMode />
@@ -29,6 +35,7 @@ function App() {
             {/* Dynamic Route for GamePage */}
             <Route path="/game/:game_slug" element={<GamePage />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/map/user/:id" element={<MapUserProfile />} />
             <Route path="/browse-games" element={<BrowseGames />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -40,6 +47,7 @@ function App() {
         </ThemeProvider>
         {/* necessary for toaster when adding to wishlist and such */}
         <Toaster className="fixed top-4 right-4 z-50" /> 
+
       </main>
       <Footer />
     </div>

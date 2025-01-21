@@ -1,59 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "@/firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
 import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import { handleTabClick, haversineDistance } from "./MapSidebar";
-import { Location, Gamer } from "../types/Gamer";
+import L from "leaflet";
+import { Gamer } from "../types/Gamer";
+import { MapDistanceCalculator } from "./MapDistanceCalculator";
 
-const sampleGamerData: Gamer[] = [
-  {
-    id: 1,
-    name: "Rohit",
-    area: "Central London",
-    location: { lat: 51.509865, lng: -0.118092 },
-    userRating: "⭐️⭐️",
-  },
-  {
-    id: 2,
-    name: "Nadim",
-    area: "Soho",
-    location: { lat: 51.512344, lng: -0.124981 },
-    userRating: "⭐️⭐️⭐️⭐️",
-  },
-  {
-    id: 3,
-    name: "Lillia",
-    area: "Greenwich",
-    location: { lat: 51.5037, lng: 0.1117 },
-    userRating: "⭐️⭐️⭐️",
-  },
-  {
-    id: 4,
-    name: "Javier",
-    area: "Canary Wharf",
-    location: { lat: 51.5176, lng: 0.1145 },
-    userRating: "⭐️⭐️⭐️⭐️",
-  },
-  {
-    id: 5,
-    name: "Luke",
-    area: "Westminster",
-    location: { lat: 51.4975, lng: 0.1357 },
-    userRating: "⭐️⭐️⭐️",
-  },
-  {
-    id: 6,
-    name: "Alex",
-    area: "Kensington",
-    location: { lat: 51.4991, lng: 0.1644 },
-    userRating: "⭐️⭐️⭐️⭐️",
-  },
-];
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-const MapComponent: React.FC = () => {
-  const [userLocation, setUserLocation] = useState<Location | undefined>(
-    undefined
-  );
-  const [nearbyGamers, setNearbyGamers] = useState<Gamer[]>([]);
+const NewMap: React.FC = () => {
+  const [users, setUsers] = useState<Gamer[]>([]);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Gamer[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -73,27 +37,55 @@ const MapComponent: React.FC = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   if (userLocation) {
-  //     const gamersWithDistance = sampleGamerData.map((gamer) => ({
-  //       ...gamer,
-  //       distance: haversineDistance(userLocation, gamer.location),
-  //     }));
-  //     setNearbyGamers(gamersWithDistance);
-  //   }
-  // }, [userLocation]);
+  const fetchGamers = async () => {
+    console.log("Fetching users...");
+    try {
+      const usersCollection = collection(db, "user details");
+      const usersSnapshot = await getDocs(usersCollection);
+      const usersData = usersSnapshot.docs
+        .map((doc) => {
+          const data = doc.data();
+          const distance = MapDistanceCalculator(
+            userLocation!.lat,
+            userLocation!.lng,
+            data.latitude,
+            data.longitude
+          );
+          if (data.latitude && data.longitude) {
+            return { ...data, id: doc.id, distance };
+          } else {
+            console.warn(`Invalid coordinates for user: ${doc.id}`, data);
+            return null;
+          }
+        })
+        .filter((doc) => doc !== null);
+      console.log("Valid users data:", usersData);
+      setUsers(usersData);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  const createCustomIcon = () => {
+    return L.icon({
+      iconUrl: markerIcon,
+      shadowUrl: markerShadow,
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+    });
+  };
+
+  //   if (!userLocation) return <div>Loading...</div>;
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/6 bg-gradient-to-b from-gray-800 to-gray-600 text-white h-screen shadow-lg">
+    <div className="flex flex-col lg:flex-row h-screen ">
+      <div className="w-full lg:w-1/6 p-4 bg-gradient-to-b from-gray-800 to-gray-600 text-white  h-screen">
         <div className="p-4">
           <ul>
             <li className="mt-4">
               <a
                 href="#"
-                onClick={() =>
-                  handleTabClick(userLocation, sampleGamerData, setNearbyGamers)
-                }
+                onClick={fetchGamers}
                 className="block py-2 px-4 bg-gray-500 hover:bg-blue-600 text-white rounded-lg"
               >
                 Gamers Near Me
@@ -102,15 +94,6 @@ const MapComponent: React.FC = () => {
             <li className="mt-4">
               <a
                 href="#"
-                // onClick={() =>
-                //   handleTabClick(
-                //     2,
-                //     userLocation,
-                //     sampleGamerData,
-                //     setNearbyGamers,
-                //     setSelectedTab
-                //   )
-                // }
                 className="block py-2 px-4 bg-gray-500 hover:bg-blue-600 text-white rounded-lg"
               >
                 Locations
@@ -119,15 +102,6 @@ const MapComponent: React.FC = () => {
             <li className="mt-4">
               <a
                 href="#"
-                // onClick={() =>
-                //   handleTabClick(
-                //     3,
-                //     userLocation,
-                //     sampleGamerData,
-                //     setNearbyGamers,
-                //     setSelectedTab
-                //   )
-                // }
                 className="block py-2 px-4 bg-gray-500 hover:bg-blue-600 text-white rounded-lg"
               >
                 User Rating
@@ -137,17 +111,16 @@ const MapComponent: React.FC = () => {
         </div>
       </div>
 
-      {/* MAP */}
-      <div className="w-full">
+      <div className="flex-1 h-full ">
         <div id="map" className="rounded-lg shadow-lg">
           <MapContainer
             center={userLocation || [51.509865, -0.118092]}
-            zoom={13}
+            zoom={12}
             style={{ height: "100vh", width: "100%" }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
             />
             {userLocation && (
               <>
@@ -158,19 +131,55 @@ const MapComponent: React.FC = () => {
                     </div>
                   </Popup>
                 </Marker>
-                <Circle center={userLocation} radius={1000} color="blue" />
+                <Circle center={userLocation} radius={5000} color="blue" />
               </>
             )}
-            {nearbyGamers.map((gamer) => (
-              <Marker key={gamer.id} position={gamer.location}>
-                <Popup className="p-4 bg-blue-400 text-white rounded-lg">
-                  <div>
-                    <h2>{gamer.name}</h2>
-                    <p className="text-red-300 text-lg">{gamer.area}</p>
-                    <p>Distance: {gamer.distance?.toFixed(2)} km</p>
-                    <p>User Rating: {gamer.userRating}</p>
-                  </div>
-                </Popup>
+            {users.map((user, index) => (
+              <Marker
+                key={index}
+                position={[user.latitude, user.longitude]}
+                icon={createCustomIcon()}
+                eventHandlers={{
+                  click: () => {
+                    setSelectedUser(user);
+                  },
+                }}
+              >
+                {selectedUser && selectedUser.id === user.id && (
+                  <Popup
+                    className="p-4 bg-blue-400 text-white rounded-lg flex flex-col"
+                    position={[user.latitude, user.longitude]}
+                    onClose={() => setSelectedUser(null)}
+                  >
+                    <div>
+                      <div className="flex items-center space-x-1">
+                        {user.avatarUrl && (
+                          <img
+                            src={user.avatarUrl}
+                            alt={`${user.name} avatar`}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        )}
+                        <h1 className="text-lg font-semibold">
+                          {user.nickname}
+                        </h1>
+                      </div>
+                      <p className="text-red-300 text-lg">{user.location}</p>
+                      <p>{user.platforms}</p>
+                      <p>Distance: {user.distance} km</p>
+                      <button
+                        className="w-full mt-2 px-4 py-2 bg-gray-500 text-white rounded hover:bg-blue-600"
+                        onClick={() => navigate(`/map/user/${user.id}`)}
+                      >
+                        View Profile
+                      </button>
+                    </div>
+                  </Popup>
+                )}
               </Marker>
             ))}
           </MapContainer>
@@ -180,4 +189,4 @@ const MapComponent: React.FC = () => {
   );
 };
 
-export default MapComponent;
+export default NewMap;
