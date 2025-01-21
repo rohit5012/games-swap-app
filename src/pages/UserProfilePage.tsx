@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {
-  getDocs,
-  query,
-  where,
-  collection,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { getDocs, query, where, collection } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
-import {
-  updateUserDetails,
-  getUserDetails,
-} from "@/services/userDetailsService";
+import { updateUserDetails } from "@/services/userDetailsService";
 import { FaPencil } from "react-icons/fa6";
 import { FaXbox } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
 import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
-// push again
+import OwnedList from "@/components/OwnedList";
+import { Button } from "@/components/ui/Button";
+
 export type UserProfileRegUser = {
   firstName: string;
   lastName: string;
@@ -34,8 +26,9 @@ export type UserProfileRegUser = {
 };
 
 const UserProfileRegUser: React.FC = () => {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
+  const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -78,6 +71,10 @@ const UserProfileRegUser: React.FC = () => {
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
+  };
+
+  const handleListsToggle = (list: string) => {
+    setListItems(list);
   };
 
   const handlePlatformChange = (platform: string) => {
@@ -275,7 +272,32 @@ const UserProfileRegUser: React.FC = () => {
             </button>
           </div>
         )}
-        <Wishlist userId={user?.uid}></Wishlist>
+        <h2 className="flex items-center justify-center pt-4 text-2xl">
+          Games
+        </h2>
+        <div className="flex items-center justify-center">
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Wishlist");
+            }}
+          >
+            Wishlist
+          </Button>
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Owned");
+            }}
+          >
+            Owned
+          </Button>
+        </div>
+        {listItems === "Owned" ? (
+          <OwnedList userId={user?.uid}></OwnedList>
+        ) : (
+          <Wishlist userId={user?.uid}></Wishlist>
+        )}
       </div>
     </>
   );

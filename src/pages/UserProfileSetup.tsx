@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/Input";
 import { useNavigate } from "react-router-dom";
 import { createWishlist } from "@/services/wishlistServices";
+import { createOwnedGamesList } from "@/services/ownedListService";
 import { getCoordinates } from "@/services/geocodeCoordinates"; 
 
 const UserProfileSetup: React.FC = () => {
@@ -55,6 +56,7 @@ const UserProfileSetup: React.FC = () => {
         try {
           await addUserDetails(newUserDetails);
           await createWishlist(user.uid);
+          await createOwnedGamesList(user.uid);
           console.log("Profile saved successfully!");
           setTimeout(() => {
             navigate("/");
