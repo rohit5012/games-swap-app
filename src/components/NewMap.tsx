@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { Gamer } from "../types/Gamer";
 import { MapDistanceCalculator } from "./MapDistanceCalculator";
-
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
