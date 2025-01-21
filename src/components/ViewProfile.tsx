@@ -4,6 +4,9 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase/firebase'; // Adjust to your Firebase setup
 import { FaPlaystation, FaXbox } from 'react-icons/fa6';
 import { BsNintendoSwitch } from 'react-icons/bs';
+import OtherPPLWishlist from './OtherPPLOwnedGames';
+import { Button } from './ui/Button';
+import Wishlist from './Wishlist';
 
 interface UserProfileRegUser {
   firstName: string;
@@ -23,6 +26,7 @@ const ViewProfileComponent: React.FC = () => {
   console.log(userId)
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [listItems, setListItems] = useState<string>("Owned");
 
   useEffect(() => {
     if (userId) {
@@ -60,6 +64,10 @@ const ViewProfileComponent: React.FC = () => {
     return <div>User profile not found.</div>;
   }
 
+
+  const handleListsToggle = (list: string) => {
+    setListItems(list);
+  };
   return (
     <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-colors duration-200 mt-12">
       <div className="relative h-48">
@@ -109,7 +117,34 @@ const ViewProfileComponent: React.FC = () => {
         <h2 className="font-semibold">About Me</h2>
         <p>{profile.aboutMe}</p>
       </div>
+
+      <div className="flex items-center justify-center">
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Wishlist");
+            }}
+          >
+            Wishlist
+          </Button>
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Owned");
+            }}
+          >
+            Owned
+          </Button>
+        </div>
+        {listItems === "Owned" ? (
+          <OtherPPLWishlist userId={userId} username={profile.nickname}></OtherPPLWishlist>
+        ) : (
+          <Wishlist userId={userId}></Wishlist>
+        )}
+ 
+      
     </div>
+    
   );
 
   function renderPlatformIcon(platform: string) {

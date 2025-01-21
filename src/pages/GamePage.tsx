@@ -6,7 +6,7 @@ import SmallCarousel from "@/components/SmallCarousel";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateWishlist } from "@/services/wishlistServices";
+import { fetchWishlist, updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner"
 import { updateOwnedGamesList } from "@/services/ownedListService";
@@ -25,37 +25,50 @@ const GamePage = () => {
   const [videos, setVideos] = useState({})
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
   const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
+  const [isWishlisted, setWishlisted] = useState(false)
   const { user } = useAuth();
-  
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchGameDetails(game_slug);
-        const fetchedScreenShots = await getGameScreenshots(response.id)
-        // const youtubeTrailers = await fetchYouTubeTrailers(response.name)
+        const fetchedScreenShots = await getGameScreenshots(response.id);
+        
+        // Fetch wishlist and log the result
+        if (user && user.uid) {
+          const wishlist = await fetchWishlist(user.uid);
+          if (wishlist[0].games[game_slug]){
+            setWishlisted(true)
+          }
+        }
+  
         const smallCarouselGames = await getGamesByGenre(
           response.genres.map((genre) => genre.slug)
         );
+  
         setRecommendedGames(smallCarouselGames);
-        setScreenshots(fetchedScreenShots)
+        setScreenshots(fetchedScreenShots);
         if (fetchedScreenShots.length > 0) {
           setSelectedScreenshot(fetchedScreenShots[0].image);
         }
-        // setVideos(youtubeTrailers)
+  
         setGame(response);
-        // setSelectedVideoId(youtubeTrailers[0].videoId)
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch game details. Please try again later.");
         setLoading(false);
       }
     };
-
+  
     if (game_slug) {
       fetchData();
     }
-  }, [game_slug]);
+  }, [game_slug, user]); 
 
+
+  console.log(isWishlisted)
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
@@ -71,6 +84,7 @@ const GamePage = () => {
       </div>
     );
   }
+
 
   if (!game) {
     return null; // Return nothing if no game is available
