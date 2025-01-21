@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import { PiGameControllerLight } from "react-icons/pi";
 
 interface HeaderProps {
   userProfileImage?: string;
@@ -43,11 +44,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link to="/home" className="text-2xl font-bold text-primary">
-              <img
-                className="w-10 md:w-12"
-                src="https://static-00.iconduck.com/assets.00/placeholder-icon-2048x2048-48kucnce.png"
-                alt="logo-placeholder"
-              />
+              <PiGameControllerLight size={55} />
             </Link>
           </div>
 
@@ -74,9 +71,9 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                       "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
                     }
                     alt="User profile"
-                    className="w-8 h-8 rounded-full object-cover"
+                    className="w-8 h-8 rounded-full object-cover hover:outline hover:outline-2 hover:outline-green-500"
                   />
-                  <span className="text-foreground">Profile</span>
+                  <span className="text-foreground hover:underline">{user.displayName}</span>
                 </a>
                 <Logout />
               </div>
