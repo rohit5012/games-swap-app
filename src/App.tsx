@@ -13,6 +13,8 @@ import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
 import UserProfileTemp from "./pages/UserProfileTemp";
+import { Toaster } from "sonner";
+import UserComponent from "./components/ViewProfile";
 
 function App() {
   return (
@@ -31,11 +33,13 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile-setup" element={<UserProfileSetup />} />
-            <Route path="/user-profile" element={<UserProfilePage />} />
-            <Route path=":user_id/profile" element={<UserProfileTemp />} />
+            <Route path="/user-profile" element={<UserProfilePage/>} />
+            <Route path="/users/:userId" element={<UserComponent/>} />
             <Route path="/users" element={<UserList />} />
           </Routes>
         </ThemeProvider>
+        {/* necessary for toaster when adding to wishlist and such */}
+        <Toaster className="fixed top-4 right-4 z-50" /> 
       </main>
       <Footer />
     </div>
