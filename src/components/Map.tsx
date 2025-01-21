@@ -14,7 +14,6 @@ const MapComponent: React.FC = () => {
   useEffect(() => {
     fetchUsersWithLocation()
       .then(async (usersData) => {
-        console.log(usersData);
         for (const user of usersData) {
           if (!user.latitude || !user.longitude) {
             const coords = await fetchGeocode(user.location);

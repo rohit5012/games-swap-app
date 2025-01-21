@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
-import { db } from '@/firebase/firebase'; // Adjust to your Firebase setup
-import { FaPlaystation, FaXbox } from 'react-icons/fa6';
-import { BsNintendoSwitch } from 'react-icons/bs';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/firebase/firebase"; // Adjust to your Firebase setup
+import { FaPlaystation, FaXbox } from "react-icons/fa6";
+import { BsNintendoSwitch } from "react-icons/bs";
 
 interface UserProfileRegUser {
   firstName: string;
@@ -20,7 +20,6 @@ interface UserProfileRegUser {
 
 const ViewProfileComponent: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
-  console.log(userId)
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -29,20 +28,17 @@ const ViewProfileComponent: React.FC = () => {
       const fetchUserProfile = async () => {
         try {
           const q = query(
-            collection(db, 'user details'),
-            where('userId', '==', userId)
+            collection(db, "user details"),
+            where("userId", "==", userId)
           );
 
           const querySnapshot = await getDocs(q);
           if (!querySnapshot.empty) {
             const userData = querySnapshot.docs[0].data();
-            console.log(userData)
             setProfile(userData as UserProfileRegUser);
-          } else {
-            console.log('No user found with that ID');
           }
         } catch (error) {
-          console.error('Error fetching user profile:', error);
+          console.error("Error fetching user profile:", error);
         } finally {
           setLoading(false);
         }
@@ -114,11 +110,11 @@ const ViewProfileComponent: React.FC = () => {
 
   function renderPlatformIcon(platform: string) {
     switch (platform) {
-      case 'Xbox Series X/S':
+      case "Xbox Series X/S":
         return <FaXbox className="text-xl text-green-600" />;
-      case 'PlayStation 5':
+      case "PlayStation 5":
         return <FaPlaystation className="text-xl text-blue-600" />;
-      case 'Switch':
+      case "Switch":
         return <BsNintendoSwitch className="text-xl text-red-600" />;
       default:
         return null;

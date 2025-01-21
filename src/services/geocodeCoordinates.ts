@@ -44,10 +44,8 @@ export const fetchGeocode = async (): Promise<{
     );
 
     const result = response.data.results[0];
-    console.log(response.data);
     if (result) {
       const { lat, lng } = result.geometry;
-      // console.log("Retrieved coordinates:", { lat, lng });
       return { lat, lng };
     } else {
       console.error("No results found for location:", location);

@@ -6,7 +6,6 @@ import { Button } from "./ui/Button";
 const Wishlist = ({ userId }) => {
   const [wishlist, setWishlist] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(userId);
 
   useEffect(() => {
     async function fetchWishlistData() {

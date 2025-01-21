@@ -8,7 +8,6 @@ import { PiGameControllerLight } from "react-icons/pi";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
-import { PiGameControllerLight } from "react-icons/pi";
 
 interface HeaderProps {
   userProfileImage?: string;
@@ -16,28 +15,26 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [userPFP, setUserPFP] = useState(null)
+  const [userPFP, setUserPFP] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
-      if (user) {
-        const fetchUserProfile = async () => {
-          const q = query(
-            collection(db, "user details"),
-            where("userId", "==", user.uid) 
-          );
-    
-          const querySnapshot = await getDocs(q);
-          if (!querySnapshot.empty) {
-            const userData = querySnapshot.docs[0].data();
-            setUserPFP(userData.avatarUrl)
-          } else {
-            console.log("No user found with that ID");
-          }
-        };
-        fetchUserProfile();
-      }
-    }, [user]);
+    if (user) {
+      const fetchUserProfile = async () => {
+        const q = query(
+          collection(db, "user details"),
+          where("userId", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
+          setUserPFP(userData.avatarUrl);
+        }
+      };
+      fetchUserProfile();
+    }
+  }, [user]);
   return (
     <header className="bg-background shadow-sm border-b-2">
       <div className="container mx-auto px-4">
@@ -74,7 +71,9 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                     alt="User profile"
                     className="w-8 h-8 rounded-full object-cover hover:outline hover:outline-2 hover:outline-green-500"
                   />
-                  <span className="text-foreground hover:underline">{user.displayName}</span>
+                  <span className="text-foreground hover:underline">
+                    {user.displayName}
+                  </span>
                 </a>
                 <Logout />
               </div>

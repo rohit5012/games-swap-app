@@ -15,14 +15,11 @@ const MapUserProfile: React.FC = () => {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setUser(docSnap.data() as User);
-      } else {
-        console.log("No such document!");
-      }
+      } 
     };
 
     fetchGamer();
   }, [id]);
-  console.log(user);
   if (!user) return <div>Loading...</div>;
 
   return (

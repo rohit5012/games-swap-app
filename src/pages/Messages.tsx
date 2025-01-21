@@ -24,7 +24,7 @@ function Messages() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
-    <div className="flex justify-center h-[61rem] mt-6">
+    <div className="flex justify-center h-[71vh] mt-6">
       {currentUser ? (
         <Card className="flex w-4/5 h-4/5">
           <ChatList />

@@ -16,7 +16,6 @@ const UserComponent: React.FC<{ userId: string }> = ({ userId }) => {
         setError(error.message);
       }
     };
-    console.log(userId);
     fetchUser();
   }, [userId]);
   if (error) {
