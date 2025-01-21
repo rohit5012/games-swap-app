@@ -72,7 +72,7 @@ export default function SmallCarousel(props: {
     }
   }
   return (
-    <section className="my-6">
+    <section className="flex items-center flex-col my-6">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
 
       {/* Filter by Platform */}
@@ -97,45 +97,10 @@ export default function SmallCarousel(props: {
           platforms={props.platforms}
           setPlatforms={props.setPlatforms}
         />
-        {/* <button
-          onClick={() => props.setPlatforms(null)}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === null ? "bg-gray-400" : ""
-          }`}
-        >
-          All Games
-        </button>
-
-        <button
-          onClick={() => props.setPlatforms("187")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "187" ? "bg-gray-400" : ""
-          }`}
-        >
-          Playstation 5
-        </button>
-
-        <button
-          onClick={() => props.setPlatforms("186")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "186" ? "bg-gray-400" : ""
-          }`}
-        >
-          Xbox Series S | X
-        </button>
-
-        <button
-          onClick={() => props.setPlatforms("7")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "7" ? "bg-gray-400" : ""
-          }`}
-        >
-          Switch
-        </button> */}
       </div>
 
       {/* All games in carousel */}
-      <div className="relative overflow-hidden px-4">
+      <div className="relative overflow-hidden px-4 w-11/12">
         <button
           onClick={scrollLeft}
           className="absolute left-0 top-1/2 -translate-y-1/2 bg-gray-500 text-white px-2 py-1 rounded z-10"

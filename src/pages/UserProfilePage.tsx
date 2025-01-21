@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, query, where, collection } from "firebase/firestore";
+import {
+  getDocs,
+  query,
+  where,
+  collection,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { updateUserDetails } from "@/services/userDetailsService";
@@ -57,6 +64,18 @@ const UserProfileRegUser: React.FC = () => {
       fetchUserProfile();
     }
   }, [user]);
+
+  const handleMessage = async () => {
+    try {
+      await setDoc(doc(db, "userchats", user?.uid), { // need to create userchats doc for other user
+        chats: [],
+      });
+      navigate(`/messages`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderPlatformIcon = (platform: string) => {
     switch (platform) {
       case "Xbox Series X/S":
@@ -166,10 +185,7 @@ const UserProfileRegUser: React.FC = () => {
                 <p className="text-purple-600 dark:text-purple-400">
                   {profile.location}
                 </p>
-                <Button
-                  variant={"default"}
-                  onClick={() => navigate(`/messages`)}
-                >
+                <Button variant={"default"} onClick={handleMessage}>
                   Message
                 </Button>
               </>
