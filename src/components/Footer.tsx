@@ -1,21 +1,21 @@
-"use client";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { Link } from "react-router";
 
 export default function Footer() {
   return (
-    <section className="w-full py-12 md:py-10 lg:py-10 bg-zinc-900 dark:bg-zinc-100">
-      <div className="container px-4 md:px-6 flex flex-col items-center text-center">
-        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none text-white">
-          Stay Connected
+    <section className="w-full py-12 md:py-10 lg:py-10 bg-zinc-900 dark:bg-zinc-100 flex flex-col items-center justify-center text-center">
+      <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center">
+        <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none text-white dark:text-zinc-900">
+          {" "}
+          Stay Connected{" "}
         </h2>
         <p className="mx-auto max-w-[700px] text-zinc-100 md:text-lg dark:text-zinc-800">
           Subscribe and follow us on our social media.
         </p>
 
         <div className="w-full max-w-md space-y-2 my-4">
-          <form className="flex space-x-2">
+          <form className="flex space-x-2 justify-center">
             <Input
               type="email"
               placeholder="Enter your email"

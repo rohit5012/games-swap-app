@@ -63,7 +63,9 @@ const OwnedList = ({ userId }) => {
                     className="w-1/3 h-auto object-cover"
                   />
                   <div className="p-4 flex flex-col justify-center items-center w-2/3 text-center">
-                    <h3 className="text-lg font-bold mb-2">{game.gameName}</h3>
+                    <h3 className="text-lg font-bold mb-2 text-black">
+                      {game.gameName}
+                    </h3>
                     <p className="text-gray-600">
                       Release Date:{" "}
                       {new Date(game.releaseDate).toLocaleDateString()}
