@@ -9,10 +9,10 @@ import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfileRegUser from "./pages/UserProfileRegUser";
 import UserList from "./components/UserList";
-import UserProfile from "./components/UserProfile";
 import Footer from "./components/Footer";
-
 import UserProfileTemp from "./pages/UserProfileTemp";
+import { getUserById } from "./services/userDetailsService";
+import MapUserProfile from "./pages/MapUserProfile";
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
           {/* Dynamic Route for GamePage */}
           <Route path="/game/:game_slug" element={<GamePage />} />
           <Route path="/map" element={<MapPage />} />
+          <Route path="/map/user/:id" element={<MapUserProfile />} />
           <Route path="/browse-games" element={<BrowseGames />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
