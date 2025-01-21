@@ -1,10 +1,18 @@
 export interface Gamer {
   id: number;
-  name: string;
+  firstName?: string;
+  lastName?: string;
   location: Location;
+  latitude: number;
+  longitude: number;
   area: string;
   distance?: number;
   userRating: string;
+  nickname: string;
+  address: string;
+  email: string;
+  avatarUrL?: string;
+  platforms: string;
 }
 
 export interface Location {

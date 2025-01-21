@@ -90,6 +90,14 @@ export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {
 };
 
 
+// Function for pagination
+export const getPaginatedGames = async (page: number, itemsPerPage: number): Promise<ApiResponse> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(`/games?key=${rawgAPIKey}&offset=${offset}&limit=${itemsPerPage}`);
+  return response.data;
+};
+
+
 export const getGameScreenshots = async (gameId: number): Promise<[]> => {
   try {
     const response = await fetch(
@@ -105,4 +113,5 @@ export const getGameScreenshots = async (gameId: number): Promise<[]> => {
     return [];
   }
 };
+
 
