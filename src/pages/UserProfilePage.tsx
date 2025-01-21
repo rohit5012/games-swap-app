@@ -17,7 +17,10 @@ import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
 import { Button } from "@/components/ui/Button";
+<<<<<<< HEAD
 import { useNavigate } from "react-router";
+=======
+>>>>>>> main
 
 export type UserProfileRegUser = {
   firstName: string;
@@ -37,6 +40,7 @@ const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
+  const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -91,6 +95,10 @@ const UserProfileRegUser: React.FC = () => {
 
   const handleEditToggle = () => {
     setIsEditing((prev) => !prev);
+  };
+
+  const handleListsToggle = (list: string) => {
+    setListItems(list);
   };
 
   const handlePlatformChange = (platform: string) => {
@@ -293,8 +301,32 @@ const UserProfileRegUser: React.FC = () => {
             </button>
           </div>
         )}
-        <Wishlist userId={user?.uid}></Wishlist>
-        <OwnedList userId={user?.uid}></OwnedList>
+        <h2 className="flex items-center justify-center pt-4 text-2xl">
+          Games
+        </h2>
+        <div className="flex items-center justify-center">
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Wishlist");
+            }}
+          >
+            Wishlist
+          </Button>
+          <Button
+            className="m-5 "
+            onClick={() => {
+              handleListsToggle("Owned");
+            }}
+          >
+            Owned
+          </Button>
+        </div>
+        {listItems === "Owned" ? (
+          <OwnedList userId={user?.uid}></OwnedList>
+        ) : (
+          <Wishlist userId={user?.uid}></Wishlist>
+        )}
       </div>
     </>
   );

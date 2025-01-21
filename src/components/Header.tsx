@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import Searchbar from "./Searchbar";
 import { useAuth } from "@/hooks/useAuth";
 import Logout from "@/pages/Logout";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
 
 interface HeaderProps {
   userProfileImage?: string;
@@ -12,8 +14,28 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userPFP, setUserPFP] = useState(null)
   const { user } = useAuth();
 
+  useEffect(() => {
+      if (user) {
+        const fetchUserProfile = async () => {
+          const q = query(
+            collection(db, "user details"),
+            where("userId", "==", user.uid) 
+          );
+    
+          const querySnapshot = await getDocs(q);
+          if (!querySnapshot.empty) {
+            const userData = querySnapshot.docs[0].data();
+            setUserPFP(userData.avatarUrl)
+          } else {
+            console.log("No user found with that ID");
+          }
+        };
+        fetchUserProfile();
+      }
+    }, [user]);
   return (
     <header className="bg-background shadow-sm">
       <div className="container mx-auto px-4">
@@ -48,11 +70,11 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                 <a href="/user-profile" className="flex items-center space-x-2">
                   <img
                     src={
-                      userProfileImage ||
+                      userPFP ||
                       "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
                     }
                     alt="User profile"
-                    className="w-8 h-8 rounded-full"
+                    className="w-8 h-8 rounded-full object-cover"
                   />
                   <span className="text-foreground">Profile</span>
                 </a>

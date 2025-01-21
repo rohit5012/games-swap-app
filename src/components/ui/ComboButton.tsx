@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { handleTabClick } from "../MapSidebar";
+import { handleTabClick } from "../MapDistanceCalculator";
 import { Location, Gamer } from "../../types/Gamer";
 import { cn } from "@/lib/utils";
 import { Button } from "./Button";
