@@ -17,10 +17,8 @@ import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
 import { Button } from "@/components/ui/Button";
-<<<<<<< HEAD
 import { useNavigate } from "react-router";
-=======
->>>>>>> main
+
 
 export type UserProfileRegUser = {
   firstName: string;

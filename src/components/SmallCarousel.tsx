@@ -63,7 +63,7 @@ export default function SmallCarousel(props: {
     }
   }
   return (
-    <section className="my-6">
+    <section className="my-6 flex flex-col items-center">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
       {/* Filter by Platform */}
       <div className="flex justify-center space-x-4 mb-4 text-black ">
@@ -188,10 +188,7 @@ export default function SmallCarousel(props: {
       </div>
       {/* Upcoming Games - FullList */}
       <div className="flex justify-end mt-4 px-4">
-        <button
-          onClick={() => navigate("/browse-games")}
-          className="bg-gray-200 text-black px-4 py-2 rounded"
-        >
+        <button onClick={() => navigate("/browse-games")} className="gray-btn">
           Upcoming Games: Full List
         </button>
       </div>

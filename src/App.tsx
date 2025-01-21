@@ -12,14 +12,11 @@ import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
-import UserProfileTemp from "./pages/UserProfileTemp";
 import Messages from "./pages/Messages";
-
-
 import MapUserProfile from "./pages/MapUserProfile";
-
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
+
 
 
 function App() {
