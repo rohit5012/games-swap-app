@@ -8,18 +8,30 @@ import {
   doc,
   query,
   where,
+  setDoc,
 } from "firebase/firestore";
 import { UserDetailsType } from "@/types/UserDetails";
 import { db } from "@/firebase/firebase";
 
-export const addUserDetails = async (
-  userDetails: Omit<UserDetailsType, "id">
-): Promise<string> => {
+// export const addUserDetails = async (
+//   userDetails: Omit<UserDetailsType, "id">
+// ): Promise<string> => {
+//   try {
+//     const docRef = await addDoc(collection(db, "user details"), userDetails);
+//     return docRef.id;
+//   } catch (error) {
+//     console.error("Error adding user details:", error);
+//     throw error;
+//   }
+// };
+
+export const addUserDetails = async (userDetails: UserDetailsType) => {
   try {
-    const docRef = await addDoc(collection(db, "user details"), userDetails);
-    return docRef.id; 
+    await setDoc(doc(db, "user details", userDetails.userId), userDetails);
+
+    await setDoc(doc(db, "userchats", userDetails.userId), { chats: [] });
   } catch (error) {
-    console.error("Error adding task:", error);
+    console.error("Error adding user details:", error);
     throw error;
   }
 };
@@ -31,7 +43,7 @@ export const updateUserDetails = async (
   try {
     await updateDoc(doc(db, "user details", detailsId), updates);
   } catch (error) {
-    console.error("Error updating task: ", error);
+    console.error("Error updating user details: ", error);
     throw error;
   }
 };
@@ -49,7 +61,7 @@ export const getUserDetails = async (
       (doc) => ({ id: doc.id, ...doc.data() } as UserDetailsType)
     );
   } catch (error) {
-    console.error("Error getting user tasks:", error);
+    console.error("Error getting user details:", error);
     throw error;
   }
 };

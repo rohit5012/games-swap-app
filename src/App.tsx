@@ -12,13 +12,11 @@ import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
-import UserProfileTemp from "./pages/UserProfileTemp";
-
-
+import Messages from "./pages/Messages";
 import MapUserProfile from "./pages/MapUserProfile";
-
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
+
 
 
 function App() {
@@ -43,6 +41,7 @@ function App() {
             <Route path="/user-profile" element={<UserProfilePage/>} />
             <Route path="/users/:userId" element={<UserComponent/>} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/messages" element={<Messages />} />
           </Routes>
         </ThemeProvider>
         {/* necessary for toaster when adding to wishlist and such */}
