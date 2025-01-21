@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { UserDetailsType } from "../types/UserDetails";
-import UserProfile from "./UserProfile";
+import UserProfile from "./ViewProfile";
 import { Link } from "react-router";
 
 const UserList: React.FC = () => {
@@ -18,6 +18,7 @@ const UserList: React.FC = () => {
             ...doc.data(),
           } as UserDetailsType)
       );
+      console.log(getProfilesData)
       setProfiles(getProfilesData);
     };
     // console.log(profiles);
@@ -31,11 +32,11 @@ const UserList: React.FC = () => {
         {profiles.map((profile) => (
           <Link
             key={profile.id}
-            to={`/users/${profile.id}`}
+            to={`/users/${profile.userId}`}
             className="block p-4 border-b hover:bg-gray-100"
           >
             {profile.firstName}
-            {<UserProfile userId={profile.userId} />}
+            {<UserProfile user={profile.userId} />}
           </Link>
         ))}
       </div>
