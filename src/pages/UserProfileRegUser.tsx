@@ -34,7 +34,7 @@ export type UserProfileRegUser = {
 };
 
 const UserProfileRegUser: React.FC = () => {
-  const { user } = useAuth();
+  const {user} = useAuth()
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 

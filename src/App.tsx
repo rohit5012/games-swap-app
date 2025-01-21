@@ -11,8 +11,12 @@ import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
 import Footer from "./components/Footer";
-import UserProfileTemp from "./pages/UserProfileTemp";
+import Messages from "./pages/Messages";
+import MapUserProfile from "./pages/MapUserProfile";
 import { Toaster } from "sonner";
+import UserComponent from "./components/ViewProfile";
+
+
 
 function App() {
   return (
@@ -27,15 +31,16 @@ function App() {
             {/* Dynamic Route for GamePage */}
             <Route path="/game/:game_slug" element={<GamePage />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/map/user/:id" element={<MapUserProfile />} />
             <Route path="/browse-games" element={<BrowseGames />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile-setup" element={<UserProfileSetup />} />
-            <Route path="/user-profile" element={<UserProfilePage />} />
-            <Route path=":user_id/profile" element={<UserProfileTemp />} />
+            <Route path="/user-profile" element={<UserProfilePage/>} />
+            <Route path="/users/:userId" element={<UserComponent/>} />
             <Route path="/users" element={<UserList />} />
+            <Route path="/messages" element={<Messages />} />
           </Routes>
-
           {/* necessary for toaster when adding to wishlist and such */}
           <Toaster className="fixed top-4 right-4 z-50" />
         </main>

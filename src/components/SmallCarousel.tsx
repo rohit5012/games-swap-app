@@ -1,11 +1,10 @@
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
 import PlatformButton from "./ui/PlatformButton";
 import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
-import { UserContext } from "@/context/Usercontext";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function SmallCarousel(props: {
@@ -36,7 +35,6 @@ export default function SmallCarousel(props: {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
   // Scrolling
   const scrollLeft = () => {
     if (carouselRef.current) {
@@ -47,7 +45,6 @@ export default function SmallCarousel(props: {
       });
     }
   };
-
   const scrollRight = () => {
     if (carouselRef.current) {
       const elementWidth = carouselRef.current.offsetWidth / visibleGames;
@@ -71,9 +68,10 @@ export default function SmallCarousel(props: {
   return (
     <section className="my-6">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
-
       {/* Filter by Platform */}
-      <div className="flex justify-center space-x-4 mb-4 text-black bg">
+
+      <div className="flex justify-center space-x-4 mb-4 text-black ">
+
         <PlatformButton
           name="All Games"
           platforms={props.platforms}
@@ -102,7 +100,6 @@ export default function SmallCarousel(props: {
         >
           All Games
         </button>
-
         <button
           onClick={() => props.setPlatforms("187")}
           className={`bg-gray-200 px-4 py-2 rounded ${
@@ -111,7 +108,6 @@ export default function SmallCarousel(props: {
         >
           Playstation 5
         </button>
-
         <button
           onClick={() => props.setPlatforms("186")}
           className={`bg-gray-200 px-4 py-2 rounded ${
@@ -120,7 +116,6 @@ export default function SmallCarousel(props: {
         >
           Xbox Series S | X
         </button>
-
         <button
           onClick={() => props.setPlatforms("7")}
           className={`bg-gray-200 px-4 py-2 rounded ${
@@ -130,9 +125,10 @@ export default function SmallCarousel(props: {
           Switch
         </button> */}
       </div>
-
       {/* Compact Carousel Component */}
-      <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg">
+
+      <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 place-self-center">
+
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
@@ -191,7 +187,7 @@ export default function SmallCarousel(props: {
             </div>
           ))}
         </div>
-
+        
         {/* Right Scroll Button */}
         <button
           onClick={scrollRight}

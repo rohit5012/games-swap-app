@@ -7,8 +7,7 @@ export default function Footer() {
     <section className="w-full py-12 md:py-10 lg:py-10 bg-zinc-900 dark:bg-zinc-100 flex flex-col items-center justify-center text-center">
       <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center">
         <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl/none text-white dark:text-zinc-900">
-          {" "}
-          Stay Connected{" "}
+          Stay Connected
         </h2>
         <p className="mx-auto max-w-[700px] text-zinc-100 md:text-lg dark:text-zinc-800">
           Subscribe and follow us on our social media.
@@ -19,17 +18,18 @@ export default function Footer() {
             <Input
               type="email"
               placeholder="Enter your email"
-              className="max-w-lg flex-1 text-zinc-900 bg-white"
+              className="max-w-lg flex-1 text-zinc-900 bg-white py-2 px-4 rounded"
             />
             <Button
               type="submit"
               variant="outline"
-              className="text-white border-white"
+              className="subscribe-btn text-white border-white py-2 px-4 rounded"
             >
               Subscribe
             </Button>
           </form>
         </div>
+
         <div className="flex justify-center space-x-4">
           <Link
             href="#"

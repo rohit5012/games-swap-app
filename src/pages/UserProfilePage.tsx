@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getDocs, query, where, collection } from "firebase/firestore";
+import {
+  getDocs,
+  query,
+  where,
+  collection,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { updateUserDetails } from "@/services/userDetailsService";
@@ -10,6 +17,8 @@ import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
 import { Button } from "@/components/ui/Button";
+import { useNavigate } from "react-router";
+
 
 export type UserProfileRegUser = {
   firstName: string;
@@ -27,6 +36,7 @@ export type UserProfileRegUser = {
 
 const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
@@ -56,6 +66,18 @@ const UserProfileRegUser: React.FC = () => {
       fetchUserProfile();
     }
   }, [user]);
+
+  const handleMessage = async () => {
+    try {
+      await setDoc(doc(db, "userchats", user?.uid), { // need to create userchats doc for other user
+        chats: [],
+      });
+      navigate(`/messages`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const renderPlatformIcon = (platform: string) => {
     switch (platform) {
       case "Xbox Series X/S":
@@ -165,9 +187,14 @@ const UserProfileRegUser: React.FC = () => {
                 className="mt-2 p-2 border border-gray-300 rounded-md"
               />
             ) : (
-              <p className="text-purple-600 dark:text-purple-400">
-                {profile.location}
-              </p>
+              <>
+                <p className="text-purple-600 dark:text-purple-400">
+                  {profile.location}
+                </p>
+                <Button variant={"default"} onClick={handleMessage}>
+                  Message
+                </Button>
+              </>
             )}
           </div>
 
