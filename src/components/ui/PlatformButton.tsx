@@ -16,7 +16,7 @@ export default function PlatformButton(props: {
   };
 
   return (
-    <button onClick={handleClick} className={`bg-gray-200 px-4 py-2 rounded`}>
+    <button onClick={handleClick} className={`gray-btn`}>
       {props.name}
     </button>
   );
