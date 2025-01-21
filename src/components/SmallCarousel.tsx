@@ -69,7 +69,7 @@ export default function SmallCarousel(props: {
     }
   }
   return (
-    <section className="my-6">
+    <section className="my-6 flex flex-col items-center">
       <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
 
       {/* Filter by Platform */}
@@ -96,6 +96,23 @@ export default function SmallCarousel(props: {
         />
       </div>
 
+      {/* Compact Carousel Component */}
+<div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 ">
+  {/* Left Scroll Button */}
+  <button
+    onClick={scrollLeft}
+    className="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-indigo-600 hover:text-white transition-all duration-300 transform hover:scale-110"
+    title="Scroll Left"
+  >
+    {"<"}
+  </button>
+
+  {/* Carousel Container */}
+  <div
+    ref={carouselRef}
+    className="flex overflow-x-scroll no-scrollbar gap-3 py-3 scroll-smooth relative"
+  >
+    {props.games.map((game, index) => (
       <div
         ref={carouselRef}
         className="flex overflow-x-scroll no-scrollbar gap-3 py-3 scroll-smooth relative"
