@@ -121,3 +121,35 @@ export const getGameScreenshots = async (gameId: number): Promise<[]> => {
 };
 
 
+// New function to fetch genres
+export const getPlatforms = async (): Promise<{
+  id: number;
+  name: string;
+  slug: string;
+}> => {
+  try {
+    const response = await rawgAPI.get(`/platforms?key=${rawgAPIKey}`);
+    return response.data.results;
+  } catch (error) {
+    throw new Error("Error finding platforms");
+  }
+};
+// New function to fetch platforms
+export const getGenres = async (): Promise<{
+  id?: number;
+  name?: string;
+  slug?: string;
+}> => {
+  try {
+    const response = await rawgAPI.get(`/genres?key=${rawgAPIKey}`);
+    console.log(response);
+    return response.data.results;
+  } catch (error) {
+    throw new Error("Error finding genres");
+  }
+};
+
+
+
+
+
