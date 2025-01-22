@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStore } from "@/lib/userStore";
 
 interface User {
   avatarUrl?: string;
@@ -25,9 +26,8 @@ interface User {
 function AddUser() {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState<User[] | null>(null);
-
+  const { currentUser } = useUserStore();
   const { user } = useAuth();
-
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -53,7 +53,6 @@ function AddUser() {
           (doc) => doc.data() as User
         );
         setUsers(matchingUsers);
-        console.log(users);
       } else {
         setUsers(null);
       }
@@ -75,12 +74,12 @@ function AddUser() {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: user?.uid,
+          receiverId: currentUser.userId,
           updatedAt: Date.now(),
         }),
       });
 
-      await updateDoc(doc(userChatsRef, user?.uid), {
+      await updateDoc(doc(userChatsRef, currentUser.userId), {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
@@ -88,7 +87,7 @@ function AddUser() {
           updatedAt: Date.now(),
         }),
       });
-
+      setIsOpen(false);
     } catch (error) {
       console.error("Error adding chat:", error);
     }
@@ -97,11 +96,18 @@ function AddUser() {
   return (
     <>
       <button onClick={handleOpen}>
-        {!isOpen ? <LucidePlus /> : <LucideMinus />}
+        {!isOpen ? (
+          <div>
+            <p></p>
+            <LucidePlus className="rounded-lg bg-slate-100 hover:bg-slate-200 p-1 size-8 dark:bg-slate-800" />
+          </div>
+        ) : (
+          <LucideMinus className="rounded-lg p-1 size-8 bg-slate-100 dark:bg-slate-900" />
+        )}
       </button>
       {isOpen && (
         <div className="fixed inset-0 z-10 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white bg-opacity-90 rounded-lg shadow-xl w-full max-w-md">
+          <div className="bg-white bg-opacity-90 dark:bg-black dark:bg-opacity-95 rounded-lg shadow-xl w-full max-w-md">
             <div className="flex justify-between items-center p-6 border-b">
               <h2 className="text-xl font-semibold">Start Chat</h2>
               <Button variant="ghost" size="icon" onClick={handleClose}>
@@ -127,33 +133,37 @@ function AddUser() {
                 </div>
                 <Button>Search</Button>
               </form>
-              <div className="overflow-scroll h-96">
+              <div className="overflow-scroll scrollbar-thin dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-96">
                 {users &&
-                  users.map((user) => (
-                    <div
-                      key={user.userId}
-                      className="flex items-center justify-between gap-5 p-5 pr-0 cursor-pointer border-b-2"
-                    >
-                      <div className="flex items-center gap-5">
-                        <img
-                          className="w-12 h-12 rounded-lg object-cover"
-                          src={
-                            user.avatarUrl ||
-                            "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
-                          }
-                        />
-                        <span className="font-semibold">{user.nickname}</span>
+                  users.map((chatUser) => {
+                    return chatUser.userId === currentUser.userId ? null : (
+                      <div
+                        key={chatUser.userId}
+                        className="flex items-center justify-between gap-5 p-5 cursor-pointer border-b-2"
+                      >
+                        <div className="flex items-center gap-5">
+                          <img
+                            className="w-12 h-12 rounded-lg object-cover"
+                            src={
+                              chatUser.avatarUrl ||
+                              "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
+                            }
+                          />
+                          <span className="font-semibold">
+                            {chatUser.nickname}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant={"default"}
+                            onClick={() => handleAdd(chatUser.userId)}
+                          >
+                            Add User
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant={"default"}
-                          onClick={() => handleAdd(user.userId)}
-                        >
-                          Add User
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </section>
           </div>

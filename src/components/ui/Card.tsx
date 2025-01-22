@@ -35,7 +35,7 @@ const CardTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("font-semibold leading-none tracking-tight", className)}
+    className={cn("text-black text-2xl pt-4 font-semibold leading-none tracking-tight", className)}
     {...props}
   />
 ))
@@ -53,13 +53,23 @@ const CardDescription = React.forwardRef<
 ))
 CardDescription.displayName = "CardDescription"
 
+
 const CardContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
-))
-CardContent.displayName = "CardContent"
+  React.HTMLAttributes<HTMLDivElement> & { platformClassName?: string }
+>(({ className, platformClassName, ...props }, ref) => (
+  <div ref={ref} className={cn("p-6 pt-0 mt-0 pb-0 flex flex-wrap gap-2", className)} {...props}>
+    {props.children && React.Children.map(props.children, (child) => 
+      React.isValidElement(child) && child.type === "p" ? 
+        React.cloneElement(child, {
+          className: cn(platformClassName, child.props.className),
+        }) :
+        child
+    )}
+  </div>
+));
+CardContent.displayName = "CardContent";
+
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,

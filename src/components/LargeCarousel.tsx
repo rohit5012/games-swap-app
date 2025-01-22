@@ -20,7 +20,7 @@ export default function LargeCarousel(props: { games: Game[] }) {
                 <Card className="w-full h-full rounded-lg overflow-hidden shadow-lg">
                   <CardContent className="relative h-full p-0">
                     {/* Image Container */}
-                    <div className="w-full h-[400px] overflow-hidden relative">
+                    <div className="w-full h-[35rem] overflow-hidden relative">
                       {/* Background Image */}
                       <img
                         src={game.background_image}

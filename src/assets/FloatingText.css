@@ -1,0 +1,16 @@
+/* RunningText.css */
+@keyframes scrolling {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee {
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+  animation: scrolling 12s linear infinite;
+}
