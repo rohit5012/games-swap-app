@@ -178,7 +178,7 @@ const GamePage = () => {
         <img
           src={game.background_image}
           alt={game.name}
-          className="w-full h-full object-cover shadow-lg mask-gradient"
+          className="w-full h-[90vh] object-top object-cover shadow-lg mask-gradient"
         />
 
         {/* Game Info Container (conditionally rendered) */}
@@ -313,13 +313,13 @@ const GamePage = () => {
       </div>
 
       {/* Game Details */}
-      <div className="relative z-9 mt-10 px-6 md:px-16">
+      <div className="relative z-10 mt-10 md:px-52">
         <div className="bg-black/80 p-8 rounded-lg shadow-lg">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 transform lg:-translate-x-24">
             {/* Genres */}
-            <div className="text-center">
+            <div className="flex flex-col text-center items-center gap-2">
               <h2 className="text-xl font-semibold">Genres</h2>
-              <div className="mt-2 space-y-1">
+              <div className="mt-2 space-y-2 sm:max-w-32">
                 {game.genres?.map((genre) => (
                   <p
                     key={genre.name}

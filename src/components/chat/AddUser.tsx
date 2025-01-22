@@ -99,15 +99,15 @@ function AddUser() {
         {!isOpen ? (
           <div>
             <p></p>
-            <LucidePlus className="rounded-lg bg-slate-100 hover:bg-slate-200 p-1 size-8" />
+            <LucidePlus className="rounded-lg bg-slate-100 hover:bg-slate-200 p-1 size-8 dark:bg-slate-800" />
           </div>
         ) : (
-          <LucideMinus className="rounded-lg p-1 size-8 bg-slate-100" />
+          <LucideMinus className="rounded-lg p-1 size-8 bg-slate-100 dark:bg-slate-900" />
         )}
       </button>
       {isOpen && (
         <div className="fixed inset-0 z-10 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white bg-opacity-90 rounded-lg shadow-xl w-full max-w-md">
+          <div className="bg-white bg-opacity-90 dark:bg-black dark:bg-opacity-95 rounded-lg shadow-xl w-full max-w-md">
             <div className="flex justify-between items-center p-6 border-b">
               <h2 className="text-xl font-semibold">Start Chat</h2>
               <Button variant="ghost" size="icon" onClick={handleClose}>
@@ -133,13 +133,13 @@ function AddUser() {
                 </div>
                 <Button>Search</Button>
               </form>
-              <div className="overflow-scroll h-96">
+              <div className="overflow-scroll scrollbar-thin dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-96">
                 {users &&
                   users.map((chatUser) => {
                     return chatUser.userId === currentUser.userId ? null : (
                       <div
                         key={chatUser.userId}
-                        className="flex items-center justify-between gap-5 p-5 pr-0 cursor-pointer border-b-2"
+                        className="flex items-center justify-between gap-5 p-5 cursor-pointer border-b-2"
                       >
                         <div className="flex items-center gap-5">
                           <img

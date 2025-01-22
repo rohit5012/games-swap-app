@@ -171,11 +171,6 @@ const UserProfileRegUser: React.FC = () => {
                 <p className="text-purple-600 dark:text-purple-400">
                   {profile.location}
                 </p>
-                <Button variant={"default"}>
-                  <Link to={`/messages`} className="w-full h-full">
-                    Message
-                  </Link>
-                </Button>
               </>
             )}
           </div>

@@ -1,15 +1,12 @@
-
-import { useEffect, useState } from 'react';
-import { Link, Navigate, useParams } from 'react-router-dom';
-import { collection, query, where, getDocs, } from 'firebase/firestore';
-import { db } from '@/firebase/firebase'; // Adjust to your Firebase setup
-import { FaPlaystation, FaXbox } from 'react-icons/fa6';
-import { BsNintendoSwitch } from 'react-icons/bs';
-import OtherPPLWishlist from './OtherPPLOwnedGames';
-import { Button } from './ui/Button';
-import Wishlist from './Wishlist';
-
-
+import { useEffect, useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "@/firebase/firebase"; // Adjust to your Firebase setup
+import { FaPlaystation, FaXbox } from "react-icons/fa6";
+import { BsNintendoSwitch } from "react-icons/bs";
+import OtherPPLWishlist from "./OtherPPLOwnedGames";
+import { Button } from "./ui/Button";
+import Wishlist from "./Wishlist";
 
 interface UserProfileRegUser {
   firstName: string;
@@ -85,22 +82,22 @@ const ViewProfileComponent: React.FC = () => {
 
       <div className="relative pt-16 px-6 pb-6 flex flex-col md:flex-row gap-6">
         <div className="flex flex-col flex-1">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {profile.nickname}
-          </h1>
+          <div className="flex flex-row justify-between items-center w-52">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              {profile.nickname}
+            </h1>
+            <Button variant={"default"} className="mt-2 w-24">
+              <Link to={`/messages`} className="w-full h-full">
+                Message
+              </Link>
+            </Button>
+          </div>
           <p className="mt-5 text-gray-600 dark:text-gray-300">
             {profile.firstName} {profile.lastName}
           </p>
           <p className="text-purple-600 dark:text-purple-400 mt-2">
             {profile.location}
           </p>
-          
-          <Button variant={"default"}>
-          <Link to={`/messages`} className="w-full h-full">
-                            Message
-                            </Link>
-                          </Button>
-         
         </div>
 
         <div className="flex flex-col text-gray-600 dark:text-gray-300 flex-1">
@@ -115,7 +112,6 @@ const ViewProfileComponent: React.FC = () => {
               </span>
             ))}
           </div>
-          
         </div>
       </div>
 
@@ -125,32 +121,32 @@ const ViewProfileComponent: React.FC = () => {
       </div>
 
       <div className="flex items-center justify-center">
-          <Button
-            className="m-5 "
-            onClick={() => {
-              handleListsToggle("Wishlist");
-            }}
-          >
-            Wishlist
-          </Button>
-          <Button
-            className="m-5 "
-            onClick={() => {
-              handleListsToggle("Owned");
-            }}
-          >
-            Owned
-          </Button>
-        </div>
-        {listItems === "Owned" ? (
-          <OtherPPLWishlist userId={userId} username={profile.nickname}></OtherPPLWishlist>
-        ) : (
-          <Wishlist userId={userId}></Wishlist>
-        )}
- 
-      
+        <Button
+          className="m-5 "
+          onClick={() => {
+            handleListsToggle("Wishlist");
+          }}
+        >
+          Wishlist
+        </Button>
+        <Button
+          className="m-5 "
+          onClick={() => {
+            handleListsToggle("Owned");
+          }}
+        >
+          Owned
+        </Button>
+      </div>
+      {listItems === "Owned" ? (
+        <OtherPPLWishlist
+          userId={userId}
+          username={profile.nickname}
+        ></OtherPPLWishlist>
+      ) : (
+        <Wishlist userId={userId}></Wishlist>
+      )}
     </div>
-    
   );
 
   function renderPlatformIcon(platform: string) {
