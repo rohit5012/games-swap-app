@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase'; // Adjust to your Firebase setup
 import { FaPlaystation, FaXbox } from 'react-icons/fa6';
 import { BsNintendoSwitch } from 'react-icons/bs';
 import OtherPPLWishlist from './OtherPPLOwnedGames';
 import { Button } from './ui/Button';
 import Wishlist from './Wishlist';
+
 
 interface UserProfileRegUser {
   firstName: string;
@@ -23,7 +24,6 @@ interface UserProfileRegUser {
 
 const ViewProfileComponent: React.FC = () => {
   const { userId } = useParams<{ userId: string }>();
-  console.log(userId)
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [listItems, setListItems] = useState<string>("Owned");
@@ -64,7 +64,6 @@ const ViewProfileComponent: React.FC = () => {
     return <div>User profile not found.</div>;
   }
 
-
   const handleListsToggle = (list: string) => {
     setListItems(list);
   };
@@ -96,6 +95,13 @@ const ViewProfileComponent: React.FC = () => {
           <p className="text-purple-600 dark:text-purple-400 mt-2">
             {profile.location}
           </p>
+          
+          <Button variant={"default"}>
+          <Link to={`/messages`} className="w-full h-full">
+                            Message
+                            </Link>
+                          </Button>
+         
         </div>
 
         <div className="flex flex-col text-gray-600 dark:text-gray-300 flex-1">
@@ -110,6 +116,7 @@ const ViewProfileComponent: React.FC = () => {
               </span>
             ))}
           </div>
+          
         </div>
       </div>
 
