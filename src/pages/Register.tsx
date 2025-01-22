@@ -38,16 +38,18 @@ export default function Register() {
   };
 
   return (
-    <Card className="mx-auto max-w-sm mt-32">
+    <Card className="mx-auto max-w-sm mt-32 mb-32 text-center">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Sign Up</CardTitle>
+        <CardTitle className="text-2xl font-bold mb-3 dark:text-white">
+          Sign Up
+        </CardTitle>
         <CardDescription>
           Enter your email and password to register
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="justify-center">
         <form onSubmit={handleRegister}>
-          <div className="space-y-4">
+          <div className="space-y-4 text-left">
             <div className="space-y-2">
               <Label htmlFor="email">Username</Label>
               <Input
@@ -93,7 +95,7 @@ export default function Register() {
                   Login with Google
                 </Button> */}
           </div>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-center text-sm mb-10">
             <p className="mb-2">Already have an account?</p>
             <Link
               className={buttonVariants({ variant: "outline" })}

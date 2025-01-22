@@ -61,8 +61,8 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
             {user ? (
-              <div className="flex flex-row gap-4 bg-">
-                <a href="/user-profile" className="flex items-center space-x-2 bg-slate-300 p-1 rounded-lg hover:bg-slate-400">
+              <div className="flex flex-row gap-4">
+                <a href="/user-profile" className="flex items-center space-x-2 p-1 rounded-lg">
                   <img
                     src={
                       userPFP ||
@@ -71,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                     alt="User profile"
                     className="w-8 h-8 rounded-full object-cover hover:outline hover:outline-2 hover:outline-green-500"
                   />
-                  <span className="text-foreground hover:underline">
+                  <span className="text-foreground hover:text-green-600">
                     {user.displayName}
                   </span>
                 </a>

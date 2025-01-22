@@ -97,9 +97,12 @@ function AddUser() {
     <>
       <button onClick={handleOpen}>
         {!isOpen ? (
-          <LucidePlus className="rounded-lg hover:bg-slate-200 p-1 size-8" />
+          <div>
+            <p></p>
+            <LucidePlus className="rounded-lg bg-slate-100 hover:bg-slate-200 p-1 size-8" />
+          </div>
         ) : (
-          <LucideMinus className="p-1 size-8" />
+          <LucideMinus className="rounded-lg p-1 size-8 bg-slate-100" />
         )}
       </button>
       {isOpen && (
