@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
+import PlatformButton from "./ui/PlatformButton";
 import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
