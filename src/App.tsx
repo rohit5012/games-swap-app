@@ -10,13 +10,13 @@ import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
+import NewFooter from "./components/NewFooter";
 import Messages from "./pages/Messages";
 import MapUserProfile from "./pages/MapUserProfile";
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
-
-
+import ContactForm from "./pages/ContactForm";
 
 function App() {
   return (
@@ -36,15 +36,16 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile-setup" element={<UserProfileSetup />} />
-            <Route path="/user-profile" element={<UserProfilePage/>} />
-            <Route path="/users/:userId" element={<UserComponent/>} />
+            <Route path="/user-profile" element={<UserProfilePage />} />
+            <Route path="/users/:userId" element={<UserComponent />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/contact" element={<ContactForm />} />
           </Routes>
           {/* necessary for toaster when adding to wishlist and such */}
           <Toaster className="fixed top-4 right-4 z-50" />
         </main>
-        <Footer />
+        <NewFooter />
       </ThemeProvider>
     </div>
   );
