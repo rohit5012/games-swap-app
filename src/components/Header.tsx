@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, MessageCircle, X } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import Searchbar from "./Searchbar";
@@ -59,10 +59,20 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
           </div>
 
           {/* User Actions */}
+
           <div className="hidden md:flex items-center space-x-4">
+            <Link
+              className="hover:bg-slate-200 hover:rounded-full w-8"
+              to="/messages"
+            >
+              <MessageCircle className="size-8 p-1 mr-2" />
+            </Link>
             {user ? (
               <div className="flex flex-row gap-4">
-                <a href="/user-profile" className="flex items-center space-x-2 p-1 rounded-lg">
+                <a
+                  href="/user-profile"
+                  className="flex items-center space-x-2 p-1 rounded-lg"
+                >
                   <img
                     src={
                       userPFP ||
