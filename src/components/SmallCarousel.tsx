@@ -1,12 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
+
+import { Link, useNavigate } from "react-router-dom";
+
 import PlatformButton from "./ui/PlatformButton";
-import { Link } from "react-router-dom";
+
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
-
+import PlatformButton from "./ui/PlatformButton";
 
 export default function SmallCarousel(props: {
   games: Game[];
@@ -15,7 +18,7 @@ export default function SmallCarousel(props: {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
-  const [scrollAmount, setScrollAmount] = useState(1); 
+  const [scrollAmount, setScrollAmount] = useState(1);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -72,34 +75,6 @@ export default function SmallCarousel(props: {
   }
   return (
     <section className="my-6">
-      <h2 className="text-center text-3xl mb-8">Upcoming Games</h2>
-      {/* Filter by Platform */}
-
-      <div className="flex justify-center space-x-4 mb-4 text-black ">
-
-        <PlatformButton
-          name="All Games"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="PlayStation 5"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="Xbox Series S | X"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="Switch"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-
-      </div>
-
       <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
 
       {/* Compact Carousel Component */}
@@ -171,18 +146,7 @@ export default function SmallCarousel(props: {
         >
           {">"}
         </button>
-
-        {/* Upcoming Games - FullList */}
-      <div className="flex justify-end mt-8 pb-4">
-        <button
-          onClick={() => navigate("/browse-games")}
-          className="gray-btn "
-        >
-          All Upcoming Games
-        </button>
       </div>
-      </div>
-
-     </section>
+    </section>
   );
 }

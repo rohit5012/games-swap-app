@@ -47,6 +47,15 @@ export const getUpcomingGames = async (
   );
 };
 
+export const getPopularGames = async (
+  platforms?: string | null
+): Promise<Game[]> => {
+  return fetchGames(
+    `/games?key=${rawgAPIKey}&ordering=-added`,
+    platforms
+  );
+};
+
 export const getAllGames = async (): Promise<Game[]> => {
   return fetchGames(`/games?key=${rawgAPIKey}`);
 };
