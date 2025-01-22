@@ -15,7 +15,7 @@ import NewFooter from "./components/NewFooter";
 import Messages from "./pages/Messages";
 import MapUserProfile from "./pages/MapUserProfile";
 import { Toaster } from "sonner";
-import UserComponent from "./components/ViewProfile";
+import ViewProfileComponent from "./components/ViewProfile";
 import ContactForm from "./pages/ContactForm";
 
 function App() {
@@ -37,7 +37,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/user-profile-setup" element={<UserProfileSetup />} />
             <Route path="/user-profile" element={<UserProfilePage />} />
-            <Route path="/users/:userId" element={<UserComponent />} />
+            <Route path="/users/:userId" element={<ViewProfileComponent />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/contact" element={<ContactForm />} />
