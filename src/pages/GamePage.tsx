@@ -11,7 +11,7 @@ import SmallCarousel from "@/components/SmallCarousel";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { updateWishlist } from "@/services/wishlistServices";
+import { fetchWishlist, removeFromWishlist, updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { updateOwnedGamesList } from "@/services/ownedListService";
@@ -28,9 +28,9 @@ const GamePage = () => {
   const [screenshots, setScreenshots] = useState<[]>([]);
   const [videos, setVideos] = useState({});
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
-  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(
-    null
-  );
+
+  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
+  const [isWishlisted, setWishlisted] = useState(false)
   const { user } = useAuth();
 
   useEffect(() => {
@@ -38,30 +38,39 @@ const GamePage = () => {
       try {
         const response = await fetchGameDetails(game_slug);
         const fetchedScreenShots = await getGameScreenshots(response.id);
-        // const youtubeTrailers = await fetchYouTubeTrailers(response.name)
+
+        
+        // Fetch wishlist and log the result
+        if (user && user.uid) {
+          const wishlist = await fetchWishlist(user.uid);
+          if (wishlist[0].games[game_slug]){
+            setWishlisted(true)
+          }
+        }
+  
         const smallCarouselGames = await getGamesByGenre(
           response.genres.map((genre) => genre.slug)
         );
+  
         setRecommendedGames(smallCarouselGames);
         setScreenshots(fetchedScreenShots);
         if (fetchedScreenShots.length > 0) {
           setSelectedScreenshot(fetchedScreenShots[0].image);
         }
-        // setVideos(youtubeTrailers)
+  
         setGame(response);
-        // setSelectedVideoId(youtubeTrailers[0].videoId)
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch game details. Please try again later.");
         setLoading(false);
       }
     };
-
+  
     if (game_slug) {
       fetchData();
     }
-  }, [game_slug]);
-
+  }, [game_slug, user]); 
+  
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
@@ -78,6 +87,7 @@ const GamePage = () => {
     );
   }
 
+
   if (!game) {
     return null; // Return nothing if no game is available
   }
@@ -85,6 +95,78 @@ const GamePage = () => {
   const handleThumbnailClick = (videoId: string) => {
     setSelectedVideoId(videoId);
   };
+
+
+  const handleAddToOwnedGames = () => {
+    const newOwnedItem = {
+      gameName: game.name,
+      slug: game.slug,
+      backgroundImg: game.background_image,
+      releaseDate: game.released,
+    };
+
+    toast.success(
+      <div className="flex items-center space-x-4">
+        <img
+          src={game.background_image}
+          alt={game.name}
+          className="w-12 h-12 object-cover rounded-md"
+        />
+        <div>
+          <p className="font-semibold">{game.name} added to owned games</p>
+        </div>
+      </div>,
+      {
+        duration: 2000,
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo owned games action"),
+        },
+      }
+    );
+
+    updateOwnedGamesList(user.uid, newOwnedItem).then(() => console.log("success!"));
+  };
+
+
+
+
+  const handleAddToWishlist = () => {
+    const newWishlistItem = {
+      gameName: game.name,
+      slug: game.slug,
+      backgroundImg: game.background_image,
+      releaseDate: game.released,
+    };
+
+    toast.success(
+      <div className="flex items-center space-x-4">
+        <img
+          src={game.background_image}
+          alt={game.name}
+          className="w-12 h-12 object-cover rounded-md"
+        />
+        <div>
+          <p className="font-semibold">{game.name} added to wishlist</p>
+        </div>
+      </div>,
+      {
+        duration: 2000,
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo wishlist action"),
+        },
+      }
+    );
+
+    updateWishlist(user.uid, newWishlistItem)
+      .then(() => console.log("success!"))
+      .catch((error) => {
+        toast.error("Failed to add game to wishlist.", { description: error.message });
+        console.error("Error updating wishlist:", error);
+      });
+  };
+
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
@@ -120,213 +202,121 @@ const GamePage = () => {
             <Button
               variant="outline"
               className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full sm:w-2/3 mt-5 sm:mt-0 sm:ml-5"
-              onClick={() => {
-                const newOwnedItem = {
-                  gameName: game.name,
-                  slug: game.slug,
-                  backgroundImg: game.background_image,
-                  releaseDate: game.released,
-                };
-                toast.success(
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={game.background_image}
-                      alt={game.name}
-                      className="w-12 h-12 object-cover rounded-md"
-                    />
-                    <div>
-                      <p className="font-semibold">
-                        {game.name} added to owned games
-                      </p>
-                    </div>
-                  </div>,
-                  {
-                    duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
-                    action: {
-                      label: "Undo",
-                      onClick: () => {
-                        // Implement undo logic if needed
-                        console.log("Undo wishlist action");
-                      },
-                    },
-                  }
-                );
-                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
-                  console.log("success!")
-                );
-              }}
+              onClick={() => handleAddToOwnedGames()}
+
+              
             >
               I own this game
             </Button>
             <div className="relative flex flex-col items-center group cursor-pointer mt-5 sm:mt-0 ml-5">
-              <FontAwesomeIcon
-                icon={faRegularHeart}
-                className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
-                onClick={() => {
-                  const newWishlistItem = {
-                    gameName: game.name,
-                    slug: game.slug,
-                    backgroundImg: game.background_image,
-                    releaseDate: game.released,
-                  };
-                  toast.success(
-                    <div className="flex items-center space-x-4">
-                      <img
-                        src={game.background_image}
-                        alt={game.name}
-                        className="w-12 h-12 object-cover rounded-md"
-                      />
-                      <div>
-                        <p className="font-semibold">
-                          {game.name} added to wishlist
-                        </p>
-                      </div>
-                    </div>,
-                    {
-                      duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
-                      action: {
-                        label: "Undo",
-                        onClick: () => {
-                          // Implement undo logic if needed
-                          console.log("Undo wishlist action");
-                        },
-                      },
-                    }
-                  );
 
-                  updateWishlist(user.uid, newWishlistItem)
-                    .then(() => {
-                      // Success message via toast
+  <FontAwesomeIcon
+    icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
+    className={`text-xl ${
+      isWishlisted ? "text-red-500" : "text-gray-400"
+    } group-hover:scale-125 transition-all `}
+    onClick={() => {
+      if (isWishlisted) {
+        // Remove from wishlist
+        setWishlisted(false)
+        removeFromWishlist(user?.uid, game.slug).then(() => console.log("success!"))
+      } else {
+        // Add to wishlist
+        handleAddToWishlist();
+        setWishlisted(true); // Update state after adding
+      }
+    }}
+  />
+  <span
+    className={`text-xs mt-1 ${
+      isWishlisted ? "text-red-500" : "text-gray-400 opacity-0 group-hover:opacity-100 "
+    } transition-all`}
+  >
+    {"Wishlist"}
+  </span>
+</div>
 
-                      console.log("success!");
-                    })
-                    .catch((error) => {
-                      // Show an error toast if there's an issue with the update
-                      toast.error("Failed to add game to wishlist.", {
-                        description: error.message,
-                      });
-                      console.error("Error updating wishlist:", error);
-                    });
-                }}
-              />
-              <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
-                Wishlist
-              </span>
-            </div>
           </div>
         </div>
+  
 
+
+
+
+
+
+
+  
         {/* Mobile view */}
-        <div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
-          <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
-          <div className="mt-2 flex flex-wrap gap-2 justify-center">
-            {game.platforms?.map((platform, index) => (
-              <span
-                key={index}
-                className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
-              >
-                {platform.platform.name}
-              </span>
-            ))}
-          </div>
-          <div className="flex flex-col items-center justify-between mt-6">
-            <Button
-              variant="outline"
-              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
-              onClick={() => {
-                console.log("Button clicked");
-              }}
-            >
-              Borrow Game
-            </Button>
+<div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
+  <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
+  <div className="mt-2 flex flex-wrap gap-2 justify-center">
+    {game.platforms?.map((platform, index) => (
+      <span
+        key={index}
+        className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
+      >
+        {platform.platform.name}
+      </span>
+    ))}
+  </div>
 
-            <Button
-              variant="outline"
-              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full"
-              onClick={() => {
-                const newOwnedItem = {
-                  gameName: game.name,
-                  slug: game.slug,
-                  backgroundImg: game.background_image,
-                  releaseDate: game.released,
-                };
-                toast.success(
-                  <div className="flex items-center space-x-4">
-                    <img
-                      src={game.background_image}
-                      alt={game.name}
-                      className="w-12 h-12 object-cover rounded-md"
-                    />
-                    <div>
-                      <p className="font-semibold">
-                        {game.name} added to owned games
-                      </p>
-                    </div>
-                  </div>,
-                  {
-                    duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
-                    action: {
-                      label: "Undo",
-                      onClick: () => {
-                        // Implement undo logic if needed
-                        console.log("Undo wishlist action");
-                      },
-                    },
-                  }
-                );
-                updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
-                  console.log("success!")
-                );
-              }}
-            >
-              I own this game
-            </Button>
-            <div className="relative flex flex-col items-center group cursor-pointer mt-5">
-              <FontAwesomeIcon
-                icon={faRegularHeart}
-                className="text-xl text-gray-400 group-hover:text-red-500 group-hover:scale-125 transition-all"
-                onClick={() => {
-                  const newWishlistItem = {
-                    gameName: game.name,
-                    slug: game.slug,
-                    backgroundImg: game.background_image,
-                    releaseDate: game.released,
-                  };
-                  toast.success(
-                    <div className="flex items-center space-x-4">
-                      <img
-                        src={game.background_image}
-                        alt={game.name}
-                        className="w-12 h-12 object-cover rounded-md"
-                      />
-                      <div>
-                        <p className="font-semibold">
-                          {game.name} added to wishlist
-                        </p>
-                      </div>
-                    </div>,
-                    {
-                      duration: 2000, // Duration in milliseconds (5000ms = 5 seconds)
-                      action: {
-                        label: "Undo",
-                        onClick: () => {
-                          // Implement undo logic if needed
-                          console.log("Undo wishlist action");
-                        },
-                      },
-                    }
-                  );
-                  updateWishlist(user.uid, newWishlistItem).then(() =>
-                    console.log("success!")
-                  );
-                }}
-              />
-              <span className="text-xs text-gray-400 mt-1 opacity-0 group-hover:opacity-100 group-hover:text-red-500 transition-all">
-                Wishlist
-              </span>
-            </div>
-          </div>
-        </div>
+  <div className="flex flex-col items-center justify-between mt-6">
+    {/* Borrow Game Button */}
+    <Button
+      variant="outline"
+      className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
+      onClick={() => {
+        // Add any specific logic for borrowing the game
+      }}
+    >
+      Borrow Game
+    </Button>
+
+    {/* I Own This Game Button */}
+    <Button
+      variant="outline"
+      className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
+      onClick={() => handleAddToOwnedGames()}
+    >
+      I own this game
+    </Button>
+
+    {/* Wishlist Icon and Text */}
+    <div className="relative flex flex-col items-center group cursor-pointer mt-5">
+      <FontAwesomeIcon
+        icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
+        className={`text-xl ${
+          isWishlisted ? "text-red-500" : "text-gray-400"
+        } group-hover:scale-125 transition-all`}
+        onClick={() => {
+          if (isWishlisted) {
+            // Remove from wishlist
+            setWishlisted(false);
+            removeFromWishlist(user?.uid, game.slug).then(() =>
+              console.log("Game removed from wishlist!")
+            );
+          } else {
+            // Add to wishlist
+            handleAddToWishlist();
+            setWishlisted(true); // Update state after adding
+          }
+        }}
+      />
+      <span
+        className={`text-xs mt-1 ${
+          isWishlisted
+            ? "text-red-500"
+            : "text-gray-400 opacity-0 group-hover:opacity-100"
+        } transition-all`}
+      >
+        Wishlist
+      </span>
+    </div>
+  </div>
+</div>
+
+
       </div>
 
       {/* Game Details */}
@@ -501,6 +491,9 @@ const GamePage = () => {
           )}
         </div>
       </div>
+
+    </div>
+
 
       {/* Game Description */}
       <div className="relative z-9 mt-8 px-6 md:px-16">
