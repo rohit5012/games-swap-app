@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "./ui/Button";
 import { fetchOwnedList, toggleLendable } from "@/services/ownedListService";
 import {
@@ -14,10 +13,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-const OwnedList = ({ userId }) => {
+const OtherPPLWishlist = ({ userId, username }) => {
   const [ownedGames, setOwnedGames] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  console.log(`Hello ${username}`)
   useEffect(() => {
     async function fetchOwnedGamesData() {
       try {
@@ -32,25 +31,6 @@ const OwnedList = ({ userId }) => {
     fetchOwnedGamesData();
   }, [userId]);
 
-  const handleToggleLendable = async (slug) => {
-    try {
-      const updatedStatus = await toggleLendable(userId, slug);
-
-      //rerenders page with information
-      setOwnedGames((prev) => ({
-        ...prev,
-        games: {
-          ...prev.games,
-          [slug]: {
-            ...prev.games[slug],
-            lendable: updatedStatus,
-          },
-        },
-      }));
-    } catch (error) {
-      console.error("Error toggling lendable status:", error);
-    }
-  };
 
   if (loading) {
     return <div className="text-center text-lg py-10">Loading...</div>;
@@ -71,7 +51,7 @@ const OwnedList = ({ userId }) => {
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-2xl font-semibold text-center mb-8">
-        Your Owned Games
+        {`${username.trim()}'s games`}
       </h2>
       <div className="flex justify-center">
         <div className="w-full max-w-7xl">
@@ -87,9 +67,7 @@ const OwnedList = ({ userId }) => {
                   className="w-1/3 h-auto object-cover"
                 />
                 <div className="p-4 flex flex-col justify-center items-center w-2/3 text-center">
-                  <h3 className="text-lg font-bold mb-2 text-black">
-                    {game.gameName}
-                  </h3>
+                  <h3 className="text-lg font-bold mb-2">{game.gameName}</h3>
                   <p className="text-gray-600">
                     Release Date:{" "}
                     {new Date(game.releaseDate).toLocaleDateString()}
@@ -98,12 +76,12 @@ const OwnedList = ({ userId }) => {
                     {game.lendable ? (
                       <span className="text-green-600 flex items-center gap-2">
                         <FontAwesomeIcon icon={faCheck} />
-                        Lendable
+                        This game is available!
                       </span>
                     ) : (
                       <span className="text-red-600 flex items-center gap-2">
                         <FontAwesomeIcon icon={faTimes} />
-                        Not Lendable
+                        This is unavailable...
                       </span>
                     )}
                   </div>
@@ -116,17 +94,13 @@ const OwnedList = ({ userId }) => {
                     className="inline-block z-10 bg-black text-white justify-center flex items-center min-w-28"
                   >
                     <DialogTrigger>
-                      {game.lendable ? (
-                        <strong>Unlist item</strong>
-                      ) : (
-                        <strong>Lend your game</strong>
-                      )}
+                      {game.lendable ? (<strong>Ask to Borrow</strong>) :(<strong>Message</strong>)}
                     </DialogTrigger>
                   </a>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>
-                        Would you like to lend your game?
+                        Would you like to borrow {game.gameName}?
                       </DialogTitle>
                       <DialogDescription>
                         Terms and conditions?#placeholder
@@ -135,7 +109,7 @@ const OwnedList = ({ userId }) => {
                     <DialogFooter>
                       <Button
                         type="submit"
-                        onClick={() => handleToggleLendable(game.slug)}
+                        onClick={() => console.log("success! You are on your way to borrowing ")}
                       >
                         Confirm
                       </Button>
@@ -151,4 +125,4 @@ const OwnedList = ({ userId }) => {
   );
 };
 
-export default OwnedList;
+export default OtherPPLWishlist;

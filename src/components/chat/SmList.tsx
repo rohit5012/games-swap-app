@@ -84,7 +84,7 @@ function SmList() {
           <Input
             className="w-full pl-10 pr-4"
             type="search"
-            placeholder="Search"
+            placeholder="Search chats"
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />

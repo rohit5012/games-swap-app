@@ -18,16 +18,7 @@ function ChatDetail() {
         <h2 className="font-semibold text-2xl">{user.nickname}</h2>
         <p className="text-sm font-light text-slate-600">{user.location}</p>
       </div>
-      <div className="p-5 flex flex-col gap-7">
-        <div>
-          <div>
-            <div className="flex items-center justify-between">
-              <span>Details</span>
-              <LucideChevronUp className="w-7 h-7 p-2 rounded-full cursor-pointer bg-slate-200" />
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="p-5 flex flex-col gap-7"></div>
     </CardContent>
   );
 }

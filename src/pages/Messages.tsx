@@ -29,7 +29,6 @@ function Messages() {
         <Card className="flex w-4/5 h-4/5">
           <ChatList />
           {chatId && <Chat />}
-          {chatId && <ChatDetail />}
         </Card>
       ) : (
         <p>Please Sign In</p>

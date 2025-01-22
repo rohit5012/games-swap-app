@@ -2,8 +2,12 @@ import { PiGameControllerLight } from "react-icons/pi";
 
 export default function Footer() {
   return (
-    <footer className="bg-zinc-900 dark:bg-zinc-100 text-white py-9">
+
       <div className="container mx-auto flex justify-between items-start px-8 md:px-20">
+
+    <footer className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black py-9">
+      
+
         <div className="flex flex-col md:flex-row md:space-x-16">
           <ul className="mb-4 md:mb-0">
             <li className="font-bold mb-4">pages</li>
