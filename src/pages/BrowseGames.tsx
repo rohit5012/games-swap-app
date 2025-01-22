@@ -1,36 +1,30 @@
 import { useEffect, useState } from "react";
-import { Game, getAllGames, getPaginatedGames } from "@/rawgApi";
+import { Game, getPaginatedGames } from "@/rawgApi";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/Card";
 import { Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
-import { updateWishlist } from "@/services/wishlistServices"; 
-import Pagination from "../components/ui/Pagination"; 
+import { updateWishlist } from "@/services/wishlistServices";
+import Pagination from "../components/ui/Pagination";
 
 export default function BrowseGames() {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [displayedGames, setDisplayedGames] = useState<Game[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalGames, setTotalGames] = useState(0); 
-  const itemsPerPage = 8; 
+  const [totalGames, setTotalGames] = useState(0);
+  const itemsPerPage = 8;
 
-  // useEffect(() => {
-  //   getAllGames().then((gameData) => {
-  //     setDisplayedGames(gameData);
-  //   });
-  // }, []);
   useEffect(() => {
     getPaginatedGames(currentPage, itemsPerPage).then((gameData) => {
       setDisplayedGames(gameData.results);
-      setTotalGames(gameData.count); 
+      setTotalGames(gameData.count);
     });
-  }, [currentPage]); 
+  }, [currentPage]);
 
   async function handleAddToWishlist(game: Game) {
     if (user) {
@@ -55,29 +49,29 @@ export default function BrowseGames() {
         {displayedGames.map((game) => (
           <div key={game.id} className="w-96 inline-flex pb-5">
             <Card className="card-games-body card-games">
-            <Link to={`/game/${game.slug}`}>
-              <CardHeader>          
+              <Link to={`/game/${game.slug}`}>
+                <CardHeader>
                   <img
                     src={game.background_image}
                     alt={game.name}
                     className="w-80 h-52 object-cover w-full"
                   />
-                
-                <CardTitle>{game.name}</CardTitle>
-              </CardHeader>
-              <CardContent platformClassName="bg-gray-700 px-3 py-1 rounded text-sm text-gray-300">
-                {game.platforms.map((availablePlats) => (
-                  <p key={availablePlats.platform.id}>
-                    {availablePlats.platform.name}
-                  </p>
-                ))}
-              </CardContent>
-              </Link> 
+
+                  <CardTitle>{game.name}</CardTitle>
+                </CardHeader>
+                <CardContent platformClassName="bg-gray-700 px-3 py-1 rounded text-sm text-gray-300">
+                  {game.platforms.map((availablePlats) => (
+                    <p key={availablePlats.platform.id}>
+                      {availablePlats.platform.name}
+                    </p>
+                  ))}
+                </CardContent>
+              </Link>
               <CardFooter className="card-games-wishlist-button pt-4">
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); 
-                    handleAddToWishlist(game); 
+                    e.stopPropagation();
+                    handleAddToWishlist(game);
                   }}
                   className="black-btn bg-gray-900 text-white px-4 py-2 rounded mt-2 w-full"
                 >

@@ -50,10 +50,7 @@ export const getUpcomingGames = async (
 export const getPopularGames = async (
   platforms?: string | null
 ): Promise<Game[]> => {
-  return fetchGames(
-    `/games?key=${rawgAPIKey}&ordering=-added`,
-    platforms
-  );
+  return fetchGames(`/games?key=${rawgAPIKey}&ordering=-added`, platforms);
 };
 
 export const getAllGames = async (): Promise<Game[]> => {
@@ -90,19 +87,49 @@ export const getGamesByGenre = async (
 };
 
 export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {
-  return fetchGames(
-    `/games?key=${rawgAPIKey}&search=${searchTerm}`
-  );
+  return fetchGames(`/games?key=${rawgAPIKey}&search=${searchTerm}`);
 };
 
+// New function to fetch genres
+export const getPlatforms = async (): Promise<{
+  id: number;
+  name: string;
+  slug: string;
+}> => {
+  try {
+    const response = await rawgAPI.get(`/platforms?key=${rawgAPIKey}`);
+    return response.data.results;
+  } catch (error) {
+    throw new Error("Error finding platforms");
+  }
+};
+
+// New function to fetch platforms
+export const getGenres = async (): Promise<{
+  id: number;
+  name?: string;
+  slug: string;
+}> => {
+  try {
+    const response = await rawgAPI.get(`/genres?key=${rawgAPIKey}`);
+    console.log(response);
+    return response.data.results;
+  } catch (error) {
+    throw new Error("Error finding genres");
+  }
+};
 
 // Function for pagination
-export const getPaginatedGames = async (page: number, itemsPerPage: number): Promise<ApiResponse> => {
+export const getPaginatedGames = async (
+  page: number,
+  itemsPerPage: number
+): Promise<ApiResponse> => {
   const offset = (page - 1) * itemsPerPage;
-  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(`/games?key=${rawgAPIKey}&offset=${offset}&limit=${itemsPerPage}`);
+  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(
+    `/games?key=${rawgAPIKey}&offset=${offset}&limit=${itemsPerPage}`
+  );
   return response.data;
 };
-
 
 export const getGameScreenshots = async (gameId: number): Promise<[]> => {
   try {
@@ -113,11 +140,9 @@ export const getGameScreenshots = async (gameId: number): Promise<[]> => {
       throw new Error(`Failed to fetch screenshots: ${response.statusText}`);
     }
     const data = await response.json();
-    return data.results; 
+    return data.results;
   } catch (error) {
     console.error(error);
     return [];
   }
 };
-
-
