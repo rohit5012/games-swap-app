@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
 import { Card } from "@/components/ui/Card";
 import PlatformButton from "@/components/ui/PlatformButton";
+import PlatformSelector from "@/components/PlatformRedirectIcons";
 
 export default function Home() {
   const [upcomingGames, setUpcomingGames] = useState<Game[]>([]);
@@ -23,6 +24,10 @@ export default function Home() {
       setPopularGames(gameData);
     });
   }, []);
+
+  const handlePlatformSelect = (platform: "PS4" | "PS5" | "Xbox One" | "Xbox Series X/S" | "Switch") => {
+    console.log("Selected platform:", platform);
+  };
 
   return (
     <>
@@ -54,17 +59,13 @@ export default function Home() {
           setPlatforms={setPlatforms}
         />
       </div>
-      <div>
+      <div >
         <SmallCarousel
           games={upcomingGames}
           carouselTitle="Upcoming Releases"
         />
-        <div className="w-full flex justify-center items-center">
-          <PlatformButton
-            name="Playstation 5"
-            platform={platforms}
-            setPlatforms={setPlatforms}
-          />
+        <div>
+          <PlatformSelector onSelect={handlePlatformSelect} />
         </div>
         <SmallCarousel games={popularGames} carouselTitle="Popular Games" />
       </div>
