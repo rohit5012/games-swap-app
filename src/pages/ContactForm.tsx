@@ -49,19 +49,19 @@ const ContactForm: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center w-full pb-16"
+      className="flex flex-col items-center w-full pb-16 md:pb-20 "
       style={{ backgroundColor: "#342543" }}
     >
       <div className="w-full my-4 md:mb-28">
-        <h2 className="text-4xl font-bold my-10 md:mt-10 text-center text-white">
+        <h2 className="text-3xl md:text-4xl font-bold my-10 md:mt-10 text-center text-white">
           Contact Us
         </h2>
-        <div
-          className="whitespace-nowrap marquee md:text-2xl"
+        <i
+          className="whitespace-nowrap marquee text-lg md:text-2xl"
           style={{ color: "#48cae4" }}
         >
-          Your Feedback Matters, Drop Us a Line and We will get back to You!
-        </div>
+          Your feedback matters, Drop Us a line and we will get back to you!
+        </i>
       </div>
 
       <div className="flex flex-col md:flex-row gap-2 md:gap-20 justify-center items-center w-full">
