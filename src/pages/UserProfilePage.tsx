@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  getDocs,
-  query,
-  where,
-  collection,
-  setDoc,
-  doc,
-} from "firebase/firestore";
+import { getDocs, query, where, collection } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { updateUserDetails } from "@/services/userDetailsService";
@@ -17,7 +10,8 @@ import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
 import { Button } from "@/components/ui/Button";
-import { Link, useNavigate } from "react-router";
+import { fetchOwnedList } from "@/services/ownedListService";
+import { fetchWishlist } from "@/services/wishlistServices";
 
 export type UserProfileRegUser = {
   firstName: string;
@@ -35,7 +29,6 @@ export type UserProfileRegUser = {
 
 const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
@@ -50,10 +43,24 @@ const UserProfileRegUser: React.FC = () => {
 
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
+          let ownedCount = 0;
+          let wishlistedCount = 0;
+          const ownedData = await fetchOwnedList(user.uid);
+          const wishlistData = await fetchWishlist(user.uid);
+          const wishlisted = Object.keys(wishlistData[0].games);
+          const ownedList = Object.keys(ownedData[0].games);
+          ownedList.forEach((game) => ownedCount++);
+          wishlisted.forEach((game) => wishlistedCount++);
+
           const userData = querySnapshot.docs[0].data();
           const userDocId = querySnapshot.docs[0].id;
 
-          setProfile({ ...userData, id: userDocId });
+          setProfile({
+            ...userData,
+            id: userDocId,
+            gamesOwned: ownedCount,
+            gamesLent: wishlistedCount,
+          });
         }
       };
       fetchUserProfile();
@@ -131,8 +138,8 @@ const UserProfileRegUser: React.FC = () => {
   }
 
   return (
-    <>
-      <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-colors duration-200 mt-12">
+    <section className="w-full">
+      <div className="min-w-96 w-1/2 mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-colors duration-200 mt-12">
         <div className="relative h-48">
           <img
             src={profile.avatarUrl}
@@ -178,8 +185,7 @@ const UserProfileRegUser: React.FC = () => {
           {/* Games & Platforms */}
           <div className="flex flex-col text-gray-600 dark:text-gray-300 flex-1">
             <p className="mt-6">Games Owned: {profile.gamesOwned}</p>
-            <p className="mt-0.5">Games Lent: {profile.gamesLent}</p>
-            <p className="mt-0.5">Games Borrowed: {profile.gamesBorrowed}</p>
+            <p className="mt-0.5">Wishlisted Games: {profile.gamesLent}</p>
 
             <div className="mt-2 flex space-x-2">
               {profile.platforms.map((platform, index) => (
@@ -303,7 +309,7 @@ const UserProfileRegUser: React.FC = () => {
           <Wishlist userId={user?.uid}></Wishlist>
         )}
       </div>
-    </>
+    </section>
   );
 };
 

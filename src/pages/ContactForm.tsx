@@ -46,14 +46,11 @@ const ContactForm: React.FC = () => {
     );
   };
   return (
-    <div
-      className="min-h-screen flex flex-col md:flex-row p-4 md:ml-4 md:mr-4"
-      style={{ backgroundColor: "#342543" }}
-    >
+    <div className="min-h-screen flex flex-col md:flex-row p-4 md:ml-4 md:mr-4 bg-[#36263E]">
       <div className="container mx-auto flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex justify-center items-center p-8 md:p-0">
           <div
-            className="h-96 w-96 bg-cover bg-center"
+            className="h-96 w-96 bg-cover bg-center rounded-full border-4 border-white"
             style={{ backgroundImage: `url(${Pic})` }}
           ></div>
         </div>
@@ -61,8 +58,7 @@ const ContactForm: React.FC = () => {
         <div className="w-full md:w-3/4 flex justify-center items-center p-4 md:p-0'">
           <form
             onSubmit={handleSubmit}
-            className="bg-gray-800 p-8 md:p-16 rounded-lg w-full max-w-lg mx-auto"
-            style={{ backgroundImage: `url(${Pic})` }}
+            className="bg-[#36263E] p-8 md:p-16 rounded-lg w-full max-w-lg mx-auto"
           >
             <div className="mb-4">
               <label
