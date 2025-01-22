@@ -15,6 +15,7 @@ import { db } from "@/firebase/firebase";
 import { useChatStore } from "@/lib/chatStore";
 import { useUserStore } from "@/lib/userStore";
 import TimeAgo from "timeago-react";
+import { Link } from "react-router";
 
 function Chat() {
   const [text, setText] = useState("");
@@ -83,15 +84,19 @@ function Chat() {
     <CardContent className="flex flex-col flex-[2_2_0%] border-x-2 h-full p-0">
       <div className="flex p-5 items-center justify-between border-b-2">
         <div className="flex items-center gap-5">
-          <img
-            className="w-16 h-16 rounded-lg object-cover"
-            src={
-              user.avatarUrl ||
-              "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
-            }
-          />
+          <Link to={`/users/${user.userId}`}>
+            <img
+              className="w-16 h-16 rounded-lg object-cover"
+              src={
+                user.avatarUrl ||
+                "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
+              }
+            />
+          </Link>
           <div className="flex flex-col gap-1">
-            <span className="font-semibold text-lg">{user.nickname}</span>
+            <Link to={`/users/${user.userId}`}>
+              <span className="font-semibold text-lg">{user.nickname}</span>
+            </Link>
             <p className="text-sm font-light text-slate-600">{user.location}</p>
           </div>
         </div>

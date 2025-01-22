@@ -87,7 +87,7 @@ const Wishlist = ({ userId }) => {
       {/* Trash Icon */}
       <FontAwesomeIcon
         icon={faTrashAlt}
-        className="text-gray-400 hover:text-red-500 text-lg"
+        className="text-gray-800 hover:text-red-500 text-lg"
         onClick={(e) => {
           e.preventDefault(); // Prevent navigating to the game page
           handleRemoveFromWishlist(game.slug);

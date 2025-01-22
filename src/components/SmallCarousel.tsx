@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
-import PlatformButton from "./ui/PlatformButton";
 import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
@@ -9,12 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function SmallCarousel(props: {
   games: Game[];
-  platforms: string | null;
-  setPlatforms: React.Dispatch<React.SetStateAction<string | null>>;
+  carouselTitle?: string;
 }) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
-  const navigate = useNavigate();
 
   const { user } = useAuth();
 
@@ -67,68 +63,11 @@ export default function SmallCarousel(props: {
   }
   return (
     <section className="my-6">
-      <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
-      {/* Filter by Platform */}
+      <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
 
-      <div className="flex justify-center space-x-4 mb-4 text-black ">
-
-        <PlatformButton
-          name="All Games"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="PlayStation 5"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="Xbox Series S | X"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        <PlatformButton
-          name="Switch"
-          platforms={props.platforms}
-          setPlatforms={props.setPlatforms}
-        />
-        {/* <button
-          onClick={() => props.setPlatforms(null)}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === null ? "bg-gray-400" : ""
-          }`}
-        >
-          All Games
-        </button>
-        <button
-          onClick={() => props.setPlatforms("187")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "187" ? "bg-gray-400" : ""
-          }`}
-        >
-          Playstation 5
-        </button>
-        <button
-          onClick={() => props.setPlatforms("186")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "186" ? "bg-gray-400" : ""
-          }`}
-        >
-          Xbox Series S | X
-        </button>
-        <button
-          onClick={() => props.setPlatforms("7")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "7" ? "bg-gray-400" : ""
-          }`}
-        >
-          Switch
-        </button> */}
-      </div>
       {/* Compact Carousel Component */}
 
       <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 place-self-center">
-
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
@@ -187,7 +126,7 @@ export default function SmallCarousel(props: {
             </div>
           ))}
         </div>
-        
+
         {/* Right Scroll Button */}
         <button
           onClick={scrollRight}
@@ -195,16 +134,6 @@ export default function SmallCarousel(props: {
           title="Scroll Right"
         >
           {">"}
-        </button>
-      </div>
-
-      {/* Upcoming Games - FullList */}
-      <div className="flex justify-end mt-4 px-4">
-        <button
-          onClick={() => navigate("/browse-games")}
-          className="bg-gray-200 text-black px-4 py-2 rounded"
-        >
-          Upcoming Games: Full List
         </button>
       </div>
     </section>
