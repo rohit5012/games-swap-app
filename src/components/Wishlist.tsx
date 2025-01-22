@@ -9,8 +9,8 @@ import { useAuth } from "@/hooks/useAuth";
 const Wishlist = ({ userId }) => {
   const [wishlist, setWishlist] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const {user} = useAuth()
+
 
   useEffect(() => {
     async function fetchWishlistData() {

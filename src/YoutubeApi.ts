@@ -3,7 +3,7 @@ const YoutubeAPIkey = import.meta.env.VITE_YOUTUBE_API_KEY;
 
 export const fetchYouTubeTrailers = async (gameName) => {
     const searchQuery = `${gameName} trailer`;
-    console.log(YoutubeAPIkey)
+
     try {
       const response = await fetch(
         `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(searchQuery)}&key=${YoutubeAPIkey}`

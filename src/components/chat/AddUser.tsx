@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserStore } from "@/lib/userStore";
 
 interface User {
   avatarUrl?: string;
@@ -25,9 +26,8 @@ interface User {
 function AddUser() {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState<User[] | null>(null);
-
+  const { currentUser } = useUserStore();
   const { user } = useAuth();
-
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -53,7 +53,6 @@ function AddUser() {
           (doc) => doc.data() as User
         );
         setUsers(matchingUsers);
-        console.log(users);
       } else {
         setUsers(null);
       }
@@ -75,12 +74,12 @@ function AddUser() {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: user?.uid,
+          receiverId: currentUser.userId,
           updatedAt: Date.now(),
         }),
       });
 
-      await updateDoc(doc(userChatsRef, user?.uid), {
+      await updateDoc(doc(userChatsRef, currentUser.userId), {
         chats: arrayUnion({
           chatId: newChatRef.id,
           lastMessage: "",
@@ -88,7 +87,6 @@ function AddUser() {
           updatedAt: Date.now(),
         }),
       });
-
     } catch (error) {
       console.error("Error adding chat:", error);
     }
@@ -129,31 +127,35 @@ function AddUser() {
               </form>
               <div className="overflow-scroll h-96">
                 {users &&
-                  users.map((user) => (
-                    <div
-                      key={user.userId}
-                      className="flex items-center justify-between gap-5 p-5 pr-0 cursor-pointer border-b-2"
-                    >
-                      <div className="flex items-center gap-5">
-                        <img
-                          className="w-12 h-12 rounded-lg object-cover"
-                          src={
-                            user.avatarUrl ||
-                            "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
-                          }
-                        />
-                        <span className="font-semibold">{user.nickname}</span>
+                  users.map((chatUser) => {
+                    return chatUser.userId === currentUser.userId ? null : (
+                      <div
+                        key={chatUser.userId}
+                        className="flex items-center justify-between gap-5 p-5 pr-0 cursor-pointer border-b-2"
+                      >
+                        <div className="flex items-center gap-5">
+                          <img
+                            className="w-12 h-12 rounded-lg object-cover"
+                            src={
+                              chatUser.avatarUrl ||
+                              "https://t3.ftcdn.net/jpg/01/12/43/90/360_F_112439016_DkgjEftsYWLvlYtyl7gVJo1H9ik7wu1z.jpg"
+                            }
+                          />
+                          <span className="font-semibold">
+                            {chatUser.nickname}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant={"default"}
+                            onClick={() => handleAdd(chatUser.userId)}
+                          >
+                            Add User
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant={"default"}
-                          onClick={() => handleAdd(user.userId)}
-                        >
-                          Add User
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </section>
           </div>

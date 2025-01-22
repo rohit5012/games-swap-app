@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup, Circle } from "react-leaflet";
 import L from "leaflet";
 import { Gamer } from "../types/Gamer";
 import { MapDistanceCalculator } from "./MapDistanceCalculator";
-
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
@@ -38,7 +37,6 @@ const NewMap: React.FC = () => {
   }, []);
 
   const fetchGamers = async () => {
-    console.log("Fetching users...");
     try {
       const usersCollection = collection(db, "user details");
       const usersSnapshot = await getDocs(usersCollection);
@@ -59,7 +57,6 @@ const NewMap: React.FC = () => {
           }
         })
         .filter((doc) => doc !== null);
-      console.log("Valid users data:", usersData);
       setUsers(usersData);
     } catch (error) {
       console.error("Error fetching users:", error);

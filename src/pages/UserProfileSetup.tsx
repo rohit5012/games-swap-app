@@ -14,14 +14,14 @@ import { Input } from "@/components/ui/Input";
 import { useNavigate } from "react-router-dom";
 import { createWishlist } from "@/services/wishlistServices";
 import { createOwnedGamesList } from "@/services/ownedListService";
-import { getCoordinates } from "@/services/geocodeCoordinates"; 
+import { getCoordinates } from "@/services/geocodeCoordinates";
 
 const UserProfileSetup: React.FC = () => {
   const { user } = useAuth();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [location, setLocation] = useState<string>("");
-  const [coordinates, setCoordinates] = useState<[number, number] | null>(null); 
+  const [coordinates, setCoordinates] = useState<[number, number] | null>(null);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [platforms, setPlatforms] = useState<string[]>([]);
   const [nickname, setNickname] = useState<string>("");
@@ -31,9 +31,8 @@ const UserProfileSetup: React.FC = () => {
     e.preventDefault();
 
     const coords = await getCoordinates(location);
-    console.log("Retrieved coordinates:", coords);
     if (coords) {
-      setCoordinates(coords); 
+      setCoordinates(coords);
 
       if (user) {
         const newUserDetails = {
@@ -47,17 +46,14 @@ const UserProfileSetup: React.FC = () => {
           gamesLent: 0,
           gamesBorrowed: 0,
           location,
-          latitude: coords[0], 
-          longitude: coords[1],  
+          latitude: coords[0],
+          longitude: coords[1],
         };
-
-      console.log("Saving profile data:", newUserDetails);
 
         try {
           await addUserDetails(newUserDetails);
           await createWishlist(user.uid);
           await createOwnedGamesList(user.uid);
-          console.log("Profile saved successfully!");
           setTimeout(() => {
             navigate("/");
           }, 2000);

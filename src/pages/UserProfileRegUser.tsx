@@ -34,7 +34,7 @@ export type UserProfileRegUser = {
 };
 
 const UserProfileRegUser: React.FC = () => {
-  const {user} = useAuth()
+  const { user } = useAuth();
   const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -51,13 +51,7 @@ const UserProfileRegUser: React.FC = () => {
           const userData = querySnapshot.docs[0].data();
           const userDocId = querySnapshot.docs[0].id;
 
-          console.log("User UID:", user?.uid);
-          console.log("User Profile Document ID:", userDocId);
-          console.log("User Data:", userData);
-
           setProfile({ ...userData, id: userDocId });
-        } else {
-          console.log("No user found with that ID");
         }
       };
       fetchUserProfile();
@@ -118,7 +112,6 @@ const UserProfileRegUser: React.FC = () => {
         await updateUserDetails(profile.id, updatedProfile);
         setIsEditing(false);
 
-        console.log("Profile updated successfully!");
       } catch (error) {
         console.error("Error updating profile:", error);
       }

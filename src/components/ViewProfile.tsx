@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { collection, query, where, getDocs, setDoc, doc } from 'firebase/firestore';
@@ -7,6 +8,7 @@ import { BsNintendoSwitch } from 'react-icons/bs';
 import OtherPPLWishlist from './OtherPPLOwnedGames';
 import { Button } from './ui/Button';
 import Wishlist from './Wishlist';
+
 
 
 interface UserProfileRegUser {
@@ -33,20 +35,17 @@ const ViewProfileComponent: React.FC = () => {
       const fetchUserProfile = async () => {
         try {
           const q = query(
-            collection(db, 'user details'),
-            where('userId', '==', userId)
+            collection(db, "user details"),
+            where("userId", "==", userId)
           );
 
           const querySnapshot = await getDocs(q);
           if (!querySnapshot.empty) {
             const userData = querySnapshot.docs[0].data();
-            console.log(userData)
             setProfile(userData as UserProfileRegUser);
-          } else {
-            console.log('No user found with that ID');
           }
         } catch (error) {
-          console.error('Error fetching user profile:', error);
+          console.error("Error fetching user profile:", error);
         } finally {
           setLoading(false);
         }
@@ -156,11 +155,11 @@ const ViewProfileComponent: React.FC = () => {
 
   function renderPlatformIcon(platform: string) {
     switch (platform) {
-      case 'Xbox Series X/S':
+      case "Xbox Series X/S":
         return <FaXbox className="text-xl text-green-600" />;
-      case 'PlayStation 5':
+      case "PlayStation 5":
         return <FaPlaystation className="text-xl text-blue-600" />;
-      case 'Switch':
+      case "Switch":
         return <BsNintendoSwitch className="text-xl text-red-600" />;
       default:
         return null;
