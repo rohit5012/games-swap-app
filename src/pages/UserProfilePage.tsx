@@ -17,8 +17,7 @@ import { FaPlaystation } from "react-icons/fa";
 import Wishlist from "@/components/Wishlist";
 import OwnedList from "@/components/OwnedList";
 import { Button } from "@/components/ui/Button";
-import { useNavigate } from "react-router";
-
+import { Link, useNavigate } from "react-router";
 
 export type UserProfileRegUser = {
   firstName: string;
@@ -55,22 +54,11 @@ const UserProfileRegUser: React.FC = () => {
           const userDocId = querySnapshot.docs[0].id;
 
           setProfile({ ...userData, id: userDocId });
-        } 
+        }
       };
       fetchUserProfile();
     }
   }, [user]);
-
-  const handleMessage = async () => {
-    try {
-      await setDoc(doc(db, "userchats", user?.uid), { // need to create userchats doc for other user
-        chats: [],
-      });
-      navigate(`/messages`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const renderPlatformIcon = (platform: string) => {
     switch (platform) {
@@ -130,7 +118,6 @@ const UserProfileRegUser: React.FC = () => {
 
         await updateUserDetails(profile.id, updatedProfile);
         setIsEditing(false);
-
       } catch (error) {
         console.error("Error updating profile:", error);
       }
@@ -184,8 +171,10 @@ const UserProfileRegUser: React.FC = () => {
                 <p className="text-purple-600 dark:text-purple-400">
                   {profile.location}
                 </p>
-                <Button variant={"default"} onClick={handleMessage}>
-                  Message
+                <Button variant={"default"}>
+                  <Link to={`/messages`} className="w-full h-full">
+                    Message
+                  </Link>
                 </Button>
               </>
             )}

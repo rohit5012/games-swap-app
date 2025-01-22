@@ -492,9 +492,6 @@ const GamePage = () => {
         </div>
       </div>
 
-    </div>
-
-
       {/* Game Description */}
       <div className="relative z-9 mt-8 px-6 md:px-16">
         <div className="bg-black/80 p-8 rounded-lg shadow-lg">
