@@ -50,10 +50,7 @@ export const getUpcomingGames = async (
 export const getPopularGames = async (
   platforms?: string | null
 ): Promise<Game[]> => {
-  return fetchGames(
-    `/games?key=${rawgAPIKey}&ordering=-added`,
-    platforms
-  );
+  return fetchGames(`/games?key=${rawgAPIKey}&ordering=-added`, platforms);
 };
 
 export const getAllGames = async (): Promise<Game[]> => {
@@ -90,36 +87,8 @@ export const getGamesByGenre = async (
 };
 
 export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {
-  return fetchGames(
-    `/games?key=${rawgAPIKey}&search=${searchTerm}`
-  );
+  return fetchGames(`/games?key=${rawgAPIKey}&search=${searchTerm}`);
 };
-
-
-// Function for pagination
-export const getPaginatedGames = async (page: number, itemsPerPage: number): Promise<ApiResponse> => {
-  const offset = (page - 1) * itemsPerPage;
-  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(`/games?key=${rawgAPIKey}&offset=${offset}&limit=${itemsPerPage}`);
-  return response.data;
-};
-
-
-export const getGameScreenshots = async (gameId: number): Promise<[]> => {
-  try {
-    const response = await fetch(
-      `https://api.rawg.io/api/games/${gameId}/screenshots?key=${rawgAPIKey}`
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to fetch screenshots: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data.results; 
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
-
 
 // New function to fetch genres
 export const getPlatforms = async (): Promise<{
@@ -134,11 +103,12 @@ export const getPlatforms = async (): Promise<{
     throw new Error("Error finding platforms");
   }
 };
+
 // New function to fetch platforms
 export const getGenres = async (): Promise<{
-  id?: number;
+  id: number;
   name?: string;
-  slug?: string;
+  slug: string;
 }> => {
   try {
     const response = await rawgAPI.get(`/genres?key=${rawgAPIKey}`);
@@ -149,7 +119,31 @@ export const getGenres = async (): Promise<{
   }
 };
 
+// Function for pagination
+export const getPaginatedGames = async (
+  page: number,
+  itemsPerPage: number
+): Promise<ApiResponse> => {
+  const offset = (page - 1) * itemsPerPage;
+  const response: AxiosResponse<ApiResponse> = await rawgAPI.get(
+    `/games?key=${rawgAPIKey}&offset=${offset}&limit=${itemsPerPage}`
+  );
+  return response.data;
+};
 
-
-
+export const getGameScreenshots = async (gameId: number): Promise<[]> => {
+  try {
+    const response = await fetch(
+      `https://api.rawg.io/api/games/${gameId}/screenshots?key=${rawgAPIKey}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch screenshots: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
 

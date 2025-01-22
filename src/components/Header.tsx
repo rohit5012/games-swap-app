@@ -8,6 +8,7 @@ import { PiGameControllerLight } from "react-icons/pi";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import ThemeSwitch, { ThemeProvider } from "./ThemeToggle";
 
 interface HeaderProps {
   userProfileImage?: string;
@@ -36,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
     }
   }, [user]);
   return (
-    <header className="bg-background shadow-sm border-b-2">
+    <header className="sticky top-0 z-10 bg-background shadow-sm border-b-2">
       <div className="container mx-auto px-4">
         <div className="flex gap-5 lg:gap-0 items-center justify-between h-16">
           {/* Logo */}
@@ -67,6 +68,9 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
             >
               <MessageCircle className="size-8 p-1 mr-2" />
             </Link>
+            <ThemeProvider>
+              <ThemeSwitch />
+            </ThemeProvider>
             {user ? (
               <div className="flex flex-row gap-4">
                 <a
