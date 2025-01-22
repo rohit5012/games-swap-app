@@ -10,7 +10,6 @@ import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
 import UserList from "./components/UserList";
-// import Footer from "./components/Footer";
 import NewFooter from "./components/NewFooter";
 import Messages from "./pages/Messages";
 import MapUserProfile from "./pages/MapUserProfile";
