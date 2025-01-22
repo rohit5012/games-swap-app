@@ -1,15 +1,9 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
-
 import { Link, useNavigate } from "react-router-dom";
-
-import PlatformButton from "./ui/PlatformButton";
-
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
-import PlatformButton from "./ui/PlatformButton";
 
 export default function SmallCarousel(props: {
   games: Game[];
