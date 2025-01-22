@@ -12,7 +12,7 @@ import { Link, useNavigate } from "react-router";
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-
+import { addClassName } from "@react-leaflet/core";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
@@ -34,17 +34,19 @@ export default function Login() {
   };
 
   return (
-    <Card className="mx-auto max-w-sm mt-32">
+    <Card className="mx-auto max-w-sm mt-32 mb-32 text-center">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold">Login</CardTitle>
+        <CardTitle className="text-2xl font-bold mb-3 dark:text-white">
+          Login
+        </CardTitle>
         <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="justify-center">
         <form onSubmit={handleLogin}>
           <div className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 text-left">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -73,11 +75,8 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Login
             </Button>
-            {/* <Button variant="outline" className="w-full">
-                Login with Google
-              </Button> */}
           </div>
-          <div className="mt-4 text-center text-sm">
+          <div className="mt-4 text-center text-sm mb-10">
             {error ? <p className="text-red-500">{error}</p> : null}
             <p className="mb-2">Don&apos;t have an account?</p>
             <Link
