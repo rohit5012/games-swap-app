@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Button } from "./ui/Button";
 import { fetchOwnedList, toggleLendable } from "@/services/ownedListService";
 import {
@@ -10,10 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router";
 
 const OwnedList = ({ userId }) => {
   const [ownedGames, setOwnedGames] = useState(null);
@@ -82,12 +81,17 @@ const OwnedList = ({ userId }) => {
                 key={game.slug}
                 className="flex bg-white shadow-md rounded-lg overflow-hidden w-full transition-transform transform hover:scale-105"
               >
-                <img
-                  src={game.backgroundImg}
-                  alt={game.gameName}
-                  className="w-1/3 h-auto object-cover"
-                />
-                <div className="p-4 flex flex-col justify-center items-center w-2/3 text-center">
+                <Link to={`/game/${game.slug}`} className="w-1/3 h-44">
+                  <img
+                    src={game.backgroundImg}
+                    alt={game.gameName}
+                    className="w-full h-full object-cover"
+                  />
+                </Link>
+                <Link
+                  to={`/game/${game.slug}`}
+                  className="p-4 flex flex-col justify-center items-center w-2/3 text-center"
+                >
                   <h3 className="text-lg font-bold mb-2 text-black">
                     {game.gameName}
                   </h3>
@@ -108,22 +112,16 @@ const OwnedList = ({ userId }) => {
                       </span>
                     )}
                   </div>
-                </div>
+                </Link>
 
                 <Dialog>
-                  <a
-                    href="#"
-                    onClick={(event) => event.preventDefault()}
-                    className="inline-block z-10 bg-black text-white justify-center flex items-center min-w-28"
-                  >
-                    <DialogTrigger>
-                      {game.lendable ? (
-                        <strong>Unlist item</strong>
-                      ) : (
-                        <strong>Lend your game</strong>
-                      )}
-                    </DialogTrigger>
-                  </a>
+                  <DialogTrigger className="inline-block z-10 bg-black text-white justify-center flex items-center min-w-28">
+                    {game.lendable ? (
+                      <strong>Unlist item</strong>
+                    ) : (
+                      <strong>Lend your game</strong>
+                    )}
+                  </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>
@@ -134,15 +132,12 @@ const OwnedList = ({ userId }) => {
                       </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                      <DialogClose>
-                      <Button
-                        type="submit"
-                        onClick={() => handleToggleLendable(game.slug)}
-                      >
-                        Confirm
-                      </Button>
-                      </DialogClose>
-                      
+                        <Button
+                          type="submit"
+                          onClick={() => handleToggleLendable(game.slug)}
+                        >
+                          Confirm
+                        </Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>

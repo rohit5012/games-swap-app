@@ -26,7 +26,6 @@ export const updateOwnedGamesList = async (
   newGame: GameListItem
 ) => {
   try {
-
     // Fetch the user's owned games list
     const ownedList = await fetchOwnedList(userId);
 
@@ -45,7 +44,6 @@ export const updateOwnedGamesList = async (
         lendable: false,
       },
     });
-
   } catch (error) {
     console.error("Error updating owned list:", error);
     throw error; // Optional: Re-throw the error if you want to handle it upstream
@@ -90,7 +88,6 @@ export const updateOwnedGame = async (userId: string, slug: string) => {
 
 export const toggleLendable = async (userId: string, slug: string) => {
   try {
-
     // Fetch the user's owned games list
     const ownedList = await fetchOwnedList(userId);
 
