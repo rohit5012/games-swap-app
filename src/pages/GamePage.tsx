@@ -11,7 +11,11 @@ import SmallCarousel from "@/components/SmallCarousel";
 import { faHeart as faRegularHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { fetchWishlist, removeFromWishlist, updateWishlist } from "@/services/wishlistServices";
+import {
+  fetchWishlist,
+  removeFromWishlist,
+  updateWishlist,
+} from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { updateOwnedGamesList } from "@/services/ownedListService";
@@ -29,8 +33,10 @@ const GamePage = () => {
   const [videos, setVideos] = useState({});
   const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
 
-  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
-  const [isWishlisted, setWishlisted] = useState(false)
+  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(
+    null
+  );
+  const [isWishlisted, setWishlisted] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -39,25 +45,24 @@ const GamePage = () => {
         const response = await fetchGameDetails(game_slug);
         const fetchedScreenShots = await getGameScreenshots(response.id);
 
-        
         // Fetch wishlist and log the result
         if (user && user.uid) {
           const wishlist = await fetchWishlist(user.uid);
-          if (wishlist[0].games[game_slug]){
-            setWishlisted(true)
+          if (wishlist[0].games[game_slug]) {
+            setWishlisted(true);
           }
         }
-  
+
         const smallCarouselGames = await getGamesByGenre(
           response.genres.map((genre) => genre.slug)
         );
-  
+
         setRecommendedGames(smallCarouselGames);
         setScreenshots(fetchedScreenShots);
         if (fetchedScreenShots.length > 0) {
           setSelectedScreenshot(fetchedScreenShots[0].image);
         }
-  
+
         setGame(response);
         setLoading(false);
       } catch (err) {
@@ -65,12 +70,12 @@ const GamePage = () => {
         setLoading(false);
       }
     };
-  
+
     if (game_slug) {
       fetchData();
     }
-  }, [game_slug, user]); 
-  
+  }, [game_slug, user]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
@@ -87,7 +92,6 @@ const GamePage = () => {
     );
   }
 
-
   if (!game) {
     return null; // Return nothing if no game is available
   }
@@ -95,7 +99,6 @@ const GamePage = () => {
   const handleThumbnailClick = (videoId: string) => {
     setSelectedVideoId(videoId);
   };
-
 
   const handleAddToOwnedGames = () => {
     const newOwnedItem = {
@@ -125,11 +128,10 @@ const GamePage = () => {
       }
     );
 
-    updateOwnedGamesList(user.uid, newOwnedItem).then(() => console.log("success!"));
+    updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
+      console.log("success!")
+    );
   };
-
-
-
 
   const handleAddToWishlist = () => {
     const newWishlistItem = {
@@ -162,11 +164,12 @@ const GamePage = () => {
     updateWishlist(user.uid, newWishlistItem)
       .then(() => console.log("success!"))
       .catch((error) => {
-        toast.error("Failed to add game to wishlist.", { description: error.message });
+        toast.error("Failed to add game to wishlist.", {
+          description: error.message,
+        });
         console.error("Error updating wishlist:", error);
       });
   };
-
 
   return (
     <div className="relative min-h-screen bg-gray-900 text-white font-sans">
@@ -180,7 +183,7 @@ const GamePage = () => {
 
         {/* Game Info Container (conditionally rendered) */}
         {/* Desktop view */}
-        <div className="absolute left-8 top-[70vh] sm:left-16 lg:block hidden p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-10">
+        <div className="float-start sm:left-16 md:ml-16 lg:block hidden p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-10 transform -translate-y-60">
           <h1 className="text-3xl font-bold mb-4">{game.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             {game.platforms?.map((platform, index) => (
@@ -203,120 +206,110 @@ const GamePage = () => {
               variant="outline"
               className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full sm:w-2/3 mt-5 sm:mt-0 sm:ml-5"
               onClick={() => handleAddToOwnedGames()}
-
-              
             >
               I own this game
             </Button>
             <div className="relative flex flex-col items-center group cursor-pointer mt-5 sm:mt-0 ml-5">
-
-  <FontAwesomeIcon
-    icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
-    className={`text-xl ${
-      isWishlisted ? "text-red-500" : "text-gray-400"
-    } group-hover:scale-125 transition-all `}
-    onClick={() => {
-      if (isWishlisted) {
-        // Remove from wishlist
-        setWishlisted(false)
-        removeFromWishlist(user?.uid, game.slug).then(() => console.log("success!"))
-      } else {
-        // Add to wishlist
-        handleAddToWishlist();
-        setWishlisted(true); // Update state after adding
-      }
-    }}
-  />
-  <span
-    className={`text-xs mt-1 ${
-      isWishlisted ? "text-red-500" : "text-gray-400 opacity-0 group-hover:opacity-100 "
-    } transition-all`}
-  >
-    {"Wishlist"}
-  </span>
-</div>
-
+              <FontAwesomeIcon
+                icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
+                className={`text-xl ${
+                  isWishlisted ? "text-red-500" : "text-gray-400"
+                } group-hover:scale-125 transition-all `}
+                onClick={() => {
+                  if (isWishlisted) {
+                    // Remove from wishlist
+                    setWishlisted(false);
+                    removeFromWishlist(user?.uid, game.slug).then(() =>
+                      console.log("success!")
+                    );
+                  } else {
+                    // Add to wishlist
+                    handleAddToWishlist();
+                    setWishlisted(true); // Update state after adding
+                  }
+                }}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  isWishlisted
+                    ? "text-red-500"
+                    : "text-gray-400 opacity-0 group-hover:opacity-100 "
+                } transition-all`}
+              >
+                {"Wishlist"}
+              </span>
+            </div>
           </div>
         </div>
-  
 
-
-
-
-
-
-
-  
         {/* Mobile view */}
-<div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
-  <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
-  <div className="mt-2 flex flex-wrap gap-2 justify-center">
-    {game.platforms?.map((platform, index) => (
-      <span
-        key={index}
-        className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
-      >
-        {platform.platform.name}
-      </span>
-    ))}
-  </div>
+        <div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
+          <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
+          <div className="mt-2 flex flex-wrap gap-2 justify-center">
+            {game.platforms?.map((platform, index) => (
+              <span
+                key={index}
+                className="platform bg-gray-700 px-3 py-1 rounded text-sm text-gray-300"
+              >
+                {platform.platform.name}
+              </span>
+            ))}
+          </div>
 
-  <div className="flex flex-col items-center justify-between mt-6">
-    {/* Borrow Game Button */}
-    <Button
-      variant="outline"
-      className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
-      onClick={() => {
-        // Add any specific logic for borrowing the game
-      }}
-    >
-      Borrow Game
-    </Button>
+          <div className="flex flex-col items-center justify-between mt-6">
+            {/* Borrow Game Button */}
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
+              onClick={() => {
+                // Add any specific logic for borrowing the game
+              }}
+            >
+              Borrow Game
+            </Button>
 
-    {/* I Own This Game Button */}
-    <Button
-      variant="outline"
-      className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
-      onClick={() => handleAddToOwnedGames()}
-    >
-      I own this game
-    </Button>
+            {/* I Own This Game Button */}
+            <Button
+              variant="outline"
+              className="bg-black text-white px-4 py-2 rounded-md shadow-md hover:bg-gray-700 transition-all w-full mb-4"
+              onClick={() => handleAddToOwnedGames()}
+            >
+              I own this game
+            </Button>
 
-    {/* Wishlist Icon and Text */}
-    <div className="relative flex flex-col items-center group cursor-pointer mt-5">
-      <FontAwesomeIcon
-        icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
-        className={`text-xl ${
-          isWishlisted ? "text-red-500" : "text-gray-400"
-        } group-hover:scale-125 transition-all`}
-        onClick={() => {
-          if (isWishlisted) {
-            // Remove from wishlist
-            setWishlisted(false);
-            removeFromWishlist(user?.uid, game.slug).then(() =>
-              console.log("Game removed from wishlist!")
-            );
-          } else {
-            // Add to wishlist
-            handleAddToWishlist();
-            setWishlisted(true); // Update state after adding
-          }
-        }}
-      />
-      <span
-        className={`text-xs mt-1 ${
-          isWishlisted
-            ? "text-red-500"
-            : "text-gray-400 opacity-0 group-hover:opacity-100"
-        } transition-all`}
-      >
-        Wishlist
-      </span>
-    </div>
-  </div>
-</div>
-
-
+            {/* Wishlist Icon and Text */}
+            <div className="relative flex flex-col items-center group cursor-pointer mt-5">
+              <FontAwesomeIcon
+                icon={isWishlisted ? faSolidHeart : faRegularHeart} // Use solid heart if wishlisted
+                className={`text-xl ${
+                  isWishlisted ? "text-red-500" : "text-gray-400"
+                } group-hover:scale-125 transition-all`}
+                onClick={() => {
+                  if (isWishlisted) {
+                    // Remove from wishlist
+                    setWishlisted(false);
+                    removeFromWishlist(user?.uid, game.slug).then(() =>
+                      console.log("Game removed from wishlist!")
+                    );
+                  } else {
+                    // Add to wishlist
+                    handleAddToWishlist();
+                    setWishlisted(true); // Update state after adding
+                  }
+                }}
+              />
+              <span
+                className={`text-xs mt-1 ${
+                  isWishlisted
+                    ? "text-red-500"
+                    : "text-gray-400 opacity-0 group-hover:opacity-100"
+                } transition-all`}
+              >
+                Wishlist
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Game Details */}
@@ -491,7 +484,6 @@ const GamePage = () => {
           )}
         </div>
       </div>
-
 
       {/* Game Description */}
       <div className="relative z-9 mt-8 px-6 md:px-16">

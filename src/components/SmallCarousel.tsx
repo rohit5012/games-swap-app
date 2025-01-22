@@ -1,21 +1,19 @@
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { Game } from "@/rawgApi";
-import PlatformButton from "./ui/PlatformButton";
 import { Link } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
 
+
 export default function SmallCarousel(props: {
   games: Game[];
-  platforms: string | null;
-  setPlatforms: React.Dispatch<React.SetStateAction<string | null>>;
+  carouselTitle?: string;
 }) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [visibleGames, setVisibleGames] = useState(2);
   const navigate = useNavigate();
-
+  const [scrollAmount, setScrollAmount] = useState(1); 
   const { user } = useAuth();
 
   useEffect(() => {
@@ -23,24 +21,29 @@ export default function SmallCarousel(props: {
       const width = window.innerWidth;
       if (width < 640) {
         setVisibleGames(2);
+        setScrollAmount(1);
       } else if (width < 768) {
         setVisibleGames(3);
+        setScrollAmount(2);
       } else if (width < 1024) {
         setVisibleGames(4);
+        setScrollAmount(3);
       } else {
         setVisibleGames(5 + Math.floor((width - 1024) / 250));
+        setScrollAmount(4);
       }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
   // Scrolling
   const scrollLeft = () => {
     if (carouselRef.current) {
       const elementWidth = carouselRef.current.offsetWidth / visibleGames;
       carouselRef.current.scrollBy({
-        left: -elementWidth,
+        left: -elementWidth * scrollAmount,
         behavior: "smooth",
       });
     }
@@ -49,7 +52,7 @@ export default function SmallCarousel(props: {
     if (carouselRef.current) {
       const elementWidth = carouselRef.current.offsetWidth / visibleGames;
       carouselRef.current.scrollBy({
-        left: elementWidth,
+        left: elementWidth * scrollAmount,
         behavior: "smooth",
       });
     }
@@ -67,7 +70,7 @@ export default function SmallCarousel(props: {
   }
   return (
     <section className="my-6">
-      <h2 className="text-center text-xl mb-4">Upcoming Games</h2>
+      <h2 className="text-center text-3xl mb-8">Upcoming Games</h2>
       {/* Filter by Platform */}
 
       <div className="flex justify-center space-x-4 mb-4 text-black ">
@@ -92,47 +95,17 @@ export default function SmallCarousel(props: {
           platforms={props.platforms}
           setPlatforms={props.setPlatforms}
         />
-        {/* <button
-          onClick={() => props.setPlatforms(null)}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === null ? "bg-gray-400" : ""
-          }`}
-        >
-          All Games
-        </button>
-        <button
-          onClick={() => props.setPlatforms("187")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "187" ? "bg-gray-400" : ""
-          }`}
-        >
-          Playstation 5
-        </button>
-        <button
-          onClick={() => props.setPlatforms("186")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "186" ? "bg-gray-400" : ""
-          }`}
-        >
-          Xbox Series S | X
-        </button>
-        <button
-          onClick={() => props.setPlatforms("7")}
-          className={`bg-gray-200 px-4 py-2 rounded ${
-            props.platforms === "7" ? "bg-gray-400" : ""
-          }`}
-        >
-          Switch
-        </button> */}
+
       </div>
+
+      <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
+
       {/* Compact Carousel Component */}
-
       <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 place-self-center">
-
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
-          className="absolute left-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-indigo-600 hover:text-white transition-all duration-300 transform hover:scale-110"
+          className="gray-btn absolute left-2 top-1/2 -translate-y-1/2 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
           title="Scroll Left"
         >
           {"<"}
@@ -141,7 +114,7 @@ export default function SmallCarousel(props: {
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-scroll no-scrollbar gap-3 py-3 scroll-smooth relative"
+          className="flex overflow-x-scroll no-scrollbar gap-3  scroll-smooth relative"
         >
           {props.games.map((game, index) => (
             <div
@@ -172,41 +145,42 @@ export default function SmallCarousel(props: {
 
               {/* Game Info */}
               <div className="p-2 text-center">
-                <p className="text-sm font-medium text-gray-800 truncate">
+                <p className="text-l font-medium text-gray-800 truncate">
                   {game.name}
                 </p>
 
                 {/* Wishlist Button */}
                 <button
-                  className="mt-2 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-md bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 shadow-md transition-all duration-300 transform hover:scale-105 text-[10px]"
+                  className="black-btn mt-2 w-full flex items-center justify-center gap-2 px-3 py-1.5 rounded-md text-white shadow-md transition-all duration-300 transform text-[13px]"
                   onClick={() => handleAddToWishlist(game)}
                 >
-                  <span>Add to Wishlist</span>
+                  <span>Wishlist</span>
                 </button>
               </div>
             </div>
           ))}
         </div>
-        
+
         {/* Right Scroll Button */}
         <button
           onClick={scrollRight}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 hover:bg-indigo-600 hover:text-white transition-all duration-300 transform hover:scale-110"
+          className="gray-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
           title="Scroll Right"
         >
           {">"}
         </button>
-      </div>
 
-      {/* Upcoming Games - FullList */}
-      <div className="flex justify-end mt-4 px-4">
+        {/* Upcoming Games - FullList */}
+      <div className="flex justify-end mt-8 pb-4">
         <button
           onClick={() => navigate("/browse-games")}
-          className="bg-gray-200 text-black px-4 py-2 rounded"
+          className="gray-btn "
         >
-          Upcoming Games: Full List
+          All Upcoming Games
         </button>
       </div>
-    </section>
+      </div>
+
+     </section>
   );
 }

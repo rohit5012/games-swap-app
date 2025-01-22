@@ -87,6 +87,7 @@ function AddUser() {
           updatedAt: Date.now(),
         }),
       });
+      setIsOpen(false);
     } catch (error) {
       console.error("Error adding chat:", error);
     }
@@ -95,7 +96,14 @@ function AddUser() {
   return (
     <>
       <button onClick={handleOpen}>
-        {!isOpen ? <LucidePlus /> : <LucideMinus />}
+        {!isOpen ? (
+          <div>
+            <p></p>
+            <LucidePlus className="rounded-lg bg-slate-100 hover:bg-slate-200 p-1 size-8" />
+          </div>
+        ) : (
+          <LucideMinus className="rounded-lg p-1 size-8 bg-slate-100" />
+        )}
       </button>
       {isOpen && (
         <div className="fixed inset-0 z-10 bg-black bg-opacity-50 flex items-center justify-center p-4">
