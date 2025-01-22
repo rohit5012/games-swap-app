@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -127,12 +128,15 @@ const OwnedList = ({ userId }) => {
                       </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
+                      <DialogClose>
                       <Button
                         type="submit"
                         onClick={() => handleToggleLendable(game.slug)}
                       >
                         Confirm
                       </Button>
+                      </DialogClose>
+                      
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
