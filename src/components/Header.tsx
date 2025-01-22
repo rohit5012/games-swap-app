@@ -8,7 +8,6 @@ import { PiGameControllerLight } from "react-icons/pi";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
-import { PiGameControllerLight } from "react-icons/pi";
 
 interface HeaderProps {
   userProfileImage?: string;

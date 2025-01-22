@@ -50,22 +50,22 @@ export default function BrowseGames() {
 
   return (
     <section className="flex flex-col items-center justify-center mb-11">
-      <h2 className="text-center text-2xl mb-6">All Games</h2>
+      <h2 className="text-center text-3xl mb-6">All Games</h2>
       <div className="flex justify-center flex-wrap gap-4">
         {displayedGames.map((game) => (
           <div key={game.id} className="w-96 inline-flex pb-5">
-            <Card>
+            <Card className="card-games-body card-games">
             <Link to={`/game/${game.slug}`}>
               <CardHeader>          
                   <img
                     src={game.background_image}
                     alt={game.name}
-                    className="w-80 h-52 object-cover"
+                    className="w-80 h-52 object-cover w-full"
                   />
                 
                 <CardTitle>{game.name}</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent platformClassName="bg-gray-700 px-3 py-1 rounded text-sm text-gray-300">
                 {game.platforms.map((availablePlats) => (
                   <p key={availablePlats.platform.id}>
                     {availablePlats.platform.name}
@@ -73,7 +73,7 @@ export default function BrowseGames() {
                 ))}
               </CardContent>
               </Link> 
-              <CardFooter>
+              <CardFooter className="card-games-wishlist-button pt-4">
                 <button
                   onClick={(e) => {
                     e.stopPropagation(); 
