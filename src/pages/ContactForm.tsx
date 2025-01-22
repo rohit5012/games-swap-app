@@ -2,6 +2,7 @@ import emailjs from "emailjs-com";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import Pic from "../assets/pic1.jpg";
+import "../assets/FloatingText.css";
 
 const SERVICE_ID = "service_3ofnpqv";
 const TEMPLATE_ID = "template_jhl43s7";
@@ -45,26 +46,31 @@ const ContactForm: React.FC = () => {
       }
     );
   };
+
   return (
     <div
-      className="min-h-screen flex flex-col md:flex-row p-4 md:ml-4 md:mr-4"
+      className="flex flex-col items-center w-full pb-16"
       style={{ backgroundColor: "#342543" }}
     >
-      <div className="container mx-auto flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 flex justify-center items-center p-8 md:p-0">
-          <div
-            className="h-96 w-96 bg-cover bg-center"
-            style={{ backgroundImage: `url(${Pic})` }}
-          ></div>
+      <div className="w-full my-4 md:mb-28">
+        <h2 className="text-4xl font-bold my-10 md:mt-10 text-center text-white">
+          Contact Us
+        </h2>
+        <div
+          className="whitespace-nowrap marquee md:text-2xl"
+          style={{ color: "#48cae4" }}
+        >
+          Your Feedback Matters, Drop Us a Line and We will get back to You!
         </div>
+      </div>
 
-        <div className="w-full md:w-3/4 flex justify-center items-center p-4 md:p-0'">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-gray-800 p-8 md:p-16 rounded-lg w-full max-w-lg mx-auto"
-            style={{ backgroundImage: `url(${Pic})` }}
-          >
-            <div className="mb-4">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-20 justify-center items-center w-full">
+        <div className="flex-1 max-w-md">
+          <img src={Pic} className="h-96 w-96 bg-cover bg-center"></img>
+        </div>
+        <div className="flex-1 max-w-md w-3/4">
+          <form onClick={handleSubmit} className="space-y-4">
+            <div>
               <label
                 className="block text-white text-sm font-bold mb-2"
                 htmlFor="name"
@@ -72,14 +78,13 @@ const ContactForm: React.FC = () => {
                 Name
               </label>
               <input
+                className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="name"
                 type="text"
-                className="w-full px-3 py-2 text-gray-900 rounded-md"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                placeholder="Your Name"
               />
             </div>
-            <div className="mb-4">
+            <div>
               <label
                 className="block text-white text-sm font-bold mb-2"
                 htmlFor="email"
@@ -87,29 +92,13 @@ const ContactForm: React.FC = () => {
                 Email
               </label>
               <input
+                className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="email"
                 type="email"
-                className="w-full px-3 py-2 text-gray-900 rounded-md"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Your Email"
               />
             </div>
-            <div className="mb-4">
-              <label
-                className="block text-white text-sm font-bold mb-2"
-                htmlFor="subject"
-              >
-                Subject
-              </label>
-              <input
-                id="subject"
-                type="text"
-                className="w-full px-3 py-2 text-gray-900 rounded-md"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-              />
-            </div>
-            <div className="mb-4">
+            <div>
               <label
                 className="block text-white text-sm font-bold mb-2"
                 htmlFor="message"
@@ -117,18 +106,18 @@ const ContactForm: React.FC = () => {
                 Message
               </label>
               <textarea
+                className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 id="message"
-                className="w-full px-3 py-2 text-gray-900 rounded-md"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-              />
+                rows="4"
+                placeholder="Your Message"
+              ></textarea>
             </div>
             <button
               type="submit"
-              className="w-full bg-black-500  text-white font-bold py-2 px-4 rounded-md"
+              className="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{ backgroundColor: "#48cae4" }}
             >
-              Submit
+              Send
             </button>
           </form>
         </div>
@@ -136,4 +125,5 @@ const ContactForm: React.FC = () => {
     </div>
   );
 };
+
 export default ContactForm;
