@@ -146,3 +146,4 @@ export const getGameScreenshots = async (gameId: number): Promise<[]> => {
     return [];
   }
 };
+
