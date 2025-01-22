@@ -10,7 +10,6 @@
 
 .marquee {
   white-space: nowrap;
-  overflow: hidden;
   display: block;
   width: 100%;
   animation: scrolling 12s linear infinite;
