@@ -18,10 +18,8 @@ const UserList: React.FC = () => {
             ...doc.data(),
           } as UserDetailsType)
       );
-      console.log(getProfilesData)
       setProfiles(getProfilesData);
     };
-    // console.log(profiles);
 
     fetchProfiles();
   }, []);

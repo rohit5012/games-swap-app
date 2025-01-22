@@ -76,9 +76,6 @@ export const getGamesByGenre = async (
     genreQuery = `&genres=${genres.join(",").toLocaleLowerCase()}`;
   }
 
-  // Log the genre query for debugging
-  console.log("Generated Genre Query: ", genreQuery);
-
   // Make the fetch call with the genre query added to the URL
   return fetchGames(`/games?key=${rawgAPIKey}${genreQuery}`);
 };

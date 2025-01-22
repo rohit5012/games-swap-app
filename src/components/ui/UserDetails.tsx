@@ -16,7 +16,6 @@ const UserDetails: React.FC = () => {
   });
 
   const { user } = useAuth();
-  console.log(user);
   useEffect(() => {
     if (user) {
       loadDetails();

@@ -9,7 +9,6 @@ const AuthStatus: React.FC = () => {
     return <div>Loading...</div>;
   }
   if (user){
-    console.log(user)
     setUser(user.uid)
   }
   

@@ -37,7 +37,6 @@ const NewMap: React.FC = () => {
   }, []);
 
   const fetchGamers = async () => {
-    console.log("Fetching users...");
     try {
       const usersCollection = collection(db, "user details");
       const usersSnapshot = await getDocs(usersCollection);
@@ -58,7 +57,6 @@ const NewMap: React.FC = () => {
           }
         })
         .filter((doc) => doc !== null);
-      console.log("Valid users data:", usersData);
       setUsers(usersData);
     } catch (error) {
       console.error("Error fetching users:", error);
