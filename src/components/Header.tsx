@@ -8,6 +8,7 @@ import { PiGameControllerLight } from "react-icons/pi";
 import Logout from "@/pages/Logout";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
+import ThemeSwitch, { ThemeProvider } from "./ThemeToggle";
 
 interface HeaderProps {
   userProfileImage?: string;
@@ -67,6 +68,9 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
             >
               <MessageCircle className="size-8 p-1 mr-2" />
             </Link>
+            <ThemeProvider>
+              <ThemeSwitch />
+            </ThemeProvider>
             {user ? (
               <div className="flex flex-row gap-4">
                 <a
