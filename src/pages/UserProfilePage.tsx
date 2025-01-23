@@ -34,6 +34,10 @@ const UserProfileRegUser: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     if (user) {
       const fetchUserProfile = async () => {
         const q = query(

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { GameListItem } from "@/types/GameListItem";
 import { updateWishlist } from "@/services/wishlistServices";
 import { useAuth } from "@/hooks/useAuth";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function SmallCarousel(props: {
   games: Game[];
@@ -76,10 +77,10 @@ export default function SmallCarousel(props: {
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
-          className="gray-btn absolute left-2 top-1/2 -translate-y-1/2 text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
+          className="bg-white absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
           title="Scroll Left"
         >
-          {"<"}
+          <ArrowLeft className="size-4 opacity-0 hover:opacity-100 transition-all" />
         </button>
 
         {/* Carousel Container */}
@@ -103,7 +104,6 @@ export default function SmallCarousel(props: {
               <Link to={`/game/${game.slug}`} className="block relative">
                 {/* Image with Overlay */}
                 <div className="relative w-full h-40 overflow-hidden">
-                  {" "}
                   {/* Reduced height */}
                   <img
                     src={game.background_image}
@@ -135,10 +135,10 @@ export default function SmallCarousel(props: {
         {/* Right Scroll Button */}
         <button
           onClick={scrollRight}
-          className="gray-btn absolute right-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-white text-indigo-600 w-8 h-8 rounded-full flex items-center justify-center shadow-md z-10 transition-all duration-300 transform hover:scale-110"
           title="Scroll Right"
         >
-          {">"}
+          <ArrowRight className="size-4 opacity-0 hover:opacity-100 transition-all" />
         </button>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import emailjs from "emailjs-com";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import Pic from "../assets/pic1.jpg";
 import "../assets/FloatingText.css";
@@ -14,6 +14,10 @@ const ContactForm: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
