@@ -73,9 +73,9 @@ const UserProfileSetup: React.FC = () => {
         : [...prevPlatforms, platform]
     );
   };
-  // flex items-center justify-center 
+  // flex items-center justify-center
   return (
-    <Card className="mx-auto max-w-lg mt-26 mb-16">
+    <Card className="mx-auto max-w-lg mt-28 mb-16">
       <CardHeader className="items-center justify-center space-y-1">
         <CardTitle className="text-2xl font-bold">
           Complete Your Profile

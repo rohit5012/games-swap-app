@@ -15,6 +15,7 @@ import MapUserProfile from "./pages/MapUserProfile";
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
 import ContactForm from "./pages/ContactForm";
+import TeamProfile from "./pages/TeamProfile";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/users" element={<UserList />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/contact" element={<ContactForm />} />
+          <Route path="/teamprofile" element={<TeamProfile />} />
         </Routes>
         {/* necessary for toaster when adding to wishlist and such */}
         <Toaster className="fixed top-4 right-4 z-50" />
