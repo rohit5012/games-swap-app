@@ -1,43 +1,35 @@
 import { PiGameControllerLight } from "react-icons/pi";
+import { Link } from "react-router";
 
 export default function Footer() {
   return (
-    <footer className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black py-9">
+    <footer className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black py-5">
       <div className="container mx-auto flex justify-between items-start px-8 md:px-20">
         <div className="flex flex-col md:flex-row md:space-x-16">
           <ul className="mb-4 md:mb-0">
             <li className="font-bold mb-4">pages</li>
-            <li className="mb-4">
-              <a href="/home" className="text-gray-400 hover:text-white">
-                Home
-              </a>
-            </li>
-            <li className="mb-4">
-              <a href="/map" className="text-gray-400 hover:text-white">
-                Borrow Games
-              </a>
-            </li>
-            <li className="mb-4">
-              <a
-                href="/browse-games"
-                className="text-gray-400 hover:text-white"
-              >
-                All Games
-              </a>
-            </li>
-          </ul>
-          <ul className="mb-4 md:mb-0">
-            <li className="font-bold mb-4">resources</li>
-            <li className="mb-4">
-              <a href="#" className="text-gray-400 hover:text-white">
-                Terms of Service
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-gray-400 hover:text-white">
-                Privacy Policy
-              </a>
-            </li>
+            <div className="flex gap-2">
+              <li className="mb-4">
+                <Link to="/home" className="text-gray-400 hover:text-white">
+                  Home
+                </Link>
+              </li>
+              <p>/</p>
+              <li className="mb-4">
+                <Link to="/map" className="text-gray-400 hover:text-white">
+                  Borrow Games
+                </Link>
+              </li>
+              <p>/</p>
+              <li className="mb-4">
+                <Link
+                  to="/browse-games"
+                  className="text-gray-400 hover:text-white"
+                >
+                  All Games
+                </Link>
+              </li>
+            </div>
           </ul>
           <ul className="mb-4 md:mb-0">
             <li className="font-bold mb-4">more</li>
