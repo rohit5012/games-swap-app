@@ -49,7 +49,7 @@ const ContactForm: React.FC = () => {
 
   return (
 
-    <div className="min-h-screen flex flex-col md:flex-row p-4 md:ml-4 md:mr-4 bg-[#36263E]">
+    <div className="min-h-[90dvh] w-screen flex flex-col md:flex-row p-4  bg-[#36263E]">
       <div className="container mx-auto flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex justify-center items-center p-8 md:p-0">
           <div
