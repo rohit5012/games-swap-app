@@ -73,7 +73,7 @@ export default function SmallCarousel(props: {
       <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
 
       {/* Compact Carousel Component */}
-      <div className="relative overflow-hidden px-4 bg-white  py-4 rounded-lg w-11/12 place-self-center">
+      <div className="relative overflow-hidden px-4 bg-white dark:bg-zinc-950 dark:outline dark:outline-1 dark:outline-zinc-700  py-4 rounded-lg w-11/12 place-self-center">
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
@@ -86,12 +86,12 @@ export default function SmallCarousel(props: {
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-scroll no-scrollbar gap-3  scroll-smooth relative p-2"
+          className="flex overflow-x-scroll no-scrollbar gap-3 scroll-smooth relative p-2 "
         >
           {props.games.map((game, index) => (
             <div
               key={game.id}
-              className={`flex-shrink-0 rounded-lg bg-white shadow-lg relative overflow-hidden transition-transform transform hover:scale-105 duration-500 ease-in-out ${
+              className={`flex-shrink-0 rounded-lg bg-white shadow-lg relative overflow-hidden transition-transform transform hover:scale-105 duration-500 ease-in-out dark:bg-zinc-950 dark:outline dark:outline-1 dark:outline-zinc-700 ${
                 index % 2 === 0
                   ? "animate-fade-in-left"
                   : "animate-fade-in-right"
@@ -116,7 +116,7 @@ export default function SmallCarousel(props: {
 
               {/* Game Info */}
               <div className="p-2 text-center">
-                <p className="text-l font-medium text-gray-800 truncate">
+                <p className="text-l font-medium text-gray-800 truncate dark:text-white">
                   {game.name}
                 </p>
 

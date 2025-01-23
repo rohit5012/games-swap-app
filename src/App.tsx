@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom"; // Ensure you are using react-router-dom v6
+import { BrowserRouter, Route, Routes } from "react-router-dom"; // Ensure you are using react-router-dom v6
 import Home from "./pages/Home";
 import BrowseGames from "./pages/BrowseGames";
 import Header from "./components/Header";
@@ -14,12 +14,12 @@ import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
 import ContactForm from "./pages/ContactForm";
 import TeamProfile from "./pages/TeamProfile";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
-    <div>
+    <BrowserRouter>
       <Header />
-
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -37,12 +37,13 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/teamprofile" element={<TeamProfile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         {/* necessary for toaster when adding to wishlist and such */}
         <Toaster className="fixed top-4 right-4 z-50" />
       </main>
       <NewFooter />
-    </div>
+    </BrowserRouter>
   );
 }
 
