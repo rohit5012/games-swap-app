@@ -44,12 +44,16 @@ const ViewProfileComponent: React.FC = () => {
             let wishlistedCount = 0;
             const ownedData = await fetchOwnedList(userId);
             const wishlistData = await fetchWishlist(userId);
-            const wishlisted = Object.keys(wishlistData[0].games);
-            const ownedList = Object.keys(ownedData[0].games);
+            const wishlisted = wishlistData[0]?.games
+              ? Object.keys(wishlistData[0].games)
+              : [];
+            const ownedList = ownedData[0]?.games
+              ? Object.keys(ownedData[0].games)
+              : [];
             ownedList.forEach((game) => ownedCount++);
             wishlisted.forEach((game) => wishlistedCount++);
             const userData = querySnapshot.docs[0].data();
-            
+
             setProfile({
               ...(userData as UserProfileRegUser),
               gamesOwned: ownedCount,
