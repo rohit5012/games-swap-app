@@ -25,12 +25,6 @@ export default function Home() {
     });
   }, []);
 
-  const handlePlatformSelect = (
-    platform: "PS4" | "PS5" | "Xbox One" | "Xbox Series X/S" | "Switch"
-  ) => {
-    console.log("Selected platform:", platform);
-  };
-
   return (
     <>
       <LargeCarousel games={upcomingGames} />
@@ -41,7 +35,7 @@ export default function Home() {
           carouselTitle="Upcoming Releases"
         />
         <div>
-          <PlatformSelector onSelect={handlePlatformSelect} />
+          <PlatformSelector/>
         </div>
         <SmallCarousel games={popularGames} carouselTitle="Popular Games" />
       </div>

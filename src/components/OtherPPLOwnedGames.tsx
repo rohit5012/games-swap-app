@@ -212,12 +212,6 @@ const OtherPPLWishlist = ({ userId, username }) => {
                     <DialogFooter>
                       <Link to={`/messages`} key="link">
                         <Button
-                          type="submit"
-                          onClick={() =>
-                            console.log(
-                              "Success! You are on your way to borrowing."
-                            )
-                          }
                         >
                           Confirm
                         </Button>

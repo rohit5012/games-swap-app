@@ -12,12 +12,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { updateWishlist } from "@/services/wishlistServices";
 import Pagination from "../components/ui/Pagination";
 import { useLocation } from 'react-router-dom';
-import Lottie from 'lottie-react';
-import LoadingAnimation from "../assets/lottie/LoadingAnimation.json"
-
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import LoadingAnimationComponent from "@/components/LoadingAnimationComponent";
 
+
+
+
+////fix pagination for filters
 export default function BrowseGames() {
   const { user } = useAuth();
   const [displayedGames, setDisplayedGames] = useState<Game[]>([]);
@@ -28,7 +28,7 @@ export default function BrowseGames() {
   const [genres, setGenres] = useState<[] | null>([]);
   const [isLoading, setIsLoading] = useState<Boolean>(true);
   const [totalGames, setTotalGames] = useState(0);
-  const itemsPerPage = 8;
+  const itemsPerPage = 20;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get('platform');
@@ -46,9 +46,9 @@ export default function BrowseGames() {
       // Fetch games based on genre or platform filter
       let gameData;
       if (selectedGenre || selectedPlatform) {
-        gameData = await getGamesByGenre([selectedGenre], [selectedPlatform]);
+        gameData = await getGamesByGenre([selectedGenre], [selectedPlatform], currentPage, itemsPerPage);
         setDisplayedGames(gameData);
-        setTotalGames(gameData.length);
+        setTotalGames(gameData.count);
       } else {
         const paginatedGames = await getPaginatedGames(currentPage, itemsPerPage);
         setDisplayedGames(paginatedGames.results);
@@ -86,10 +86,12 @@ export default function BrowseGames() {
   };
 
   const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentPage(1)
     setSelectedGenre(event.target.value);
   };
 
   const handlePlatformChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentPage(1)
     setSelectedPlatform(event.target.value);
   };
  
@@ -174,12 +176,12 @@ export default function BrowseGames() {
         ))}
       </div>
 
-      {/* <Pagination
+      <Pagination
         totalItems={totalGames}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}
-      /> */}
+      />
     </section>
   );
 }
