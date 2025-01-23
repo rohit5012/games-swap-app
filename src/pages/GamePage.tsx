@@ -44,12 +44,13 @@ const GamePage = () => {
     const fetchData = async () => {
       try {
         const response = await fetchGameDetails(game_slug);
+
         const fetchedScreenShots = await getGameScreenshots(response.id);
 
         // Fetch wishlist and log the result
         if (user && user.uid) {
           const wishlist = await fetchWishlist(user.uid);
-          if (wishlist[0].games[game_slug]) {
+          if (wishlist[0].games && wishlist[0].games[game_slug]) {
             setWishlisted(true);
           }
         }
@@ -68,6 +69,7 @@ const GamePage = () => {
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch game details. Please try again later.");
+        console.error(err);
         setLoading(false);
       }
     };
@@ -78,7 +80,7 @@ const GamePage = () => {
   }, [game_slug, user]);
 
   if (loading) {
-    return <LoadingAnimationComponent/>
+    return <LoadingAnimationComponent />;
   }
 
   if (error) {

@@ -13,23 +13,23 @@ import { Button } from "@/components/ui/Button";
 import { fetchOwnedList } from "@/services/ownedListService";
 import { fetchWishlist } from "@/services/wishlistServices";
 
-export type UserProfileRegUser = {
-  firstName: string;
-  lastName: string;
-  location: string;
-  avatarUrl: string;
-  gamesOwned: number;
-  gamesLent: number;
-  gamesBorrowed: number;
-  platforms: string[];
-  nickname: string;
-  aboutMe: string;
-  userId: string;
-};
+// export type UserProfileRegUser = {
+//   firstName: string;
+//   lastName: string;
+//   location: string;
+//   avatarUrl: string;
+//   gamesOwned: number;
+//   gamesLent: number;
+//   gamesBorrowed: number;
+//   platforms: string[];
+//   nickname: string;
+//   aboutMe: string;
+//   userId: string;
+// };
 
 const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
-  const [profile, setProfile] = useState<UserProfileRegUser | null>(null);
+  const [profile, setProfile] = useState(null);
   const [listItems, setListItems] = useState<string>("Owned");
   const [isEditing, setIsEditing] = useState(false);
 
@@ -47,8 +47,12 @@ const UserProfileRegUser: React.FC = () => {
           let wishlistedCount = 0;
           const ownedData = await fetchOwnedList(user.uid);
           const wishlistData = await fetchWishlist(user.uid);
-          const wishlisted = Object.keys(wishlistData[0].games);
-          const ownedList = Object.keys(ownedData[0].games);
+          const wishlisted = wishlistData[0]?.games
+            ? Object.keys(wishlistData[0].games)
+            : [];
+          const ownedList = ownedData[0]?.games
+            ? Object.keys(ownedData[0].games)
+            : [];
           ownedList.forEach((game) => ownedCount++);
           wishlisted.forEach((game) => wishlistedCount++);
 

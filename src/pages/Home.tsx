@@ -25,7 +25,9 @@ export default function Home() {
     });
   }, []);
 
-  const handlePlatformSelect = (platform: "PS4" | "PS5" | "Xbox One" | "Xbox Series X/S" | "Switch") => {
+  const handlePlatformSelect = (
+    platform: "PS4" | "PS5" | "Xbox One" | "Xbox Series X/S" | "Switch"
+  ) => {
     console.log("Selected platform:", platform);
   };
 
@@ -33,16 +35,7 @@ export default function Home() {
     <>
       <LargeCarousel games={upcomingGames} />
       {/* needs to be based on featured games from Firebase */}
-      <div className="w-full pb-5 flex justify-center items-center gap-6">
-        {" "}
-        <Link
-          to="/browse-games"
-          className={buttonVariants({ variant: "default" })}
-        >
-          Browse All Games
-        </Link>
-      </div>
-      <div >
+      <div>
         <SmallCarousel
           games={upcomingGames}
           carouselTitle="Upcoming Releases"
