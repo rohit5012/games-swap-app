@@ -34,9 +34,9 @@ export default function Footer() {
           <ul className="mb-4 md:mb-0">
             <li className="font-bold mb-4">more</li>
             <li className="mb-4">
-              <a href="/contact" className="text-gray-400 hover:text-white">
+              <Link to="/contact" className="text-gray-400 hover:text-white">
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
