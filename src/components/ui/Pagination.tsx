@@ -1,13 +1,33 @@
 const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const pageNumbers = [];
 
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+
+    if (totalPages <= 5) {
+      // Show all pages if total pages are 5 or less
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+      }
+    } else {
+      // Handle cases where total pages are greater than 5
+      if (currentPage <= 3) {
+        // Show first 4 pages and ellipsis with the last page
+        pageNumbers.push(1, 2, 3, 4, "...", totalPages);
+      } else if (currentPage > totalPages - 3) {
+        // Show ellipsis, last 4 pages, and the first page
+        pageNumbers.push(1, "...", totalPages - 3, totalPages - 2, totalPages - 1, totalPages);
+      } else {
+        // Show ellipsis on both sides, current, and the last page
+        pageNumbers.push(1, "...", currentPage - 1, currentPage, currentPage + 1, "...", totalPages);
+      }
+    }
+
+    return pageNumbers;
+  };
 
   const handlePageChange = (pageNumber) => {
-    if (pageNumber !== currentPage) {
+    if (pageNumber !== currentPage && pageNumber !== "...") {
       onPageChange(pageNumber);
     }
   };
@@ -21,13 +41,18 @@ const Pagination = ({ totalItems, itemsPerPage, currentPage, onPageChange }) => 
       >
         {"<"}
       </button>
-      {pageNumbers.map((number) => (
+      {getPageNumbers().map((number, index) => (
         <button
-          key={number}
+          key={index}
           onClick={() => handlePageChange(number)}
           className={`px-4 py-2 mx-2 ${
-            number === currentPage ? "bg-gray-600 text-white" : "bg-gray-200 text-black"
+            number === currentPage
+              ? "bg-gray-600 text-white"
+              : number === "..."
+              ? "bg-transparent text-gray-500 cursor-default"
+              : "bg-gray-200 text-black"
           } rounded`}
+          disabled={number === "..."}
         >
           {number}
         </button>

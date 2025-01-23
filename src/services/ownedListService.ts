@@ -119,3 +119,42 @@ export const toggleLendable = async (userId: string, slug: string) => {
     throw error;
   }
 };
+
+
+
+export const removeFromOwnedlist = async (userId: string, gameSlug: string) => {
+  try {
+    // Reference the user's wishlist document
+    const wishlistsRef = collection(db, "ownedGames");
+    const q = query(wishlistsRef, where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      throw new Error("No OwnedList found for the user.");
+    }
+
+    // Assuming a user has a single wishlist document
+    const wishlistDoc = querySnapshot.docs[0];
+    const wishlistDocRef = doc(db, "ownedGames", wishlistDoc.id);
+
+    // Fetch the current wishlist data
+    const wishlistData = wishlistDoc.data();
+    
+    if (!wishlistData?.games || !wishlistData.games[gameSlug]) {
+      throw new Error("Game not found in wishlist.");
+    }
+
+    // Remove the game from the games object
+    const updatedGames = { ...wishlistData.games };
+    delete updatedGames[gameSlug];  // Delete the game by its slug
+
+    // Update the wishlist document with the updated games
+    await updateDoc(wishlistDocRef, {
+      games: updatedGames, // Set the new updated games object
+    });
+    return true;
+  } catch (error) {
+    console.error("Error removing game from wishlist:", error);
+    throw error;
+  }
+};

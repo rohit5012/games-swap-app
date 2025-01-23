@@ -19,7 +19,6 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { updateOwnedGamesList } from "@/services/ownedListService";
-import { fetchYouTubeTrailers } from "@/YoutubeApi";
 import YouTube from "react-youtube";
 import LoadingAnimationComponent from "@/components/LoadingAnimationComponent";
 
@@ -107,29 +106,23 @@ const GamePage = () => {
       backgroundImg: game.background_image,
       releaseDate: game.released,
     };
-
-    toast.success(
-      <div className="flex items-center space-x-4">
-        <img
-          src={game.background_image}
-          alt={game.name}
-          className="w-12 h-12 object-cover rounded-md"
-        />
-        <div>
-          <p className="font-semibold">{game.name} added to owned games</p>
-        </div>
-      </div>,
-      {
-        duration: 2000,
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Undo owned games action"),
-        },
-      }
-    );
-
-    updateOwnedGamesList(user.uid, newOwnedItem).then(() =>
-      console.log("success!")
+    updateOwnedGamesList(user.uid, newOwnedItem).then(() =>{
+      toast.success(
+        <div className="flex items-center space-x-4">
+          <img
+            src={game.background_image}
+            alt={game.name}
+            className="w-12 h-12 object-cover rounded-md"
+          />
+          <div>
+            <p className="font-semibold">{game.name} added to owned games</p>
+          </div>
+        </div>,
+        {
+          duration: 2000
+        }
+      );
+    }
     );
   };
 
@@ -141,28 +134,27 @@ const GamePage = () => {
       releaseDate: game.released,
     };
 
-    toast.success(
-      <div className="flex items-center space-x-4">
-        <img
-          src={game.background_image}
-          alt={game.name}
-          className="w-12 h-12 object-cover rounded-md"
-        />
-        <div>
-          <p className="font-semibold">{game.name} added to wishlist</p>
-        </div>
-      </div>,
-      {
-        duration: 2000,
-        action: {
-          label: "Undo",
-          onClick: () => console.log("Undo wishlist action"),
-        },
-      }
-    );
+    
 
     updateWishlist(user.uid, newWishlistItem)
-      .then(() => console.log("success!"))
+      .then(() => {
+        toast.success(
+          <div className="flex items-center space-x-4">
+            <img
+              src={game.background_image}
+              alt={game.name}
+              className="w-12 h-12 object-cover rounded-md"
+            />
+            <div>
+              <p className="font-semibold">{game.name} added to wishlist</p>
+            </div>
+          </div>,
+          {
+            duration: 2000,
+            
+          }
+        );
+      })
       .catch((error) => {
         toast.error("Failed to add game to wishlist.", {
           description: error.message,
@@ -219,9 +211,7 @@ const GamePage = () => {
                   if (isWishlisted) {
                     // Remove from wishlist
                     setWishlisted(false);
-                    removeFromWishlist(user?.uid, game.slug).then(() =>
-                      console.log("success!")
-                    );
+                    removeFromWishlist(user?.uid, game.slug)
                   } else {
                     // Add to wishlist
                     handleAddToWishlist();
@@ -288,9 +278,7 @@ const GamePage = () => {
                   if (isWishlisted) {
                     // Remove from wishlist
                     setWishlisted(false);
-                    removeFromWishlist(user?.uid, game.slug).then(() =>
-                      console.log("Game removed from wishlist!")
-                    );
+                    removeFromWishlist(user?.uid, game.slug)
                   } else {
                     // Add to wishlist
                     handleAddToWishlist();
