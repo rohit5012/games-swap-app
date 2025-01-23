@@ -8,10 +8,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserProfileSetup from "./pages/UserProfileSetup";
 import UserProfilePage from "./pages/UserProfilePage";
-import UserList from "./components/UserList";
 import NewFooter from "./components/NewFooter";
 import Messages from "./pages/Messages";
-import MapUserProfile from "./pages/MapUserProfile";
 import { Toaster } from "sonner";
 import UserComponent from "./components/ViewProfile";
 import ContactForm from "./pages/ContactForm";
@@ -30,14 +28,12 @@ function App() {
           <Route path="/game/:game_slug" element={<GamePage />} />
           <Route path="/map" element={<MapPage />} />
           {/* Map */}
-          <Route path="/map/user/:id" element={<MapUserProfile />} />
           <Route path="/browse-games" element={<BrowseGames />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/user-profile-setup" element={<UserProfileSetup />} />
           <Route path="/user-profile" element={<UserProfilePage />} />
           <Route path="/users/:userId" element={<UserComponent />} />
-          <Route path="/users" element={<UserList />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/contact" element={<ContactForm />} />
           <Route path="/teamprofile" element={<TeamProfile />} />

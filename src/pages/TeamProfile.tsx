@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect } from "react";
 import Pic2 from "../assets/pic2.webp";
 import Pic3 from "../assets/pics3.jpg";
 import Pic4 from "../assets/pic4.jpg";
@@ -47,6 +48,9 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({
 );
 
 const ProfilePage: React.FC = () => (
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   <div className="flex flex-col items-center container mx-auto px-2  ">
     {/* <h1 className="text-3xl font-bold mb-8 text-center">Profile Page</h1> */}
     <ProfileSection

@@ -39,6 +39,10 @@ export default function BrowseGames() {
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get("platform");
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   // Helper function to handle fetching data
   const fetchData = async () => {
     setIsLoading(true); // Set loading state to true
