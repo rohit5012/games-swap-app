@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaXbox, FaPlaystation } from "react-icons/fa";
 import { BsNintendoSwitch } from "react-icons/bs";
-import { CgGames } from "react-icons/cg"
+import { CgGames } from "react-icons/cg";
 import { getPlatforms } from "@/rawgApi";
 import { Link } from "react-router";
 
@@ -53,8 +53,8 @@ const PlatformSelector = () => {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg text-black">
-      <h2 className="text-xl font-bold text-center mb-6">
+    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg text-black dark:bg-zinc-950 dark:outline dark:outline-1 dark:outline-zinc-700">
+      <h2 className="text-xl font-bold text-center mb-6 dark:text-white">
         Browse games by platform
       </h2>
       <div className="grid grid-cols-3 gap-4">
@@ -62,7 +62,7 @@ const PlatformSelector = () => {
           <Link
             to={`/browse-games?platform=${platform.id}`} // Link with dynamic platform name
             key={platform.id}
-            className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-300 transition ${platform.hoverColor}`}
+            className={`flex flex-col items-center justify-center p-4 rounded-lg outline outline-1 outline-gray-300 transition dark:text-white ${platform.hoverColor}`}
           >
             <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md mb-3">
               {platform.icon}
@@ -71,16 +71,16 @@ const PlatformSelector = () => {
           </Link>
         ))}
 
-<Link
-            to={`/browse-games`} // Link with dynamic platform name
-            key="allgames"
-            className={`flex flex-col items-center justify-center p-4 rounded-lg border-2 border-gray-300 transition hover:bg-slate-500 hover:text-white`}
-          >
-            <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md mb-3">
-            <CgGames className="text-4xl text-slate-500"/>
-            </div>
-            <span className="text-sm font-medium">All games</span>
-          </Link>
+        <Link
+          to={`/browse-games`} // Link with dynamic platform name
+          key="allgames"
+          className={`flex flex-col items-center justify-center p-4 rounded-lg outline outline-1 outline-gray-300 transition hover:bg-slate-500 hover:text-white`}
+        >
+          <div className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-md mb-3">
+            <CgGames className="text-4xl text-slate-500" />
+          </div>
+          <span className="text-sm font-medium dark:text-white">All games</span>
+        </Link>
       </div>
     </div>
   );
