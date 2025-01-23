@@ -67,9 +67,9 @@ function SmList() {
     }
   };
 
-  const filteredChats = chats.filter((c) =>
-    c.user.nickname.toLowerCase().includes(input.toLowerCase())
-  );
+  const filteredChats = chats.filter((c) => {
+    return c.user.nickname.toLowerCase().includes(input.toLowerCase());
+  });
 
   return loading ? (
     <p>Loading...</p>
