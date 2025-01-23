@@ -73,12 +73,16 @@ export const fetchGameDetails = async (
 
 export const getGamesByGenre = async (
   genres: any[] | null | undefined, // Accepts an array of genres
-  platforms: any[] | null | undefined // Accepts an array of platforms
+  platforms: any[] | null | undefined, // Accepts an array of platforms
+  page?: number, // Optional page parameter
+  pageSize?: number // Optional page size parameter
 ): Promise<Game[]> => {
   
   // Initialize the query strings for genres and platforms
   let genreQuery = "";
   let platformQuery = "";
+  let paginationQuery = "";
+
   if (genres && genres.length > 0 && genres[0] !== null && genres[0] !== "") {
     genreQuery = `&genres=${genres.join(",").toLocaleLowerCase()}`;
   }
@@ -86,7 +90,16 @@ export const getGamesByGenre = async (
   if (platforms && platforms.length > 0 && platforms[0] !== null && platforms[0] !== "") {
     platformQuery = `&platforms=${platforms.join(",").toLocaleLowerCase()}`;
   }
-  const queryString = `${genreQuery}${platformQuery}`;
+
+  if (page) {
+    paginationQuery += `&page=${page}`;
+  }
+
+  if (pageSize) {
+    paginationQuery += `&page_size=${pageSize}`;
+  }
+
+  const queryString = `${genreQuery}${platformQuery}${paginationQuery}`;
   
   // Make the fetch call with the combined query string added to the URL
   return fetchGames(`/games?key=${rawgAPIKey}${queryString}`);
