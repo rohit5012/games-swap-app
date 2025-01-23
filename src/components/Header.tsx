@@ -73,8 +73,8 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
             </ThemeProvider>
             {user ? (
               <div className="flex flex-row gap-4">
-                <a
-                  href="/user-profile"
+                <Link
+                  to="/user-profile"
                   className="flex items-center space-x-2 p-1 rounded-lg"
                 >
                   <img
@@ -85,10 +85,10 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                     alt="User profile"
                     className="w-8 h-8 rounded-full object-cover hover:outline hover:outline-2 hover:outline-green-500"
                   />
-                  <span className="text-foreground hover:text-green-600">
+                  <span className="hidden lg:flex text-foreground hover:text-green-600">
                     {user.displayName}
                   </span>
-                </a>
+                </Link>
                 <Logout />
               </div>
             ) : (
