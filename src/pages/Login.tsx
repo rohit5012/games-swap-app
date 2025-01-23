@@ -9,16 +9,19 @@ import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/Input";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link, useNavigate } from "react-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-import { addClassName } from "@react-leaflet/core";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,9 +63,6 @@ export default function Login() {
             <div className="space-y-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                {/* <Link className={buttonVariants({ variant: "outline" })} to='/home'>
-                    Forgot your password?
-                  </Link> */}
               </div>
               <Input
                 id="password"

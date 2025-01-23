@@ -30,6 +30,10 @@ const ViewProfileComponent: React.FC = () => {
   const [listItems, setListItems] = useState<string>("Owned");
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     if (userId) {
       const fetchUserProfile = async () => {
         try {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { addUserDetails } from "@/services/userDetailsService";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +26,10 @@ const UserProfileSetup: React.FC = () => {
   const [platforms, setPlatforms] = useState<string[]>([]);
   const [nickname, setNickname] = useState<string>("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

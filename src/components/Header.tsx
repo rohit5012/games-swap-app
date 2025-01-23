@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
     }
   }, [user]);
   return (
-    <header className="sticky top-0 z-10 bg-background shadow-sm border-b-2">
+    <header className="sticky top-0 z-50 bg-background shadow-sm border-b-2">
       <div className="container mx-auto px-4">
         <div className="flex gap-5 lg:gap-0 items-center justify-between h-16">
           {/* Logo */}
@@ -73,8 +73,8 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
             </ThemeProvider>
             {user ? (
               <div className="flex flex-row gap-4">
-                <a
-                  href="/user-profile"
+                <Link
+                  to="/user-profile"
                   className="flex items-center space-x-2 p-1 rounded-lg"
                 >
                   <img
@@ -85,10 +85,10 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                     alt="User profile"
                     className="w-8 h-8 rounded-full object-cover hover:outline hover:outline-2 hover:outline-green-500"
                   />
-                  <span className="text-foreground hover:text-green-600">
+                  <span className="hidden lg:flex text-foreground hover:text-green-600">
                     {user.displayName}
                   </span>
-                </a>
+                </Link>
                 <Logout />
               </div>
             ) : (
@@ -134,6 +134,14 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                     to="/user-profile"
                   >
                     Profile
+                  </Link>
+                  <Link
+                    className={buttonVariants({
+                      variant: "outline",
+                    })}
+                    to="/messages"
+                  >
+                    Messages
                   </Link>
                 </>
               ) : (

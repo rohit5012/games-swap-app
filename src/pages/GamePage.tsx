@@ -76,6 +76,7 @@ const GamePage = () => {
     if (game_slug) {
       fetchData();
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [game_slug, user]);
 
   if (loading) {

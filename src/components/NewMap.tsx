@@ -19,6 +19,10 @@ const NewMap: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -75,8 +79,8 @@ const NewMap: React.FC = () => {
   //   if (!userLocation) return <div>Loading...</div>;
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen ">
-      <div className="w-full lg:w-1/6 p-4 bg-gradient-to-b from-gray-800 to-gray-600 text-white  h-screen">
+    <div className="flex flex-col lg:flex-row h-screen">
+      <div className="w-full lg:w-1/6 p-4 bg-gradient-to-b from-gray-800 to-gray-600 text-white">
         <div className="p-4">
           <ul>
             <li className="mt-4">
@@ -108,7 +112,7 @@ const NewMap: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex-1 h-full ">
+      <div className="flex-1 z-10">
         <div id="map" className="rounded-lg shadow-lg">
           <MapContainer
             center={userLocation || [51.509865, -0.118092]}

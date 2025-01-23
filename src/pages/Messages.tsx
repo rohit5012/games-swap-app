@@ -12,6 +12,10 @@ function Messages() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
     });

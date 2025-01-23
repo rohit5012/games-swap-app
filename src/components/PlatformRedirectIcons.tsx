@@ -51,9 +51,9 @@ const PlatformSelector = () => {
       setGamePlatforms(res);
     });
   }, []);
- 
+
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto p-6 bg-gray-100 rounded-lg shadow-lg text-black">
       <h2 className="text-xl font-bold text-center mb-6">
         Browse games by platform
       </h2>
