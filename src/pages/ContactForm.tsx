@@ -52,7 +52,7 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full pb-16 md:pb-20 bg-[#36263E]">
+    <div className="flex flex-col h-[80dvh] items-center w-full pb-16 md:pb-20 bg-[#36263E]">
       <div className="w-full my-4 md:mb-28">
         <h2 className="text-3xl md:text-4xl font-bold my-10 md:mt-10 text-center text-white">
           Contact Us
