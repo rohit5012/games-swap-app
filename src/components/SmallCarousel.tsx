@@ -72,7 +72,7 @@ export default function SmallCarousel(props: {
       <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
 
       {/* Compact Carousel Component */}
-      <div className="relative overflow-hidden px-4 bg-white py-4 rounded-lg w-11/12 place-self-center">
+      <div className="relative overflow-hidden px-4 bg-white  py-4 rounded-lg w-11/12 place-self-center">
         {/* Left Scroll Button */}
         <button
           onClick={scrollLeft}
@@ -85,7 +85,7 @@ export default function SmallCarousel(props: {
         {/* Carousel Container */}
         <div
           ref={carouselRef}
-          className="flex overflow-x-scroll no-scrollbar gap-3  scroll-smooth relative"
+          className="flex overflow-x-scroll no-scrollbar gap-3  scroll-smooth relative p-2"
         >
           {props.games.map((game, index) => (
             <div

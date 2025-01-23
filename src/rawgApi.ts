@@ -72,18 +72,25 @@ export const fetchGameDetails = async (
 };
 
 export const getGamesByGenre = async (
-  genres: any[] | null | undefined // Accepts an array of genres
+  genres: any[] | null | undefined, // Accepts an array of genres
+  platforms: any[] | null | undefined // Accepts an array of platforms
 ): Promise<Game[]> => {
-  // Initialize the genre query string
+  console.log(genres)
+  // Initialize the query strings for genres and platforms
   let genreQuery = "";
-
-  if (genres && genres.length > 0) {
-    // Join the genres into a comma-separated list for the query
+  let platformQuery = "";
+  if (genres && genres.length > 0 && genres[0] !== null && genres[0] !== "") {
     genreQuery = `&genres=${genres.join(",").toLocaleLowerCase()}`;
   }
 
-  // Make the fetch call with the genre query added to the URL
-  return fetchGames(`/games?key=${rawgAPIKey}${genreQuery}`);
+  if (platforms && platforms.length > 0 && platforms[0] !== null && platforms[0] !== "") {
+    platformQuery = `&platforms=${platforms.join(",").toLocaleLowerCase()}`;
+  }
+  const queryString = `${genreQuery}${platformQuery}`;
+  console.log(queryString)
+  console.log(`/games?key=${rawgAPIKey}${queryString}`)
+  // Make the fetch call with the combined query string added to the URL
+  return fetchGames(`/games?key=${rawgAPIKey}${queryString}`);
 };
 
 export const getGamesBySearch = async (searchTerm: string): Promise<Game[]> => {

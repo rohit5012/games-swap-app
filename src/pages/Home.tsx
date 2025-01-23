@@ -42,23 +42,6 @@ export default function Home() {
           Browse All Games
         </Link>
       </div>
-      <div className="w-full flex justify-center items-center gap-6">
-        <PlatformButton
-          name="Playstation"
-          platform={platforms}
-          setPlatforms={setPlatforms}
-        />
-        <PlatformButton
-          name="Xbox"
-          platform={platforms}
-          setPlatforms={setPlatforms}
-        />
-        <PlatformButton
-          name="Switch"
-          platform={platforms}
-          setPlatforms={setPlatforms}
-        />
-      </div>
       <div >
         <SmallCarousel
           games={upcomingGames}

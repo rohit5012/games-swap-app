@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { updateOwnedGamesList } from "@/services/ownedListService";
 import { fetchYouTubeTrailers } from "@/YoutubeApi";
 import YouTube from "react-youtube";
+import LoadingAnimationComponent from "@/components/LoadingAnimationComponent";
 
 const GamePage = () => {
   const { game_slug } = useParams<{ game_slug: string }>();
@@ -77,11 +78,7 @@ const GamePage = () => {
   }, [game_slug, user]);
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-        <p>Loading...</p>
-      </div>
-    );
+    return <LoadingAnimationComponent/>
   }
 
   if (error) {
@@ -243,7 +240,7 @@ const GamePage = () => {
         </div>
 
         {/* Mobile view */}
-        <div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-10 mt-4">
+        <div className="lg:hidden block p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm mx-auto shadow-2xl z-9 mt-4">
           <h1 className="text-3xl font-bold mb-4 text-center">{game.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2 justify-center">
             {game.platforms?.map((platform, index) => (
@@ -313,7 +310,7 @@ const GamePage = () => {
       </div>
 
       {/* Game Details */}
-      <div className="relative z-10 mt-10 md:px-52">
+      <div className="relative z-9 mt-10 md:px-52">
         <div className="bg-black/80 p-8 rounded-lg shadow-lg">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 transform lg:-translate-x-24">
             {/* Genres */}
