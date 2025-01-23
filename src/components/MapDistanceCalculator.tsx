@@ -6,7 +6,7 @@ export const MapDistanceCalculator = (
 ) => {
   const toRadian = (angle: number) => (Math.PI / 180) * angle;
   const R = 6371;
-
+  // MapDistance
   const dLat = toRadian(lat2 - lat1);
   const dLon = toRadian(lon2 - lon1);
   const a =

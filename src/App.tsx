@@ -29,6 +29,7 @@ function App() {
           {/* Dynamic Route for GamePage */}
           <Route path="/game/:game_slug" element={<GamePage />} />
           <Route path="/map" element={<MapPage />} />
+          {/* Map */}
           <Route path="/map/user/:id" element={<MapUserProfile />} />
           <Route path="/browse-games" element={<BrowseGames />} />
           <Route path="/login" element={<Login />} />

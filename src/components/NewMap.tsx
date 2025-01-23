@@ -62,7 +62,7 @@ const NewMap: React.FC = () => {
       console.error("Error fetching users:", error);
     }
   };
-
+  // Map
   const createCustomIcon = () => {
     return L.icon({
       iconUrl: markerIcon,
