@@ -33,19 +33,22 @@ export default function Footer() {
           </ul>
           <ul className="mb-4 md:mb-0">
             <li className="font-bold mb-4">more</li>
-            <li className="mb-4">
-              <Link
-                to="/teamprofile"
-                className="text-gray-400 hover:text-white"
-              >
-                Meet Our Team
-              </Link>
-            </li>
-            <li className="mb-4">
-              <Link to="/contact" className="text-gray-400 hover:text-white">
-                Contact Us
-              </Link>
-            </li>
+            <div className="flex gap-2">
+              <li className="mb-4">
+                <Link
+                  to="/teamprofile"
+                  className="text-gray-400 hover:text-white"
+                >
+                  Meet Our Team
+                </Link>
+              </li>
+              <p>/</p>
+              <li className="mb-4">
+                <Link to="/contact" className="text-gray-400 hover:text-white">
+                  Contact Us
+                </Link>
+              </li>
+            </div>
           </ul>
         </div>
         <div className="w-24">

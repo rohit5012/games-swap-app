@@ -92,7 +92,7 @@ const NewMap: React.FC = () => {
                 Gamers Near Me
               </a>
             </li>
-            <li className="mt-4">
+            {/* <li className="mt-4">
               <a
                 href="#"
                 className="block py-2 px-4 bg-gray-500 hover:bg-blue-600 text-white rounded-lg"
@@ -107,7 +107,7 @@ const NewMap: React.FC = () => {
               >
                 User Rating
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

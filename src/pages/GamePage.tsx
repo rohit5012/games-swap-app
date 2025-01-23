@@ -40,6 +40,7 @@ const GamePage = () => {
   const { user } = useAuth();
 
   useEffect(() => {
+    setWishlisted(false);
     const fetchData = async () => {
       try {
         const response = await fetchGameDetails(game_slug);
@@ -106,7 +107,7 @@ const GamePage = () => {
       backgroundImg: game.background_image,
       releaseDate: game.released,
     };
-    updateOwnedGamesList(user.uid, newOwnedItem).then(() =>{
+    updateOwnedGamesList(user.uid, newOwnedItem).then(() => {
       toast.success(
         <div className="flex items-center space-x-4">
           <img
@@ -119,11 +120,10 @@ const GamePage = () => {
           </div>
         </div>,
         {
-          duration: 2000
+          duration: 2000,
         }
       );
-    }
-    );
+    });
   };
 
   const handleAddToWishlist = () => {
@@ -133,8 +133,6 @@ const GamePage = () => {
       backgroundImg: game.background_image,
       releaseDate: game.released,
     };
-
-    
 
     updateWishlist(user.uid, newWishlistItem)
       .then(() => {
@@ -151,7 +149,6 @@ const GamePage = () => {
           </div>,
           {
             duration: 2000,
-            
           }
         );
       })
@@ -211,7 +208,7 @@ const GamePage = () => {
                   if (isWishlisted) {
                     // Remove from wishlist
                     setWishlisted(false);
-                    removeFromWishlist(user?.uid, game.slug)
+                    removeFromWishlist(user?.uid, game.slug);
                   } else {
                     // Add to wishlist
                     handleAddToWishlist();
@@ -278,7 +275,7 @@ const GamePage = () => {
                   if (isWishlisted) {
                     // Remove from wishlist
                     setWishlisted(false);
-                    removeFromWishlist(user?.uid, game.slug)
+                    removeFromWishlist(user?.uid, game.slug);
                   } else {
                     // Add to wishlist
                     handleAddToWishlist();
