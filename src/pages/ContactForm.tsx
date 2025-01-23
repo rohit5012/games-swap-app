@@ -48,7 +48,6 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-
     <div className="min-h-[90dvh] w-screen flex flex-col md:flex-row p-4  bg-[#36263E]">
       <div className="container mx-auto flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 flex justify-center items-center p-8 md:p-0">
@@ -57,14 +56,25 @@ const ContactForm: React.FC = () => {
             style={{ backgroundImage: `url(${Pic})` }}
           ></div>
         </div>
-
+        {/* Floating text -start */}
+        <div className="w-full my-4 md:mb-28">
+          <h2 className="text-4xl font-bold my-10 md:mt-10 text-center text-white">
+            Contact Us
+          </h2>
+          <div
+            className="whitespace-nowrap marquee md:text-2xl"
+            style={{ color: "#48cae4" }}
+          >
+            Your Feedback Matters, Drop Us a Line and We will get back to You!
+          </div>
+        </div>
+        {/* Floating text -end */}
         <div className="w-full md:w-3/4 flex justify-center items-center p-4 md:p-0'">
           <form
             onSubmit={handleSubmit}
             className="bg-[#36263E] p-8 md:p-16 rounded-lg w-full max-w-lg mx-auto"
           >
             <div className="mb-4">
-
               <label
                 className="block text-white text-sm font-bold mb-2"
                 htmlFor="name"
