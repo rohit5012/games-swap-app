@@ -55,7 +55,7 @@ const Wishlist = ({ userId }) => {
         // Return the updated wishlist state
         return { ...updatedWishlist };
       });
-      console.log(wishlist);
+     
     } catch (error) {
       console.error("Error:", error);
     }

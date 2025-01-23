@@ -17,7 +17,7 @@ import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 const OtherPPLWishlist = ({ userId, username }) => {
   const [ownedGames, setOwnedGames] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(`Hello ${username}`);
+
   useEffect(() => {
     async function fetchOwnedGamesData() {
       try {

@@ -75,7 +75,7 @@ export const getGamesByGenre = async (
   genres: any[] | null | undefined, // Accepts an array of genres
   platforms: any[] | null | undefined // Accepts an array of platforms
 ): Promise<Game[]> => {
-  console.log(genres)
+  
   // Initialize the query strings for genres and platforms
   let genreQuery = "";
   let platformQuery = "";
@@ -87,8 +87,7 @@ export const getGamesByGenre = async (
     platformQuery = `&platforms=${platforms.join(",").toLocaleLowerCase()}`;
   }
   const queryString = `${genreQuery}${platformQuery}`;
-  console.log(queryString)
-  console.log(`/games?key=${rawgAPIKey}${queryString}`)
+  
   // Make the fetch call with the combined query string added to the URL
   return fetchGames(`/games?key=${rawgAPIKey}${queryString}`);
 };
@@ -119,7 +118,6 @@ export const getGenres = async (): Promise<{
 }> => {
   try {
     const response = await rawgAPI.get(`/genres?key=${rawgAPIKey}`);
-    console.log(response);
     return response.data.results;
   } catch (error) {
     throw new Error("Error finding genres");

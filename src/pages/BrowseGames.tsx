@@ -92,7 +92,7 @@ export default function BrowseGames() {
   const handlePlatformChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPlatform(event.target.value);
   };
-  console.log(LoadingAnimation)
+ 
   if (isLoading) {
     return <LoadingAnimationComponent/>
   }

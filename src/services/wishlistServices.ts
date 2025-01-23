@@ -89,8 +89,6 @@ export const removeFromWishlist = async (userId: string, gameSlug: string) => {
       await updateDoc(wishlistDocRef, {
         games: updatedGames, // Set the new updated games object
       });
-  
-      console.log(`Game '${gameSlug}' removed from wishlist.`);
       return true;
     } catch (error) {
       console.error("Error removing game from wishlist:", error);

@@ -26,7 +26,7 @@ const ContactForm: React.FC = () => {
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY).then(
       (result) => {
-        console.log(result.text);
+        
         setName("");
         setEmail("");
         setSubject("");
@@ -37,7 +37,7 @@ const ContactForm: React.FC = () => {
         });
       },
       (error) => {
-        console.log(error.text);
+      
         Swal.fire({
           icon: "error",
           title: "Ooops, something went wrong",
