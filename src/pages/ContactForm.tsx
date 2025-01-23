@@ -26,6 +26,7 @@ const ContactForm: React.FC = () => {
 
     emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY).then(
       (result) => {
+        console.log(result.text);
         setName("");
         setEmail("");
         setSubject("");
@@ -36,6 +37,7 @@ const ContactForm: React.FC = () => {
         });
       },
       (error) => {
+        console.log(error.text);
         Swal.fire({
           icon: "error",
           title: "Ooops, something went wrong",
@@ -46,34 +48,29 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row p-4 md:ml-4 md:mr-4 bg-[#36263E]">
-      <div className=" flex flex-col md:flex-row">
-        <div className="w-full my-4 md:mb-28">
-          <h2 className="text-4xl font-bold my-10 md:mt-10 text-center text-white">
-            Contact Us
-          </h2>
-          <div
-            className="whitespace-nowrap marquee md:text-2xl"
-            style={{ color: "#48cae4" }}
-          >
-            Your Feedback Matters, Drop Us a Line and We will get back to You!
-          </div>
-        </div>
-        <div className="w-full flex justify-center items-center p-8 md:p-0">
-          <div
-            className="h-96 w-96 bg-cover bg-center rounded-full border-4 border-white"
-            style={{ backgroundImage: `url(${Pic})` }}
-          ></div>
-        </div>
-        {/* Floating text -start */}
+    <div className="flex flex-col items-center w-full pb-16 md:pb-20 bg-[#36263E]">
+      <div className="w-full my-4 md:mb-28">
+        <h2 className="text-3xl md:text-4xl font-bold my-10 md:mt-10 text-center text-white">
+          Contact Us
+        </h2>
+        <i
+          className="whitespace-nowrap marquee text-lg md:text-2xl"
+          style={{ color: "#48cae4" }}
+        >
+          Your feedback matters, Drop Us a line and we will get back to you!
+        </i>
+      </div>
 
-        {/* Floating text -end */}
-        <div className="w-full md:w-3/4 flex justify-center items-center p-4 md:p-0">
-          <form
-            onSubmit={handleSubmit}
-            className="bg-[#36263E] p-8 rounded-lg w-full "
-          >
-            <div className="mb-4">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-20 justify-center items-center w-full">
+        <div className="flex-1 max-w-md">
+          <img
+            src={Pic}
+            className="h-96 w-96 bg-cover bg-center rounded-full border-4 border-white"
+          ></img>
+        </div>
+        <div className="flex-1 max-w-md w-3/4">
+          <form onClick={handleSubmit} className="space-y-4">
+            <div>
               <label
                 className="block text-white text-sm font-bold mb-2"
                 htmlFor="name"
