@@ -180,7 +180,7 @@ const GamePage = () => {
 
         {/* Game Info Container (conditionally rendered) */}
         {/* Desktop view */}
-        <div className="float-start sm:left-16 md:ml-16 lg:block hidden p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-10 transform -translate-y-60">
+        <div className="float-start md:ml-16 lg:block hidden p-6 bg-gradient-to-r from-gray-800 via-gray-900 to-black text-white rounded-lg max-w-sm shadow-2xl z-10 transform -translate-y-80">
           <h1 className="text-3xl font-bold mb-4">{game.name}</h1>
           <div className="mt-2 flex flex-wrap gap-2">
             {game.platforms?.map((platform, index) => (

@@ -22,7 +22,7 @@ export default function Footer() {
                 href="/browse-games"
                 className="text-gray-400 hover:text-white"
               >
-                Upcoming Games
+                All Games
               </a>
             </li>
           </ul>
