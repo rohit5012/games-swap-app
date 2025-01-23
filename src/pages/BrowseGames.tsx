@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Game, getGamesByGenre, getGenres, getPaginatedGames, getPlatforms } from "@/rawgApi";
+import {
+  Game,
+  getGamesByGenre,
+  getGenres,
+  getPaginatedGames,
+  getPlatforms,
+} from "@/rawgApi";
 import {
   Card,
   CardContent,
@@ -11,11 +17,11 @@ import { Link } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { updateWishlist } from "@/services/wishlistServices";
 import Pagination from "../components/ui/Pagination";
-import { useLocation } from 'react-router-dom';
-import Lottie from 'lottie-react';
-import LoadingAnimation from "../assets/lottie/LoadingAnimation.json"
+import { useLocation } from "react-router-dom";
+import Lottie from "lottie-react";
+import LoadingAnimation from "../assets/lottie/LoadingAnimation.json";
 
-import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import LoadingAnimationComponent from "@/components/LoadingAnimationComponent";
 
 export default function BrowseGames() {
@@ -31,7 +37,7 @@ export default function BrowseGames() {
   const itemsPerPage = 8;
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const query = queryParams.get('platform');
+  const query = queryParams.get("platform");
 
   // Helper function to handle fetching data
   const fetchData = async () => {
@@ -42,7 +48,7 @@ export default function BrowseGames() {
       const genresData = await getGenres();
       setGenres(genresData);
       setPlatforms(platformData);
-      
+
       // Fetch games based on genre or platform filter
       let gameData;
       if (selectedGenre || selectedPlatform) {
@@ -50,7 +56,10 @@ export default function BrowseGames() {
         setDisplayedGames(gameData);
         setTotalGames(gameData.length);
       } else {
-        const paginatedGames = await getPaginatedGames(currentPage, itemsPerPage);
+        const paginatedGames = await getPaginatedGames(
+          currentPage,
+          itemsPerPage
+        );
         setDisplayedGames(paginatedGames.results);
         setTotalGames(paginatedGames.count);
       }
@@ -89,16 +98,18 @@ export default function BrowseGames() {
     setSelectedGenre(event.target.value);
   };
 
-  const handlePlatformChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handlePlatformChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedPlatform(event.target.value);
   };
- 
+
   if (isLoading) {
-    return <LoadingAnimationComponent/>
+    return <LoadingAnimationComponent />;
   }
 
   return (
-    <section className="flex flex-col items-center justify-center mb-11">
+    <section className="flex flex-col items-center justify-center mb-11 text-black">
       <h2 className="text-center text-3xl mb-6">All Games</h2>
       {/* Filter Section */}
       <div className="flex flex-wrap justify-center gap-6 mb-6">
@@ -120,7 +131,7 @@ export default function BrowseGames() {
         </div>
 
         {/* Platform Filter */}
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start text-black">
           <h3 className="text-lg font-semibold mb-2">Filter by Platform</h3>
           <select
             value={selectedPlatform || ""}
