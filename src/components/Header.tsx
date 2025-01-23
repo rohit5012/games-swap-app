@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
     }
   }, [user]);
   return (
-    <header className="sticky top-0 z-10 bg-background shadow-sm border-b-2">
+    <header className="sticky top-0 z-50 bg-background shadow-sm border-b-2">
       <div className="container mx-auto px-4">
         <div className="flex gap-5 lg:gap-0 items-center justify-between h-16">
           {/* Logo */}
