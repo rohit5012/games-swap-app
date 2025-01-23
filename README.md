@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-<img width="232" alt="Screenshot 2024-02-15 at 04 11 45" src="https://github.com/user-attachments/assets/416c17dc-343f-41eb-afd9-8fd140d5fe2b">
+<img width="232" alt="Screenshot 2024-02-15 at 04 11 45" src="https://raw.githubusercontent.com/phosphor-icons/core/24fd919730f0507fb4e3ff6cc6178797124fa9db/assets/light/game-controller-light.svg">
 
   <h3 align="center">Welcome to Game-Swap</h3>
 
