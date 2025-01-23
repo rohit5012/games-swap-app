@@ -113,7 +113,7 @@ const NewMap: React.FC = () => {
           <MapContainer
             center={userLocation || [51.509865, -0.118092]}
             zoom={12}
-            style={{ height: "100vh", width: "100%", zIndex: -50 }}
+            style={{ height: "100vh", width: "100%" }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
