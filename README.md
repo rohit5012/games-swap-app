@@ -2,11 +2,11 @@
 <p align="center">
 <img width="232" alt="Screenshot 2024-02-15 at 04 11 45" src="https://github.com/user-attachments/assets/416c17dc-343f-41eb-afd9-8fd140d5fe2b">
 
-  <h3 align="center">Welcome to Game-Swap Application</h3>
+  <h3 align="center">Welcome to Game-Swap</h3>
 
   <p align="center">
     <strong>Explore the docs »</strong>
-    <a href="" target="_blank">Live Demo</a>
+    <a href="https://game-swap-eurostars.vercel.app" target="_blank">Live Demo</a>
     ·
     <a href="https://github.com/Smasheroonie/game-swap-fe/issues">Report Bug</a>
     ·
@@ -37,7 +37,7 @@
 <img width="1394" alt="Image" src="https://github.com/user-attachments/assets/8bdd31b6-79c0-4622-930d-1de251ef46b9" />
 <img width="1332" alt="Image" src="https://github.com/user-attachments/assets/9670a4ae-ec0e-46b7-bc22-48d76655c6a3" />
 
-This repository contains an innovative app connects gamers within your local area, allowing them to swap, lend, or trade their video games easily. Users can list their available games, browse others' listings, and arrange swaps with nearby gamers1. The app ensures a secure and transparent transaction process, making it simple and convenient to refresh your game library without spending money. The app is live on Netlify, providing a seamless user experience with features like notifications, chat, and a trusted trader system.
+This repository contains an innovative app connects gamers within your local area, allowing them to swap, lend, or trade their video games easily. Users can list their available games, browse others' listings, and arrange swaps with nearby gamers1. The app ensures a secure and transparent transaction process, making it simple and convenient to refresh your game library without spending money. The app is live on Vercel, providing a seamless user experience with features like notifications, chat, and a trusted trader system.
 
 This project was developed by
 [Liliia](https://github.com/Lilu-B), [Rohit](https://github.com/rohit5012), [Luke](https://github.com/Smasheroonie), [Javier](https://github.com/JavierMarro), [Nadim](https://github.com/NadimChatellier)
@@ -85,7 +85,7 @@ Firebase
 ```
 
 ```shell
-Netlify
+Vercel
 ```
 
 #### Clone the repository
@@ -112,7 +112,7 @@ See the [open issues](https://github.com/Smasheroonie/game-swap-fe/issues) for a
 7. Maps JavaScript API(https://developers.google.com/)
 8. Firebase(https://firebase.google.com/)
 9. Typescript(https://www.typescriptlang.org/)
-10. Netlify(https://www.netlify.com/)
+10. Vercel(https://vercel.com/)
 
 <!-- CONTRIBUTING -->
 
