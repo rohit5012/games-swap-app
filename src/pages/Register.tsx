@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/Label";
 import { Input } from "@/components/ui/Input";
 import { Button, buttonVariants } from "@/components/ui/Button";
 import { Link } from "react-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase/firebase";
@@ -20,6 +20,11 @@ export default function Register() {
   const [displayName, setDisplayName] = useState<string>("");
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 

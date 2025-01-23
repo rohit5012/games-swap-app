@@ -135,6 +135,14 @@ const Header: React.FC<HeaderProps> = ({ userProfileImage }) => {
                   >
                     Profile
                   </Link>
+                  <Link
+                    className={buttonVariants({
+                      variant: "outline",
+                    })}
+                    to="/messages"
+                  >
+                    Messages
+                  </Link>
                 </>
               ) : (
                 <Link

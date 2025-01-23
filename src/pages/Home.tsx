@@ -25,6 +25,10 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const handlePlatformSelect = (
     platform: "PS4" | "PS5" | "Xbox One" | "Xbox Series X/S" | "Switch"
   ) => {
