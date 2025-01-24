@@ -74,7 +74,7 @@ function SmList() {
   return loading ? (
     <p>Loading...</p>
   ) : (
-    <div className="flex-1 overflow-scroll scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100 dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800">
+    <div className="flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100 dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800">
       <div className="flex border-b-2 items-center gap-2 p-2">
         <div className="flex">
           <LucideSearch

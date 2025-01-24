@@ -92,7 +92,7 @@ const Searchbar: React.FC = () => {
       {isDropdownVisible && !isLoading && !error && (
         <div
           ref={dropdownRef}
-          className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-y-auto"
+          className="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-80 overflow-y-scroll scrollbar-thin"
         >
           {filteredGames.length > 0 ? (
             <div>
@@ -101,7 +101,7 @@ const Searchbar: React.FC = () => {
                   key={game.id}
                   to={`/game/${game.slug}`}
                   onClick={handleGameClick}
-                  className="flex items-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 dark:bg-zinc-950 dark:hover:bg-zinc-700 cursor-pointer"
                 >
                   <div className="flex">
                     <img

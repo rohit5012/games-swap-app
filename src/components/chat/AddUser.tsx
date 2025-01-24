@@ -23,10 +23,27 @@ interface User {
   userId: string;
 }
 
+interface CurrentUser {
+  aboutMe: string;
+  avatarUrl: string;
+  firstName: string;
+  gamesBorrowed: string;
+  gamesLent: number;
+  gamesOwned: number;
+  lastName: string;
+  latitude: number;
+  location: string;
+  longitude: string;
+  nickname: string;
+  platforms: [];
+  userId: string;
+}
+
 function AddUser() {
   const [isOpen, setIsOpen] = useState(false);
   const [users, setUsers] = useState<User[] | null>(null);
   const { currentUser } = useUserStore();
+  console.log(currentUser);
   const { user } = useAuth();
 
   const handleOpen = () => setIsOpen(true);
@@ -133,7 +150,7 @@ function AddUser() {
                 </div>
                 <Button>Search</Button>
               </form>
-              <div className="overflow-scroll scrollbar-thin dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-96">
+              <div className="overflow-y-scroll scrollbar-thin dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-96">
                 {users &&
                   users.map((chatUser) => {
                     return chatUser.userId === currentUser.userId ? null : (

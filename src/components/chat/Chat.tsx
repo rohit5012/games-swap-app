@@ -104,7 +104,7 @@ function Chat() {
           <LucideInfo className="size-5" />
         </div>
       </div>
-      <div className="p-5 flex-1 flex flex-col gap-5 overflow-scroll scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100 dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800">
+      <div className="p-5 flex-1 flex flex-col gap-5 overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-slate-100 dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800">
         {chat?.messages?.map((message) => (
           <div
             key={message?.createdAt}
