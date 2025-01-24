@@ -69,7 +69,7 @@ export default function SmallCarousel(props: {
     }
   }
   return (
-    <section className="my-6">
+    <section className="flex flex-col my-6">
       <h2 className="text-center text-xl mb-2">{props.carouselTitle}</h2>
 
       {/* Compact Carousel Component */}
