@@ -1,6 +1,6 @@
 import { Card } from "../components/ui/Card";
 import Chat from "../components/chat/Chat";
-import ChatDetail from "../components/chat/ChatDetail";
+
 import ChatList from "../components/chat/ChatList";
 import { useChatStore } from "@/lib/chatStore";
 import { useEffect } from "react";

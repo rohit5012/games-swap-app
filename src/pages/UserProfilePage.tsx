@@ -13,20 +13,6 @@ import { Button } from "@/components/ui/Button";
 import { fetchOwnedList } from "@/services/ownedListService";
 import { fetchWishlist } from "@/services/wishlistServices";
 
-// export type UserProfileRegUser = {
-//   firstName: string;
-//   lastName: string;
-//   location: string;
-//   avatarUrl: string;
-//   gamesOwned: number;
-//   gamesLent: number;
-//   gamesBorrowed: number;
-//   platforms: string[];
-//   nickname: string;
-//   aboutMe: string;
-//   userId: string;
-// };
-
 const UserProfileRegUser: React.FC = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);

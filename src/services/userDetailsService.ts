@@ -13,18 +13,6 @@ import {
 import { UserDetailsType } from "@/types/UserDetails";
 import { db } from "@/firebase/firebase";
 
-// export const addUserDetails = async (
-//   userDetails: Omit<UserDetailsType, "id">
-// ): Promise<string> => {
-//   try {
-//     const docRef = await addDoc(collection(db, "user details"), userDetails);
-//     return docRef.id;
-//   } catch (error) {
-//     console.error("Error adding user details:", error);
-//     throw error;
-//   }
-// };
-
 export const addUserDetails = async (userDetails: UserDetailsType) => {
   try {
     await setDoc(doc(db, "user details", userDetails.userId), userDetails);
