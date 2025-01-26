@@ -39,7 +39,7 @@ function App() {
           <Route path="/teamprofile" element={<TeamProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* necessary for toaster when adding to wishlist and such */}
+
         <Toaster className="fixed top-4 right-4 z-50" />
       </main>
       <NewFooter />

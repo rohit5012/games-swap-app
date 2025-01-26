@@ -26,9 +26,6 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 import LoadingAnimationComponent from "@/components/LoadingAnimationComponent";
 
-
-
-
 ////fix pagination for filters
 export default function BrowseGames() {
   const { user } = useAuth();
@@ -62,7 +59,12 @@ export default function BrowseGames() {
       // Fetch games based on genre or platform filter
       let gameData;
       if (selectedGenre || selectedPlatform) {
-        gameData = await getGamesByGenre([selectedGenre], [selectedPlatform], currentPage, itemsPerPage);
+        gameData = await getGamesByGenre(
+          [selectedGenre],
+          [selectedPlatform],
+          currentPage,
+          itemsPerPage
+        );
         setDisplayedGames(gameData);
         setTotalGames(gameData.count);
       } else {
@@ -105,13 +107,14 @@ export default function BrowseGames() {
   };
 
   const handleGenreChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentPage(1)
+    setCurrentPage(1);
     setSelectedGenre(event.target.value);
   };
 
-
-  const handlePlatformChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCurrentPage(1)
+  const handlePlatformChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setCurrentPage(1);
     setSelectedPlatform(event.target.value);
   };
 
