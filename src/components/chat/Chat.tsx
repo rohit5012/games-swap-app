@@ -14,7 +14,7 @@ import {
 import { db } from "@/firebase/firebase";
 import { useChatStore } from "@/lib/chatStore";
 import { useUserStore } from "@/lib/userStore";
-import TimeAgo from "timeago-react";
+// import TimeAgo from "timeago-react";
 import { Link } from "react-router";
 
 function Chat() {
